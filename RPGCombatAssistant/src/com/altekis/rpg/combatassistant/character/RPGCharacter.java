@@ -5,17 +5,17 @@ package com.altekis.rpg.combatassistant.character;
  */
 public class RPGCharacter {
 	/** Id, for internal use */
-	long id;
+	int id;
 	/**
 	 * @return the id
 	 */
-	public long getId() {
+	public int getId() {
 		return id;
 	}
 	/**
 	 * @param id the id to set
 	 */
-	public void setId(long id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 	/** Character name */

@@ -25,5 +25,15 @@
             android:name=".CharacterListActivity"
             android:label="@string/mainTitle" >
         </activity>
+        <activity
+            android:name=".CharacterActivity"
+            android:label="@string/title_activity_character" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
+
 </manifest>

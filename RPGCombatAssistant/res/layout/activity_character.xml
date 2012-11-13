@@ -1,0 +1,64 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <TextView
+        android:id="@+id/character_nameLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="14dp"
+        android:layout_marginTop="14dp"
+        android:text="Name" />
+
+    <EditText
+        android:id="@+id/character_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignBaseline="@+id/character_nameLabel"
+        android:layout_alignBottom="@+id/character_nameLabel"
+        android:layout_marginLeft="18dp"
+        android:layout_toRightOf="@+id/character_nameLabel"
+        android:ems="10"
+        android:inputType="textPersonName" />
+
+    <TextView
+        android:id="@+id/character_playerNameLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/character_nameLabel"
+        android:layout_marginTop="16dp"
+        android:layout_toLeftOf="@+id/character_name"
+        android:text="Player" />
+
+    <EditText
+        android:id="@+id/character_playerName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="false"
+        android:layout_alignBaseline="@+id/character_playerNameLabel"
+        android:layout_alignBottom="@+id/character_playerNameLabel"
+        android:layout_alignLeft="@+id/character_name"
+        android:ems="8"
+        android:inputType="textPersonName"
+        android:layout_toRightOf="@+id/character_playerNameLabel"
+        
+        />
+    
+    <!--  List for know attacks -->
+    <ListView
+        android:id="@+id/character_attacks"
+        android:layout_width="match_parent"
+    	android:layout_height="wrap_content"
+    	android:orientation="vertical"
+    	android:layout_below="@+id/character_playerName"
+    />
+
+ 
+
+</RelativeLayout>
