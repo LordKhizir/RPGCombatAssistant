@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<critical>
+    <name>Aplastamiento</name>
+    <key>K</key>
+    <range min="-49">Poco dominio. No hay daño extra.</range>
+	<range min="6">Fractura leve en las costillas. -5PV. -5 a la actividad.</range>
+	<range min="21">Golpe en un costado. -4PV. -40 a la actividad durante 1 asalto.</range>
+	<range min="36">Golpe en el antebrazo. -5PV. Aturdido durante 1 asalto.</range>
+	<range min="51">Un golpe al hombro del lado del escudo, rompe el escudo. Si no hay, el hombro se rompe y el brazo queda inutilizado.</range>
+	<range min="66">El golpe rompe un hueso de la pierna. -12PV. -40 a la actividad. Aturdido durante 2 asaltos.</range>
+	<range min="80">Golpe en la frente. -30PV. Un ojo destruido. Aturdido 24 asaltos. Si no se lleva yelmo puesto, en coma 1 mes.</range>
+	<range min="81">El golpe rompe el brazo del arma. El brazo inutilizado. Daño en los tendones. -8PV. Aturdido durante 2 asaltos.</range>
+	<range min="87">Rodilla hecha trizas. -9PV. -60 a la actividad. Derribado y aturdido durante 3 asaltos.</range>
+	<range min="90">Un golpe en la base del cuello deja paralizado de los hombros hacia abajo. -25PV. El enemigo queda desconcertado.</range>
+	<range min="91">Inconsciente 4 horas por un golpe en un lado de la cabeza. Si no lleva yelmo, cráneo queda aplastado. -20PV.</range>
+	<range min="97">Un golpe tremendo en el pecho hace que las costillas perforen los pulmones. Cae y muere en 6 asaltos. Salvaje.</range>
+	<range min="100">Golpe en la mandíbula, hace que el hueso penetre en el cerebro. Muerte instantánea.</range>
+	<range min="101">Un golpe rompe la cadera. -15PV. -75 a la actividad. Cae al suelo y queda aturdido durante 3 asaltos.</range>
+	<range min="107">Un golpe en el cuello aplasta la garganta. No puede respirar y queda aturdido 12 asaltos. Después, el pobre infeliz muere.</range>
+	<range min="110">Cadera aplastada. -35PV. Aturdido durante 2 asaltos. Activo los siguientes cuatro asaltos, pero luego muere debido a un fallo del sistema nervioso.</range>
+	<range min="111">Destrozado el codo del brazo que sostenía el arma. El brazo queda inutilizado. Aturdido 5 asaltos.</range>
+	<range min="117">Un golpe en el costado aplasta la cavidad torácica. Cae y muere en 3 asaltos.</range>
+	<range min="120">Golpe tremendo en la zona del pecho. El corazón queda destruido y el sujeto muere instantáneamente. -25PV. Un buen trabajo.</range>
+</critical>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp" >
+
+    <ImageView
+        style="@style/gameList_partnerAvatar"
+        android:id="@+id/gameRow_icon"
+	/>
+
+    <TextView
+        style="@style/gameList_partnerName"
+        android:layout_toRightOf="@+id/gameRow_icon"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/characterList_name"
+    />
+	<TextView
+        style="@style/gameList_partnerName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/characterList_name"
+        android:id="@+id/characterList_playerName"
+    />
+</RelativeLayout> 

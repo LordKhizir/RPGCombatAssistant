@@ -1,0 +1,9 @@
+<resources>
+
+    <string name="app_name">RPG Combat Assistant</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="menu_settings">Settings</string>
+    <string name="title_activity_splah_screen">SplahScreen</string>
+    <string name="mainTitle">RPG Combat Assistant</string>
+
+</resources>
