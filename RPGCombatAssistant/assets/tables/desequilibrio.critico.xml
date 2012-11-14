@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <critical>
-    <name>desequilibrio</name>
+    <name>Desequilibrio</name>
     <key>U</key>
 	<range min="-49">Demasiado débil. 0 PV adicionales.</range>
 	<range min="6">Golpe en el brazo. -2PV. -5 a la actividad durante 2 asaltos.</range>

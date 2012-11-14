@@ -5,9 +5,15 @@
     <string name="menu_settings">Preferencias</string>
     <string name="title_activity_splah_screen">SplahScreen</string>
     <string name="mainTitle">RPG Combat Assistant</string>
+    
     <!-- Character Activity -->
     <string name="title_activity_character">Personaje</string>
     <string name="menu_character_edit">Editar</string>
+    <string name="menu_character_delete">Eliminar</string>
+    <string name="character_deleteDialog_title">Eliminar personaje</string>
+    <string name="character_deleteDialog_message">¿Estás seguro de querer eliminar este personaje?</string>
+    <string name="character_deleteDialog_ok">Sí, elimínalo</string>
+    <string name="character_deleteDialog_cancel">No</string>
     
     <!-- Character Edit Activity -->
     <string name="title_activity_character_edit">Edición de personaje</string>

@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<critical>
+    <name>Frío</name>
+    <key>C</key>
+    <range min="-49">Fresca brisa. No hay pérdida adicional de pv.</range>
+	<range min="6">Golpe frío. -3 pv. Si no se lleva puesta una capa o armadura, aturdido durante 1 asalto.</range>
+	<range min="21">Congelación leve. -7pv.Pérdida de 1 pv. más por asalto.</range>
+	<range min="36">Congelación. -5 pv. Pérdida de 2 pv. más por asalto y -10 a la actividad.</range>
+	<range min="51">Golpe frío en la espalda. -2 pv. por asalto. Todo objeto de madera en la espalda queda mservible y quebradizo.</range>
+	<range min="66">Golpe bajo. Aturdido durante 1 asalto. Destruido cualquier tipo de calzado y protección de los pies.Si se va descalzo, congelación, -30 a la actividad.</range>
+	<range min="80">Impacto helado en la cabeza. Como resultado, estado de coma durante un mes (y gran resfriado de cabeza). Pérdida de la nariz a consecuencia de congelación grave y trauma.</range>
+	<range min="81">Muslo congelado. Aparte de la congelación, hueso roto. Pérdida de 5 pv. por asalto. -30 a la actividad. Aturdido durante 4 asaltos.</range>
+	<range min="87">Impacto en la zona del cuello. Inconsciente. Pérdida de la oreja (oído externo). Si no se lleva armadura en el cuello, congelación de éste y muerte tras 9 asaltos de inactividad..</range>
+	<range min="90">Un impacto congela y seca la cabeza. Muerte en 2 asaltos. El cerebro y el cráneo quebradizos y sin vida</range>
+	<range min="91">Muslo congelado. Aparte de la congelación, hueso roto. Pérdida de 5 pv. por asalto. -30 a la actividad. Aturdido durante 4 asaltos.</range>
+	<range min="97">Un impacto lateral congela y hace astillas la pelvis. Muerte en 12 asaltos debido al trauma y las lesiones del sistema nervioso</range>
+	<range min="100">Impacto en la cabeza. Ojos congelados. Estado de coma durante 3 semanas. Parálisis del cuello para abajo</range>
+	<range min="101">Un impacto congela ambas manos. Pérdida del uso de los brazos durante 1 hora. Pérdida de 6 pv. por asalto. Aturdido durante 5 asaltos.</range>
+	<range min="107">Corazón y pulmones congelados de repente. Muerte en 6 asaltos de inactividad, debido al shock y a la asfixia</range>
+	<range min="110">Un golpe tremendo hace añicos el pecho y congela los preciosos fluidos corporales. Muerte en 3 asaltos.</range>
+	<range min="111">Gélido golpe a la parte superior del pecho. Inconsciente y derribado. Si no lleva armadura en el pecho, muerte en 10 asaltos por tener un corazón de hielo</range>
+	<range min="117">Congelado y convertido en una estatua sin vida, muy bien conservada, pero el personaje ha muerto.</range>
+	<range min="120">Congelación repentina y luego estalla en mil pedazos.</range>
+</critical>

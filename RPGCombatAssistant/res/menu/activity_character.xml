@@ -3,4 +3,8 @@
         android:title="@string/menu_character_edit"
         android:orderInCategory="100"
         android:showAsAction="ifRoom" />
+    <item android:id="@+id/menu_character_delete"
+        android:title="@string/menu_character_delete"
+        android:orderInCategory="200"
+        android:showAsAction="ifRoom" />
 </menu>

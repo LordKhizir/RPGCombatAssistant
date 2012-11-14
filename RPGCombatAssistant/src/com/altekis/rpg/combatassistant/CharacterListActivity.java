@@ -57,11 +57,11 @@ public class CharacterListActivity extends Activity {
     	// Generate a BLANK, NEW character, and jump start to its edition
     	RPGCharacter character = new RPGCharacter();
     	character.setId(new Random().nextInt()); // TODO Fix
-    	character.setName("NOT DEFINED");
-    	character.setPlayerName("NOT DEFINED");
+    	character.setName("");
+    	character.setPlayerName("");
     	new LAOCharacter(this).addCharacter(character);
     	
-    	Intent intent = new Intent(this, CharacterActivity.class);
+    	Intent intent = new Intent(this, CharacterEditActivity.class);
     	intent.putExtra("CharacterId", character.getId());
         startActivity(intent);
     }

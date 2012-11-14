@@ -6,7 +6,7 @@
 
     <TextView
         android:id="@+id/characterList_sectionHeader_title"
-        style="@style/gameList_sectionHeader"
+        style="@style/characterList_header"
      />
 
 </LinearLayout>

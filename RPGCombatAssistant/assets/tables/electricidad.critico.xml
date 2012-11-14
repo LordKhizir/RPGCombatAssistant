@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<critical>
+    <name>Electricidad</name>
+    <key>E</key>
+    <range min="-49">Pelos de punta. -0 pv.</range>
+	<range min="6">Pequeña descarga. 3 pv. Si se lleva armadura de metal, aturdido durante 1 asalto.</range>
+	<range min="21">Explosión de luz. Aturdido durante 1 asalto.</range>
+	<range min="36">Descarga moderada. -6 pv. -5 a la actividad. Si se lleva armadura de metal, aturdido durante 2 asaltos.</range>
+	<range min="51">Descarga potente. -9 pv. -10 a la actividad. Aturdido durante 1 asalto. Si se lleva armadura de metal, aturdido durante 3 asaltos.</range>
+	<range min="66">Impacto en el brazo que sostiene el escudo. -12 pv. -20 a la actividad. Si se lleva armadura metálica y no se tiene escudo, inconsciente durante 1 día entero.</range>
+	<range min="80">Un impacto en el costado devasta el sistema nervioso. Graves resultados traumáticos. La víctima será un vegetal durante 1 mes.</range>
+	<range min="81">Golpe en el brazo que sostiene el arma. Músculos y cartílagos destrozados. El brazo inútil, pérdida de 2 pv. por asalto. Aturdido durante 6 asaltos</range>
+	<range min="87">Completamente cubierto por la electricidad. Todo el sistema nervioso reorganizado. Cae y yace en estado de shock durante 12 asaltos antes de morir.</range>
+	<range min="90">Impacto en la cabeza. Si se lleva yelmo de cuero, éste queda destruido y se produce un coma de 2 semanas. Si no, muerte instantánea.</range>
+	<range min="91">Impacto en el pecho. Si se lleva armadura metálica no se podrá quitar. Blanco inmovilizado. Si no, inconsciente durante 6 horas</range>
+	<range min="97">Electrificante experiencia. Colapso cerebro debido a un shock general y quemaduras de superficie. Desmayado y muere en 6 asaltos</range>
+	<range min="100">El sistema nervioso actúa como superconductor. La inmediata muerte proporciona a los presentes un inesperado espectáculo de luce</range>
+	<range min="101">Impacto en la cara. Pérdida de la nariz. Aturdido durante 8 asaltos. Ciego durante 2 semanas. Si no se lleva yelmo, también derribado.</range>
+	<range min="107">Impacto en el pecho que destruye el corazón y los pulmones. Si se lleva armadura metálica, ésta se funde y se muere en 6 asaltos. Si no, la muerte es inmediata.</range>
+	<range min="110">La cabeza ya no está disfonible para su u</range>
+	<range min="111">Impacto en el abdomen. Aturdido durante 7 asaltos. Pérdida de 6 puntos de vida por asalto. Si no se lleva armadura protegiendo el abdomen, muerte por trauma y hemorragia en 12 asaltos.</range>
+	<range min="117">Un impacto en el pecho destroza ambos pulmones. Partido por la mitad. La descarp,a se extiende 3 metros infligiendo un crítico 'A" a todos los que estén en medio.</range>
+	<range min="120">La descarga deshace la estructura celular. Todo el cuerpo se convierte en polvo.</range>
+</critical>

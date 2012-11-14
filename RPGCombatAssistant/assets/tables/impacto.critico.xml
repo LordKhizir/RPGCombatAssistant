@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<critical>
+    <name>Impacto</name>
+    <key>I</key>
+    <range min="-49">Ni un rasguño. -Opuntos de vida.</range>
+	<range min="6">Un golpe sesgado. -5 pv.</range>
+	<range min="21">Tambaleante debido a un golpe en el costado. -10 pv.Aturdido durante 1 asalto.</range>
+	<range min="36">Golpe en el hombro. La víctima gira sobre sí misma y retrocede 3 metros como una peónzil. -12 pv. Si no se lleva armadura, aturdido durante 2 asaltos.</range>
+	<range min="51">Golpe en la pierna. Derribado, pérdida de 8 pv. Si no lleva armadura en la pierna, aturdido durante 2 asaltos</range>
+	<range min="66">Porrazo en el brazo del escudo. -10 pv. Escudo aplastado e inútil. Si no se lleva escudo, brazo roto y aturdido durante 3 asaltos.</range>
+	<range min="80">Golpe en la cabeza. -12 pv, El yelmo destrozado.Derribado e inconsciente durante 1 día. Sin yelmo,cráneo fracturado y muerte en 3 asaltos.</range>
+	<range min="81">Golpe a la parte superior de la pierna. Músculosdesgarrados. -15 pv. -10 a la actividad. Sin armadura enla pierna, -20 a la actividad y aturdido en 3 asaltos.</range>
+	<range min="87">Impacto en la zona del cuello. Pérdida de 12 pv.Aturdido durante 5 asaltos. Pérdida del habla durante1 semana. Si no se lleva armadura en el cuello la pérdida del habla es permanente.</range>
+	<range min="90">Golpe en el cuello. Paralizado de los hombros hacia abajo. Pérdida adicional de 20 pv. La víctima se pone melancólica.</range>
+	<range min="91">Golpe en una rodilla. La rodilla dislocada. Cartílagos y tendones desgarrados. -15 pv. -50 a la actividad. Aturdido durante 9 asaltos.</range>
+	<range min="97">Impacto en el abdomen. -18 pv. Aturdido durante 12 asaltos. Sin armadura en el abdomen muere en 6 asaltos por órganos destruidos.</range>
+	<range min="100">Un impacto en la cabeza fractura el cráneo. Estado de coma durante 3 semanas. Si no lleva yelmo, muerte instantánea.</range>
+	<range min="101">Golpe en la mandíbula, gue se rompe. No podrá ni hablar ni comer nada sóhdo hasta ser curado. -15 pv. -10 a la actividad. Aturdido en 7 asaltos.</range>
+	<range min="107">Golpe en un lado. Un hueso se clava en los riñones, muerte en 6 asaltos</range>
+	<range min="110">Pecho destrozado. Los pulmones y el corazón estallan. Muerte instantánea que lo pone todo hecho un asco</range>
+	<range min="111">Gira sobre sí mismo por el Impacto, cae al suelo. Se rompe los dos brazos. -60 a la actividad. Aturdido durante 3 asaltos.</range>
+	<range min="117">Un porrazo que destroza el cráneo en miles de partícul¡~s. Muerte instantánea. Impacto directo, buen punetazo.</range>
+	<range min="120">El porrazo aniquila todo el esqueleto. El blanco queda reducido a una pulpa gelatinosa.</range>
+</critical>

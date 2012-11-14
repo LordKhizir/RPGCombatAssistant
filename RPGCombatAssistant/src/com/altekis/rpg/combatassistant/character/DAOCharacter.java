@@ -140,7 +140,15 @@ public class DAOCharacter {
 		ContentValues cv = rpgCharacterToContentValues(character);
 		db.update(CHARACTERS_TABLE_NAME, cv, "_id=?",  new String[] {String.valueOf(character.getId())});
 	}
-	
+
+	/**
+	 * Delete an existing character in database
+	 * @param character
+	 */
+	public void deleteCharacter(int characterId) {
+		db.delete(CHARACTERS_TABLE_NAME, "_id=?",  new String[] {String.valueOf(characterId)});
+	}
+
 	/* Transformers */
 	private ContentValues rpgCharacterToContentValues(RPGCharacter character) {
 		ContentValues cv = new ContentValues();
@@ -158,8 +166,4 @@ public class DAOCharacter {
 		character.setPlayerName(cursor.getString(i++));
 		return character;
 	}
-
-//	public void updateGame(Game mergedGame) {
-//		db.update(GAMES_TABLE_NAME, gameToContentValues(mergedGame), "_id=?", new String[] {String.valueOf(mergedGame.getId())});
-//	}
 }

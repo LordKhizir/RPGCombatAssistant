@@ -11,17 +11,18 @@
 	/>
 
     <TextView
-        style="@style/gameList_partnerName"
+        style="@style/characterList_name"
         android:layout_toRightOf="@+id/gameRow_icon"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:id="@+id/characterList_name"
     />
 	<TextView
-        style="@style/gameList_partnerName"
+        style="@style/characterList_playerName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/characterList_name"
+        android:layout_toRightOf="@+id/gameRow_icon"
         android:id="@+id/characterList_playerName"
     />
 </RelativeLayout> 

@@ -67,4 +67,13 @@ public class LAOCharacter {
 	public void updateCharacter(RPGCharacter character) {
 		daoCharacter.updateCharacter(character);
 	}
+	
+	/**
+	 * Delete an existing character in database
+	 * @param characterId
+	 */
+	public void deleteCharacter(int characterId) {
+		daoCharacter.deleteCharacter(characterId);
+	}
+
 }

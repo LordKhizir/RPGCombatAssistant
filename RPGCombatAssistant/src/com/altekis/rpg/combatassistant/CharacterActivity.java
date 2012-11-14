@@ -2,9 +2,10 @@ package com.altekis.rpg.combatassistant;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -28,49 +29,49 @@ public class CharacterActivity extends Activity {
 
 	static final int REQUEST_CHARACTER_EDIT = 1;
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_character);
-        
-        // Get Extras
-        int characterId = getIntent().getIntExtra("CharacterId",0);
-        LAOCharacter laoCharacter = new LAOCharacter(this);
-        character = laoCharacter.getCharacter(characterId);
-    	
-    	attacksListView = (ListView) findViewById(R.id.character_attacks);
-    	 
-        // Assign listener to list
-        attacksListView.setOnItemClickListener(attacksClickListener);
-    	
-        // Add a +attack button
-        Button btnAddAttack = new Button(this);
-        btnAddAttack.setText("New Attack");
-        btnAddAttack.setOnClickListener(new OnClickListener() {
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_character);
+
+		// Get Extras
+		int characterId = getIntent().getIntExtra("CharacterId",0);
+		LAOCharacter laoCharacter = new LAOCharacter(this);
+		character = laoCharacter.getCharacter(characterId);
+
+		attacksListView = (ListView) findViewById(R.id.character_attacks);
+
+		// Assign listener to list
+		attacksListView.setOnItemClickListener(attacksClickListener);
+
+		// Add a +attack button
+		Button btnAddAttack = new Button(this);
+		btnAddAttack.setText("New Attack");
+		btnAddAttack.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				doAddAttack();
 			}
 		});
-        attacksListView.addFooterView(btnAddAttack);
+		attacksListView.addFooterView(btnAddAttack);
 
-        // Show character data
-        populateCharacterUI();
-        populateAttackList();
-    }
-    
-    /**
-     * Display data
-     * Used on activity create, and each time we return from Edit with info updated
-     */
-    private void populateCharacterUI() {
-    	// Set UI
-        TextView nameText = (TextView) findViewById(R.id.character_name);
-    	nameText.setText(character.getName());
-        TextView playerNameText = (TextView) findViewById(R.id.character_playerName);
-    	playerNameText.setText(character.getPlayerName());
-    }
-    
+		// Show character data
+		populateCharacterUI();
+		populateAttackList();
+	}
+
+	/**
+	 * Display data
+	 * Used on activity create, and each time we return from Edit with info updated
+	 */
+	private void populateCharacterUI() {
+		// Set UI
+		TextView nameText = (TextView) findViewById(R.id.character_name);
+		nameText.setText(character.getName());
+		TextView playerNameText = (TextView) findViewById(R.id.character_playerName);
+		playerNameText.setText(character.getPlayerName());
+	}
+
 	private void populateAttackList() {
 		// Feed lists of games to the adapter
 		// FIXME Fake list
@@ -80,91 +81,128 @@ public class CharacterActivity extends Activity {
 		attack.setWeaponCode("SW");
 		List<CharacterAttack> atts = new ArrayList<CharacterAttack>();
 		atts.add(attack);
-        characterAttacksAdapter = new CharacterAttacksArrayAdapter(this, atts);
+		characterAttacksAdapter = new CharacterAttacksArrayAdapter(this, atts);
 
-	    // Assign adapter to populate list
-        attacksListView.setAdapter(characterAttacksAdapter);
+		// Assign adapter to populate list
+		attacksListView.setAdapter(characterAttacksAdapter);
 	}
 
 
-    private void doAddAttack() {
-    	// Generate a BLANK, NEW attack, and jump start to its edition
-//    	RPGCharacter character = new RPGCharacter();
-//    	character.setId(new Random().nextInt()); // TODO Fix
-//    	character.setName("NOT DEFINED");
-//    	character.setPlayerName("NOT DEFINED");
-//    	new LAOCharacter(this).addCharacter(character);
-//    	
-//    	Intent intent = new Intent(this, CharacterActivity.class);
-//    	intent.putExtra("CharacterId", character.getId());
-//        startActivity(intent);
-    }
-    
-    
-    /**
+	private void doAddAttack() {
+		// Generate a BLANK, NEW attack, and jump start to its edition
+		//    	RPGCharacter character = new RPGCharacter();
+		//    	character.setId(new Random().nextInt()); // TODO Fix
+		//    	character.setName("NOT DEFINED");
+		//    	character.setPlayerName("NOT DEFINED");
+		//    	new LAOCharacter(this).addCharacter(character);
+		//    	
+		//    	Intent intent = new Intent(this, CharacterActivity.class);
+		//    	intent.putExtra("CharacterId", character.getId());
+		//        startActivity(intent);
+	}
+
+
+	/**
 	 * Listener for attack list
 	 */ 
 	ListView.OnItemClickListener attacksClickListener = new ListView.OnItemClickListener() {
 		@Override
 		public void onItemClick(AdapterView<?> arg0, View v, int position, long id) {
-//			Intent intent = new Intent(getApplicationContext(), CharacterActivity.class);
-//	    	intent.putExtra("CharacterId", selectedCharacterId);
-//	        startActivity(intent);			
-//			return true;
+			//			Intent intent = new Intent(getApplicationContext(), CharacterActivity.class);
+			//	    	intent.putExtra("CharacterId", selectedCharacterId);
+			//	        startActivity(intent);			
+			//			return true;
 		}
 	};
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.activity_character, menu);
-        return true;
-    }
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		getMenuInflater().inflate(R.menu.activity_character, menu);
+		return true;
+	}
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle item selection
-        switch (item.getItemId()) {
-            case R.id.menu_character_edit:
-            	doEdit();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
-    
-    /**
-     * Action for "Edit" command option
-     */
-    public void doEdit() {
-    	// Jump to the edition activity for this character
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// Handle item selection
+		switch (item.getItemId()) {
+		case R.id.menu_character_edit:
+			doEdit();
+			return true;
+		case R.id.menu_character_delete:
+			doConfirmDelete();
+			return true;
+		default:
+			return super.onOptionsItemSelected(item);
+		}
+	}
+
+	/**
+	 * Action for "Edit" command option
+	 */
+	public void doEdit() {
+		// Jump to the edition activity for this character
 		Intent intent = new Intent(this, CharacterEditActivity.class);
 		intent.putExtra("CharacterId", character.getId());
-	    startActivityForResult(intent, REQUEST_CHARACTER_EDIT);
-    }
-    
-    
-    
-    /**
-     * 
+		startActivityForResult(intent, REQUEST_CHARACTER_EDIT);
+	}
+
+	/**
+	 * Action for "Delete" command option
+	 */
+	public void doConfirmDelete() {
+		// Confirm delete, then go and do it
+		// Ready a confirmation dialog
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setMessage(R.string.character_deleteDialog_message)
+		.setTitle(R.string.character_deleteDialog_title);
+		// Add buttons
+		builder.setPositiveButton(R.string.character_deleteDialog_ok, new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int id) {
+				// User clicked OK button
+				doDelete();
+			}
+		});
+		builder.setNegativeButton(R.string.character_deleteDialog_cancel, new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int id) {
+				// User cancelled the dialog
+				// Nothing else to do here 
+			}
+		});
+		AlertDialog deleteDialog = builder.create();
+		deleteDialog.show();
+	}
+
+	/**
+	 * Delete character
+	 */
+	public void doDelete() {
+		int characterId = character.getId();
+		LAOCharacter laoCharacter = new LAOCharacter(this);
+		laoCharacter.deleteCharacter(characterId);
+		finish(); // Close this activity
+	}
+
+	/**
+	 * 
 	 */
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		// TODO Auto-generated method stub
 		super.onActivityResult(requestCode, resultCode, data);
 		if (requestCode == REQUEST_CHARACTER_EDIT) {
-        	switch (resultCode) {
-        		case RESULT_OK:
-        			// Character was edited. So we have to RELOAD it.
-        	        // Only characterId is guaranteed to remain, we'll use it to access storage
-        	        int characterId = character.getId();
-        	        LAOCharacter laoCharacter = new LAOCharacter(this);
-        	        character = laoCharacter.getCharacter(characterId);
-        	        populateCharacterUI();
-        	        break;
-        		case RESULT_CANCELED:
-        			// Character edition was cancelled. So, no need to reload it.
-        			break;
-        	}
-        }
+			switch (resultCode) {
+			case RESULT_OK:
+				// Character was edited. So we have to RELOAD it.
+				// Only characterId is guaranteed to remain, we'll use it to access storage
+				int characterId = character.getId();
+				LAOCharacter laoCharacter = new LAOCharacter(this);
+				character = laoCharacter.getCharacter(characterId);
+				populateCharacterUI();
+				break;
+			case RESULT_CANCELED:
+				// Character edition was cancelled. So, no need to reload it.
+				break;
+			}
+		}
 	}
 }
