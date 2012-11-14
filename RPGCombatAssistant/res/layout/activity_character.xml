@@ -13,7 +13,7 @@
         android:layout_marginTop="14dp"
         android:text="Nombre" />
 
-    <EditText
+    <TextView
         android:id="@+id/character_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -23,8 +23,7 @@
         android:layout_alignBottom="@+id/character_nameLabel"
         android:layout_marginLeft="18dp"
         android:layout_toRightOf="@+id/character_nameLabel"
-        android:ems="10"
-        android:inputType="textPersonName" />
+        android:ems="10" />
 
     <TextView
         android:id="@+id/character_playerNameLabel"
@@ -35,7 +34,7 @@
         android:layout_toLeftOf="@+id/character_name"
         android:text="Jugador" />
 
-    <EditText
+    <TextView
         android:id="@+id/character_playerName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -45,7 +44,6 @@
         android:layout_alignBottom="@+id/character_playerNameLabel"
         android:layout_alignLeft="@+id/character_name"
         android:ems="8"
-        android:inputType="textPersonName"
         android:layout_toRightOf="@+id/character_playerNameLabel"
         
         />

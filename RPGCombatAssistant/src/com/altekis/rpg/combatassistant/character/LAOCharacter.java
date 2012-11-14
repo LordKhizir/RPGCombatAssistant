@@ -51,11 +51,20 @@ public class LAOCharacter {
 	public RPGCharacter getCharacter(int characterId) {
 		return daoCharacter.getCharacter(characterId);
 	}
+
 	/**
 	 * Add a new character to database
 	 * @param character
 	 */
 	public void addCharacter(RPGCharacter character) {
 		daoCharacter.addCharacter(character);
+	}
+	
+	/**
+	 * Update an existing character in database
+	 * @param character
+	 */
+	public void updateCharacter(RPGCharacter character) {
+		daoCharacter.updateCharacter(character);
 	}
 }

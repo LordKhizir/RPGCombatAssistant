@@ -132,6 +132,15 @@ public class DAOCharacter {
 		db.insert(CHARACTERS_TABLE_NAME, null, cv);
 	}
 	
+	/**
+	 * Update an existing character in database
+	 * @param character
+	 */
+	public void updateCharacter(RPGCharacter character) {
+		ContentValues cv = rpgCharacterToContentValues(character);
+		db.update(CHARACTERS_TABLE_NAME, cv, "_id=?",  new String[] {String.valueOf(character.getId())});
+	}
+	
 	/* Transformers */
 	private ContentValues rpgCharacterToContentValues(RPGCharacter character) {
 		ContentValues cv = new ContentValues();
