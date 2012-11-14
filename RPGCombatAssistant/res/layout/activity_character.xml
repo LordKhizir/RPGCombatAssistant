@@ -11,7 +11,7 @@
         android:layout_alignParentTop="true"
         android:layout_marginLeft="14dp"
         android:layout_marginTop="14dp"
-        android:text="Name" />
+        android:text="Nombre" />
 
     <EditText
         android:id="@+id/character_name"
@@ -33,7 +33,7 @@
         android:layout_below="@+id/character_nameLabel"
         android:layout_marginTop="16dp"
         android:layout_toLeftOf="@+id/character_name"
-        android:text="Player" />
+        android:text="Jugador" />
 
     <EditText
         android:id="@+id/character_playerName"
