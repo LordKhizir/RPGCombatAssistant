@@ -11,12 +11,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.altekis.rpg.combatassistant.R;
+import com.altekis.rpg.combatassistant.attack.Attack;
 
-public class CharacterAttacksArrayAdapter extends ArrayAdapter<CharacterAttack> {
+public class CharacterAttacksArrayAdapter extends ArrayAdapter<Attack> {
 	private final Context context;
-	private final List<CharacterAttack> attacks;
+	private final List<Attack> attacks;
 
-	public CharacterAttacksArrayAdapter(Context context, List<CharacterAttack> attacks) {
+	public CharacterAttacksArrayAdapter(Context context, List<Attack> attacks) {
 		super(context, R.layout.character_attack_rowlayout, attacks);
 		this.context = context;
 		this.attacks = attacks;
@@ -24,7 +25,7 @@ public class CharacterAttacksArrayAdapter extends ArrayAdapter<CharacterAttack> 
 	
 	 @Override
 	  public View getView(int position, View convertView, ViewGroup parent) {
-		CharacterAttack attack = getItem(position);
+		Attack attack = getItem(position);
 		if (convertView==null) {
 		    LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		    convertView = inflater.inflate(R.layout.character_attack_rowlayout, parent, false);
@@ -32,7 +33,7 @@ public class CharacterAttacksArrayAdapter extends ArrayAdapter<CharacterAttack> 
 	
 		// Fill UI elements with current attack values
 		((TextView)convertView.findViewById(R.id.character_attack_name)).setText(attack.getName());
-		((TextView)convertView.findViewById(R.id.character_attack_info)).setText(attack.getWeaponCode());
+		((TextView)convertView.findViewById(R.id.character_attack_info)).setText(attack.getAttackType());
 
 		// Change the icon for that of the weapon
 		// TODO link to real images

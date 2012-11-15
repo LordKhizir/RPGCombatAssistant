@@ -20,6 +20,7 @@
         style="@style/gameList_partnerName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/character_attack_icon"
         android:layout_below="@+id/character_attack_name"
         android:id="@+id/character_attack_info"
     />

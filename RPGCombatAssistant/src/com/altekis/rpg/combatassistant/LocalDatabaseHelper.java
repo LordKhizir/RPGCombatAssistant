@@ -7,7 +7,7 @@ import android.util.Log;
 
 public class LocalDatabaseHelper extends SQLiteOpenHelper {
 	// CONFIG
-	private static final String DATABASE_NAME = "rpg-combat-assistant-v2.db";
+	private static final String DATABASE_NAME = "rpg-combat-assistant-v5.db";
 	private static final int DATABASE_VERSION = 1;
 	
 	// DDL for database creation
@@ -16,10 +16,11 @@ public class LocalDatabaseHelper extends SQLiteOpenHelper {
 				"_id INTEGER PRIMARY KEY,\n" +
 				"name TEXT NOT NULL,\n" +
 				"playerName TEXT);",
-//		"CREATE TABLE questions (\n" +
-//				"_id INTEGER PRIMARY KEY,\n" +
-//				"text TEXT NOT NULL,\n" +
-//				"category INTEGER NOT NULL);",
+		"CREATE TABLE attacks (\n" +
+				"_id INTEGER PRIMARY KEY autoincrement,\n" +
+				"characterId INTEGER NOT NULL,\n" +
+				"attackType TEXT NOT NULL,\n" +
+				"name TEXT NOT NULL);",
 //		"CREATE TABLE answers (\n" +
 //				"_id INTEGER PRIMARY KEY,\n" +
 //				"question INTEGER NOT NULL,\n" +
@@ -57,7 +58,7 @@ public class LocalDatabaseHelper extends SQLiteOpenHelper {
 				"Upgrading database from version " + oldVersion + " to "
 						+ newVersion + ", which will destroy all old data");
 		db.execSQL("DROP TABLE IF EXISTS characters");
-//		db.execSQL("DROP TABLE IF EXISTS questions");
+		db.execSQL("DROP TABLE IF EXISTS attacks");
 //		db.execSQL("DROP TABLE IF EXISTS answers");
 //		db.execSQL("DROP TABLE IF EXISTS users");
 		onCreate(db);

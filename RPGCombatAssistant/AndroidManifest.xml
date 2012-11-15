@@ -27,7 +27,7 @@
         </activity>
         <activity
             android:name=".CharacterActivity"
-            android:label="@string/title_activity_character" >
+            android:label="@string/character_title" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -35,12 +35,21 @@
         </activity>
         <activity
             android:name=".CharacterEditActivity"
-            android:label="@string/title_activity_character_edit" >
+            android:label="@string/characterEdit_title" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".AttackEditActivity"
+            android:label="@string/attackEdit_title" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        
     </application>
 
 </manifest>

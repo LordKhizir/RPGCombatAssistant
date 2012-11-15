@@ -1,6 +1,5 @@
 package com.altekis.rpg.combatassistant;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
@@ -17,17 +16,20 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.altekis.rpg.combatassistant.character.CharacterAttack;
+import com.altekis.rpg.combatassistant.attack.Attack;
+import com.altekis.rpg.combatassistant.attack.LAOAttack;
 import com.altekis.rpg.combatassistant.character.CharacterAttacksArrayAdapter;
 import com.altekis.rpg.combatassistant.character.LAOCharacter;
 import com.altekis.rpg.combatassistant.character.RPGCharacter;
 
 public class CharacterActivity extends Activity {
 	static private RPGCharacter character;
+	static private List<Attack> attacks;
 	ListView attacksListView;
 	CharacterAttacksArrayAdapter characterAttacksAdapter;
 
 	static final int REQUEST_CHARACTER_EDIT = 1;
+	static final int REQUEST_ADD_ATTACK = 2;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -57,6 +59,7 @@ public class CharacterActivity extends Activity {
 
 		// Show character data
 		populateCharacterUI();
+		// attacks list will be shown on 
 		populateAttackList();
 	}
 
@@ -73,15 +76,14 @@ public class CharacterActivity extends Activity {
 	}
 
 	private void populateAttackList() {
-		// Feed lists of games to the adapter
+		// Feed lists of attacks to the adapter
 		// FIXME Fake list
-		CharacterAttack attack = new CharacterAttack();
-		attack.setId(1);
-		attack.setName("Espada");
-		attack.setWeaponCode("SW");
-		List<CharacterAttack> atts = new ArrayList<CharacterAttack>();
-		atts.add(attack);
-		characterAttacksAdapter = new CharacterAttacksArrayAdapter(this, atts);
+//		Attack attack = new Attack();
+//		attack.setId(1);
+//		attack.setName("Espada");
+//		attack.setAttackType("SW");
+		attacks = new LAOAttack(this).getAttacks(character.getId());
+		characterAttacksAdapter = new CharacterAttacksArrayAdapter(this, attacks);
 
 		// Assign adapter to populate list
 		attacksListView.setAdapter(characterAttacksAdapter);
@@ -89,18 +91,18 @@ public class CharacterActivity extends Activity {
 
 
 	private void doAddAttack() {
-		// Generate a BLANK, NEW attack, and jump start to its edition
-		//    	RPGCharacter character = new RPGCharacter();
-		//    	character.setId(new Random().nextInt()); // TODO Fix
-		//    	character.setName("NOT DEFINED");
-		//    	character.setPlayerName("NOT DEFINED");
-		//    	new LAOCharacter(this).addCharacter(character);
-		//    	
-		//    	Intent intent = new Intent(this, CharacterActivity.class);
-		//    	intent.putExtra("CharacterId", character.getId());
-		//        startActivity(intent);
-	}
-
+    	// Generate a BLANK, NEW character, and jump start to its edition
+    	Attack attack = new Attack();
+    	// id is not set, database will auto-increment it
+    	attack.setCharacterId(character.getId());
+    	attack.setName("NEW ATTACK");
+    	attack.setAttackType("");
+    	long newAttackId = new LAOAttack(this).addAttack(attack);
+    	
+    	Intent intent = new Intent(this, AttackEditActivity.class);
+    	intent.putExtra("AttackId", newAttackId);
+		startActivityForResult(intent, REQUEST_ADD_ATTACK);
+    }
 
 	/**
 	 * Listener for attack list
@@ -201,6 +203,16 @@ public class CharacterActivity extends Activity {
 				break;
 			case RESULT_CANCELED:
 				// Character edition was cancelled. So, no need to reload it.
+				break;
+			}
+		} else if (requestCode == REQUEST_ADD_ATTACK) {
+			switch (resultCode) {
+			case RESULT_OK:
+				// A new attack has been added to the character. So we have to RELOAD its attack list.
+				populateAttackList();
+				break;
+			case RESULT_CANCELED:
+				// Attack creation edition was cancelled. So, no need to reload it.
 				break;
 			}
 		}

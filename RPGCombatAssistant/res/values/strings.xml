@@ -1,13 +1,16 @@
 <resources>
 
     <string name="app_name">RPG Combat Assistant</string>
-    <string name="loading">Inicializando...</string>
+    <string name="loading">Inicializando</string>
     <string name="menu_settings">Preferencias</string>
-    <string name="title_activity_splah_screen">SplahScreen</string>
+
     <string name="mainTitle">RPG Combat Assistant</string>
     
+    <!-- Splash screen Activity -->
+    <string name="splashScreen_title">SplahScreen</string>
+
     <!-- Character Activity -->
-    <string name="title_activity_character">Personaje</string>
+    <string name="character_title">Personaje</string>
     <string name="menu_character_edit">Editar</string>
     <string name="menu_character_delete">Eliminar</string>
     <string name="character_deleteDialog_title">Eliminar personaje</string>
@@ -16,9 +19,11 @@
     <string name="character_deleteDialog_cancel">No</string>
     
     <!-- Character Edit Activity -->
-    <string name="title_activity_character_edit">Edición de personaje</string>
+    <string name="characterEdit_title">Edición de personaje</string>
     <string name="characterEdit_cancelButton">Cancelar</string>
     <string name="characterEdit_saveButton">Aplicar cambios</string>
 
-
+    <!-- Attack Edit Activity -->
+    <string name="attackEdit_title">Edición de ataque</string>
+    
 </resources>
