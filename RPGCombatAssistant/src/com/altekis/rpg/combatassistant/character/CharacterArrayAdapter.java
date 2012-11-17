@@ -48,7 +48,7 @@ public class CharacterArrayAdapter extends BaseExpandableListAdapter {
 		// Change the icon for that of the user...
 		ImageView imageView = (ImageView) convertView.findViewById(R.id.gameRow_icon);
 		String s = rpgCharacter.getName();
-		if (Character.getNumericValue(s.charAt(0))%2==1) {
+		if (s.length()%2==1) {
 			imageView.setImageResource(R.drawable.ic_action_search);
 		} else {
 			imageView.setImageResource(R.drawable.ic_launcher);

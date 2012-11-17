@@ -3,52 +3,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
-    <TextView
-        android:id="@+id/characterEdit_nameLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginLeft="14dp"
-        android:layout_marginTop="14dp"
-        android:text="Nombre" />
-
-    <EditText
-        android:id="@+id/characterEdit_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:layout_alignBaseline="@+id/characterEdit_nameLabel"
-        android:layout_alignBottom="@+id/characterEdit_nameLabel"
-        android:layout_marginLeft="18dp"
-        android:layout_toRightOf="@+id/characterEdit_nameLabel"
-        android:ems="10"
-        android:inputType="textPersonName" />
-
-    <TextView
-        android:id="@+id/characterEdit_playerNameLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/characterEdit_nameLabel"
-        android:layout_marginTop="16dp"
-        android:layout_toLeftOf="@+id/characterEdit_name"
-        android:text="Jugador" />
-
-    <EditText
-        android:id="@+id/characterEdit_playerName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="false"
-        android:layout_alignBaseline="@+id/characterEdit_playerNameLabel"
-        android:layout_alignBottom="@+id/characterEdit_playerNameLabel"
-        android:layout_alignLeft="@+id/characterEdit_name"
-        android:ems="8"
-        android:inputType="textPersonName"
-        android:layout_toRightOf="@+id/characterEdit_playerNameLabel"
-    />
-
     <Button
         android:id="@+id/characterEdit_cancelButton"
         android:layout_width="wrap_content"
@@ -67,5 +21,47 @@
         android:layout_alignParentRight="true"
         android:layout_marginRight="31dp"
         android:text="@string/characterEdit_saveButton" />
+
+    <TextView
+        android:id="@+id/characterEdit_nameLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="14dp"
+        android:layout_marginTop="37dp"
+        android:text="Nombre" />
+
+    <EditText
+        android:id="@+id/characterEdit_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/characterEdit_nameLabel"
+        android:layout_alignBottom="@+id/characterEdit_nameLabel"
+        android:layout_toRightOf="@+id/characterEdit_cancelButton"
+        android:ems="8"
+        android:inputType="textPersonName" />
+
+    <TextView
+        android:id="@+id/characterEdit_playerNameLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/characterEdit_nameLabel"
+        android:layout_below="@+id/characterEdit_name"
+        android:layout_marginTop="22dp"
+        android:text="Jugador" />
+
+    <EditText
+        android:id="@+id/characterEdit_playerName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/characterEdit_playerNameLabel"
+        android:layout_alignLeft="@+id/characterEdit_name"
+        android:layout_alignRight="@+id/characterEdit_name"
+        android:ems="8"
+        android:inputType="textPersonName" >
+
+        <requestFocus />
+    </EditText>
     
 </RelativeLayout>

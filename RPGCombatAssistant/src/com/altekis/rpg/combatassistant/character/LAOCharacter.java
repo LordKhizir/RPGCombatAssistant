@@ -2,7 +2,6 @@ package com.altekis.rpg.combatassistant.character;
 
 import java.util.List;
 
-import android.content.ContentValues;
 import android.content.Context;
 
 public class LAOCharacter {

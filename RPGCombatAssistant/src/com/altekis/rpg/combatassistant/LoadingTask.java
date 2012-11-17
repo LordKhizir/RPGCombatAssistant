@@ -2,13 +2,15 @@ package com.altekis.rpg.combatassistant;
 
 import java.io.IOException;
 
-import com.altekis.rpg.combatassistant.critical.Critical;
-import com.altekis.rpg.combatassistant.critical.LAOCritical;
-
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.TextView;
+
+import com.altekis.rpg.combatassistant.attack.AttackType;
+import com.altekis.rpg.combatassistant.attack.LAOAttackType;
+import com.altekis.rpg.combatassistant.critical.Critical;
+import com.altekis.rpg.combatassistant.critical.LAOCritical;
 
 public class LoadingTask extends AsyncTask<String, String, Integer> {
 
@@ -42,7 +44,14 @@ public class LoadingTask extends AsyncTask<String, String, Integer> {
 						RPGCombatAssistant.criticals.put(crit.getKey(), crit);
 						// Info for the user
 						publishProgress("Loaded critical \"" + crit.getName() + "\"");
-					} else {
+					} else if (element.endsWith(".tipo_ataque.xml")) {
+						AttackType attackType = LAOAttackType.loadAttackType(context, element);
+						// Add attack type to the store
+						RPGCombatAssistant.attackTypes.put(attackType.getKey(), attackType);
+						// Info for the user
+						publishProgress("Loaded attack type \"" + attackType.getName() + "\"");
+					} 
+					else {
 						Log.w("RPGCombatAssistant", "Resource " + element + " not matched by any loader. IGNORED!");
 					}
 				}

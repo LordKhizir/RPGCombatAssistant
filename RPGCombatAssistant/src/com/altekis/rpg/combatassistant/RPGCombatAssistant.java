@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 import android.app.Application;
 
+import com.altekis.rpg.combatassistant.attack.AttackType;
 import com.altekis.rpg.combatassistant.critical.Critical;
 
 public class RPGCombatAssistant extends Application {
@@ -27,4 +28,8 @@ public class RPGCombatAssistant extends Application {
 	// Application cached data - AKA Global variables
 	/** Critical tables */
 	public static HashMap<String,Critical> criticals = new HashMap<String,Critical>();
+	
+	/** Attack type tables */
+	public static HashMap<String,AttackType> attackTypes = new HashMap<String,AttackType>();
+
 }

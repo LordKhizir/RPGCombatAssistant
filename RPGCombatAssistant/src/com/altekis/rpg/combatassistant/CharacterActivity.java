@@ -16,6 +16,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.altekis.rpg.combatassistant.R;
 import com.altekis.rpg.combatassistant.attack.Attack;
 import com.altekis.rpg.combatassistant.attack.LAOAttack;
 import com.altekis.rpg.combatassistant.character.CharacterAttacksArrayAdapter;

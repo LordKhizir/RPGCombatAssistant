@@ -11,6 +11,7 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.ExpandableListView;
 
+import com.altekis.rpg.combatassistant.R;
 import com.altekis.rpg.combatassistant.character.CharacterArrayAdapter;
 import com.altekis.rpg.combatassistant.character.LAOCharacter;
 import com.altekis.rpg.combatassistant.character.RPGCharacter;

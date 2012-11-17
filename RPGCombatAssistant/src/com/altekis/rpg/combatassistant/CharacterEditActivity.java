@@ -7,6 +7,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.altekis.rpg.combatassistant.R;
 import com.altekis.rpg.combatassistant.character.LAOCharacter;
 import com.altekis.rpg.combatassistant.character.RPGCharacter;
 
@@ -28,7 +29,7 @@ public class CharacterEditActivity extends Activity {
 		nameText.setText(character.getName());
 		EditText playerNameText = (EditText) findViewById(R.id.characterEdit_playerName);
 		playerNameText.setText(character.getPlayerName());
-		
+				
 		// Add listeners for buttons
 		Button btnCancel = (Button) findViewById(R.id.characterEdit_cancelButton);
         btnCancel.setOnClickListener(new OnClickListener() {

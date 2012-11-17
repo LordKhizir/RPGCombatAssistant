@@ -35,7 +35,7 @@
         android:layout_toLeftOf="@+id/attackEdit_name"
         android:text="Tipo" />
 
-    <EditText
+    <Spinner
         android:id="@+id/attackEdit_attackType"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -49,6 +49,7 @@
         android:layout_toRightOf="@+id/attackEdit_attackTypeLabel"
     />
 
+    
     <Button
         android:id="@+id/attackEdit_cancelButton"
         android:layout_width="wrap_content"
