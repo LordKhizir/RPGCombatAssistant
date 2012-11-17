@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<attackType>
+    	<name>Filo</name>
+    	<key>S</key>
+	<fumble max="8" />
+	<!--  p:plate c:chainmail hl:hardleather sl:softleather u:unarmored f:fumble-->
+	<range min="046" p="1" c="0" hl="0" sl="0" u="0" />
+	<range min="051" p="1" c="1" hl="0" sl="0" u="0" />
+	<range min="056" p="2" c="1" hl="0" sl="0" u="0" />
+	<range min="061" p="2" c="2" hl="0" sl="0" u="0" />
+	<range min="066" p="3" c="3" hl="2" sl="3" u="0" />
+	<range min="071" p="3" c="4" hl="3" sl="5" u="0" />
+	<range min="076" p="4" c="5" hl="5" sl="7A" u="7" />
+	<range min="081" p="5" c="6" hl="6" sl="9A" u="9A" />
+	<range min="086" p="5" c="7" hl="7A" sl="10B" u="10A" />
+	<range min="091" p="6" c="8" hl="9A" sl="12B" u="11B" />
+	<range min="096" p="6" c="9" hl="10B" sl="13B" u="13C" />
+	<range min="101" p="7" c="10A" hl="11B" sl="14C" u="15C" />
+	<range min="106" p="8" c="11A" hl="12B" sl="15C" u="17D" />
+	<range min="111" p="8A" c="12B" hl="13C" sl="17C" u="19D" />
+	<range min="116" p="9A" c="13B" hl="15C" sl="18D" u="20D" />
+	<range min="121" p="9A" c="13C" hl="16C" sl="19D" u="21E" />
+	<range min="126" p="10B" c="14C" hl="17D" sl="20D" u="23E" />
+	<range min="131" p="10C" c="15C" hl="18D" sl="22D" u="25E" />
+	<range min="136" p="11C" c="16D" hl="20D" sl="23E" u="27E" />
+	<range min="141" p="12D" c="17D" hl="21E" sl="24E" u="28E" />
+	<range min="146" p="12E" c="18E" hl="22E" sl="25E" u="30E" />
+</attackType>

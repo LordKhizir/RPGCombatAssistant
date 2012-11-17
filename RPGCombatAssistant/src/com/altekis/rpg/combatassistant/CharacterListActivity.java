@@ -60,7 +60,7 @@ public class CharacterListActivity extends Activity {
     	character.setId(new Random().nextInt()); // TODO Fix
     	character.setName("");
     	character.setPlayerName("");
-    	new LAOCharacter(this).addCharacter(character);
+    	new LAOCharacter().addCharacter(character);
     	
     	Intent intent = new Intent(this, CharacterEditActivity.class);
     	intent.putExtra("CharacterId", character.getId());
@@ -84,7 +84,7 @@ public class CharacterListActivity extends Activity {
 	
 	private void populatePlayerList() {
 		// Feed lists of games to the adapter 
-        characterAdapter = new CharacterArrayAdapter(this, new LAOCharacter(this).getCharacters());
+        characterAdapter = new CharacterArrayAdapter(this, new LAOCharacter().getCharacters());
 
 	    // Assign adapter to populate list
         characterListView.setAdapter(characterAdapter);

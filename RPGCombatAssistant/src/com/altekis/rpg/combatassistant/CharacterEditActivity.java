@@ -21,8 +21,7 @@ public class CharacterEditActivity extends Activity {
 
 		// Get Extras
 		int characterId = getIntent().getIntExtra("CharacterId",0);
-		LAOCharacter laoCharacter = new LAOCharacter(this);
-		character = laoCharacter.getCharacter(characterId);
+		character = new LAOCharacter().getCharacter(characterId);
 
 		// Set UI
 		EditText nameText = (EditText) findViewById(R.id.characterEdit_name);
@@ -66,7 +65,7 @@ public class CharacterEditActivity extends Activity {
 		character.setName(nameText.getText().toString());
 		EditText playerNameText = (EditText) findViewById(R.id.characterEdit_playerName);
 		character.setPlayerName(playerNameText.getText().toString());
-    	new LAOCharacter(this).updateCharacter(character);
+    	new LAOCharacter().updateCharacter(character);
     	
     	// Set result as OK==updated
     	setResult(RESULT_OK);

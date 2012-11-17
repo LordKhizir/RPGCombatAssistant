@@ -18,7 +18,7 @@ public class SplashScreen extends Activity implements LoadingTaskFinishedListene
         // Ready status output
         TextView status = (TextView)findViewById(R.id.status);
         // Start your loading
-        new LoadingTask(status, this).execute(); // 
+        new LoadingTask(status, this, this.getApplicationContext()).execute(); // 
     }
 
     @Override

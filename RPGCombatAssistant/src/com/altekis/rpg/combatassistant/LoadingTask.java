@@ -22,16 +22,20 @@ public class LoadingTask extends AsyncTask<String, String, Integer> {
 	private final TextView status;
 	// This is the listener that will be told when this task is finished
 	private final LoadingTaskFinishedListener finishedListener;
+	// Context for database opening
+	private final Context context;
 
-	public LoadingTask(TextView textView, LoadingTaskFinishedListener listener) {
+	public LoadingTask(TextView textView, LoadingTaskFinishedListener listener, Context context) {
 		this.status = textView;
 		this.finishedListener = listener;
+		this.context = context;
 	}
 
 	@Override
 	protected Integer doInBackground(String... params) {
 		if (!RPGCombatAssistant.initialized) {
-			Context context = status.getContext(); // We need a context... use that of the status text
+			// READY DATABASE & HELPER
+			LocalDatabaseHelper.initialize(context);
 			// LOAD TABLES 
 			// Loop through all assets, inflating them
 			String[] elements;

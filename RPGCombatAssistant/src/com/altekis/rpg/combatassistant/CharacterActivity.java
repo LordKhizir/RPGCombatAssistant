@@ -39,8 +39,7 @@ public class CharacterActivity extends Activity {
 
 		// Get Extras
 		int characterId = getIntent().getIntExtra("CharacterId",0);
-		LAOCharacter laoCharacter = new LAOCharacter(this);
-		character = laoCharacter.getCharacter(characterId);
+		character = new LAOCharacter().getCharacter(characterId);
 
 		attacksListView = (ListView) findViewById(R.id.character_attacks);
 
@@ -83,7 +82,7 @@ public class CharacterActivity extends Activity {
 //		attack.setId(1);
 //		attack.setName("Espada");
 //		attack.setAttackType("SW");
-		attacks = new LAOAttack(this).getAttacks(character.getId());
+		attacks = new LAOAttack().getAttacks(character.getId());
 		characterAttacksAdapter = new CharacterAttacksArrayAdapter(this, attacks);
 
 		// Assign adapter to populate list
@@ -98,7 +97,7 @@ public class CharacterActivity extends Activity {
     	attack.setCharacterId(character.getId());
     	attack.setName("NEW ATTACK");
     	attack.setAttackType("");
-    	long newAttackId = new LAOAttack(this).addAttack(attack);
+    	long newAttackId = new LAOAttack().addAttack(attack);
     	
     	Intent intent = new Intent(this, AttackEditActivity.class);
     	intent.putExtra("AttackId", newAttackId);
@@ -180,8 +179,7 @@ public class CharacterActivity extends Activity {
 	 */
 	public void doDelete() {
 		int characterId = character.getId();
-		LAOCharacter laoCharacter = new LAOCharacter(this);
-		laoCharacter.deleteCharacter(characterId);
+		new LAOCharacter().deleteCharacter(characterId);
 		finish(); // Close this activity
 	}
 
@@ -198,8 +196,7 @@ public class CharacterActivity extends Activity {
 				// Character was edited. So we have to RELOAD it.
 				// Only characterId is guaranteed to remain, we'll use it to access storage
 				int characterId = character.getId();
-				LAOCharacter laoCharacter = new LAOCharacter(this);
-				character = laoCharacter.getCharacter(characterId);
+				character = new LAOCharacter().getCharacter(characterId);
 				populateCharacterUI();
 				break;
 			case RESULT_CANCELED:

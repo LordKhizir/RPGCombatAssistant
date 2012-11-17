@@ -28,8 +28,7 @@ public class AttackEditActivity extends Activity {
 
 		// Get Extras
 		long attackId = getIntent().getLongExtra("AttackId",0);
-		LAOAttack laoAttack = new LAOAttack(this);
-		attack = laoAttack.getAttack(attackId);
+		attack = new LAOAttack().getAttack(attackId);
 
 //		LAOCharacter laoCharacter = new LAOCharacter(this);
 //		character = laoCharacter.getCharacter(characterId);
@@ -97,7 +96,7 @@ public class AttackEditActivity extends Activity {
 		EditText nameText = (EditText) findViewById(R.id.attackEdit_name);
 		attack.setName(nameText.getText().toString());
 		attack.setAttackType(selectedAttackType);
-    	new LAOAttack(this).updateAttack(attack);
+    	new LAOAttack().updateAttack(attack);
     	
     	// Set result as OK==updated
     	setResult(RESULT_OK);

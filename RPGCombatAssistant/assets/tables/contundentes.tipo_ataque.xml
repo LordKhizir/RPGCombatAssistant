@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<attackType>
+    	<name>Contundentes</name>
+    	<key>K</key>
+	<fumble max="8" />
+	<!--  p:plate c:chainmail hl:hardleather sl:softleather u:unarmored f:fumble-->
+	<range min="036" p="1" c="0" hl="0" sl="0" u="0" />
+	<range min="041" p="1" c="1" hl="0" sl="0" u="0" />
+	<range min="046" p="2" c="2" hl="0" sl="0" u="0" />
+	<range min="051" p="3" c="3" hl="0" sl="0" u="0" />
+	<range min="056" p="3" c="4" hl="0" sl="0" u="0" />
+	<range min="061" p="4" c="5" hl="0" sl="0" u="0" />
+	<range min="066" p="5" c="6" hl="2" sl="3" u="0" />
+	<range min="071" p="5" c="7" hl="3" sl="5" u="0" />
+	<range min="076" p="6" c="8" hl="4" sl="6" u="0" />
+	<range min="081" p="7" c="9" hl="6" sl="7A" u="6" />
+	<range min="086" p="8" c="10" hl="7A" sl="8A" u="8" />
+	<range min="091" p="8" c="11" hl="8A" sl="9A" u="9A" />
+	<range min="096" p="9" c="12A" hl="9B" sl="10B" u="10B" />
+	<range min="101" p="10" c="13A" hl="10B" sl="11B" u="12C" />
+	<range min="106" p="10A" c="14B" hl="11B" sl="12B" u="13C" />
+	<range min="111" p="11A" c="15B" hl="12C" sl="13C" u="14D" />
+	<range min="116" p="12B" c="16C" hl="13C" sl="14C" u="15D" />
+	<range min="121" p="13B" c="17C" hl="15C" sl="15C" u="17D" />
+	<range min="126" p="13C" c="18C" hl="16C" sl="16D" u="18E" />
+	<range min="131" p="14C" c="19D" hl="17D" sl="17D" u="19E" />
+	<range min="136" p="15D" c="20D" hl="18D" sl="18E" u="21E" />
+	<range min="141" p="16D" c="21E" hl="19E" sl="19E" u="22E" />
+	<range min="146" p="16E" c="22E" hl="20E" sl="20E" u="23E" />
+</attackType>

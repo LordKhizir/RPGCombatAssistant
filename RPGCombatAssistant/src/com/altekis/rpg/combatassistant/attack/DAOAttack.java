@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.content.ContentValues;
-import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
@@ -17,32 +16,16 @@ import com.altekis.rpg.combatassistant.LocalDatabaseHelper;
  */
 public class DAOAttack {
 	
-	private LocalDatabaseHelper dbHelper;
-	private SQLiteDatabase db;
-	
-	public DAOAttack(Context context) {
-	    dbHelper = new LocalDatabaseHelper(context);
-	    db = dbHelper.getWritableDatabase();
-	}
 	private final String ATTACKS_TABLE_NAME = "attacks";
 	private final String[] ALL_COLUMNS = {	"_id",
-											"characterId", "attackType", "name"};
-
-	@Override
-	protected void finalize() throws Throwable {
-		try {
-			db.close();
-			dbHelper.close();
-		} finally {
-			super.finalize();
-		}
-	}
-	
+											"characterId", "attackType", "name"};	
 	/**
 	 * Get the list of attacks for the character
 	 * @return list of attacks
 	 */
 	protected List<Attack> getAttacks(int characterId) {
+		SQLiteDatabase db = LocalDatabaseHelper.getInstance().getDB();
+
 		List<Attack> attacks = new ArrayList<Attack>();
 		
 		Cursor cursor = db.query(ATTACKS_TABLE_NAME, // Table
@@ -70,6 +53,8 @@ public class DAOAttack {
 	 * @return attack
 	 */
 	public Attack getAttack(long id) {
+		SQLiteDatabase db = LocalDatabaseHelper.getInstance().getDB();
+
 		Cursor cursor = db.query(ATTACKS_TABLE_NAME, // Table
 				ALL_COLUMNS, // returned columns
 				"_id=?", // WHERE - We want just one row
@@ -91,6 +76,8 @@ public class DAOAttack {
 	 * @param attack
 	 */
 	protected long addAttack(Attack attack) {
+		SQLiteDatabase db = LocalDatabaseHelper.getInstance().getDB();
+
 		ContentValues cv = attackToContentValues(attack);
 		cv.remove("_id"); // _id is auto-increment, so we have to nullify it prior to calling
 		return db.insert(ATTACKS_TABLE_NAME, null, cv);
@@ -101,6 +88,8 @@ public class DAOAttack {
 	 * @param attack
 	 */
 	public void updateAttack(Attack attack) {
+		SQLiteDatabase db = LocalDatabaseHelper.getInstance().getDB();
+
 		ContentValues cv = attackToContentValues(attack);
 		db.update(ATTACKS_TABLE_NAME, cv, "_id=?",  new String[] {String.valueOf(attack.getId())});
 	}
@@ -110,6 +99,8 @@ public class DAOAttack {
 	 * @param attack
 	 */
 	public void deleteAttack(long attackId) {
+		SQLiteDatabase db = LocalDatabaseHelper.getInstance().getDB();
+
 		db.delete(ATTACKS_TABLE_NAME, "_id=?",  new String[] {String.valueOf(attackId)});
 	}
 
