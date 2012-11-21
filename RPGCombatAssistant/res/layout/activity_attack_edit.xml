@@ -11,7 +11,7 @@
         android:layout_alignParentTop="true"
         android:layout_marginLeft="14dp"
         android:layout_marginTop="14dp"
-        android:text="Nombre" />
+        android:text="@string/attackEdit_name" />
 
     <EditText
         android:id="@+id/attackEdit_name"
@@ -24,7 +24,7 @@
         android:layout_marginLeft="18dp"
         android:layout_toRightOf="@+id/attackEdit_nameLabel"
         android:ems="10"
-        android:inputType="textPersonName" />
+        android:inputType="textPersonName|textNoSuggestions" />
 
     <TextView
         android:id="@+id/attackEdit_attackTypeLabel"
@@ -33,7 +33,7 @@
         android:layout_below="@+id/attackEdit_nameLabel"
         android:layout_marginTop="16dp"
         android:layout_toLeftOf="@+id/attackEdit_name"
-        android:text="Tipo" />
+        android:text="@string/attackEdit_attackType" />
 
     <Spinner
         android:id="@+id/attackEdit_attackType"
@@ -57,7 +57,7 @@
         android:layout_alignLeft="@+id/attackEdit_nameLabel"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="165dp"
-        android:text="Cancelar" />
+        android:text="@string/attackEdit_cancelButton" />
 
     <Button
         android:id="@+id/attackEdit_saveButton"
@@ -67,6 +67,6 @@
         android:layout_alignBottom="@+id/attackEdit_cancelButton"
         android:layout_alignParentRight="true"
         android:layout_marginRight="31dp"
-        android:text="Guardar cambios" />
+        android:text="@string/attackEdit_saveButton" />
     
 </RelativeLayout>

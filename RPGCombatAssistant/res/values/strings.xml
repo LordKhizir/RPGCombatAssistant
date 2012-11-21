@@ -20,10 +20,27 @@
     
     <!-- Character Edit Activity -->
     <string name="characterEdit_title">Edición de personaje</string>
+    <string name="characterEdit_name">Nombre</string>
+    <string name="characterEdit_playerName">Jugador</string>
     <string name="characterEdit_cancelButton">Cancelar</string>
     <string name="characterEdit_saveButton">Aplicar cambios</string>
 
+    <!-- Attack Activity -->
+    <string name="attack_title">Ataque</string>
+    <string name="attack_name">Nombre</string>
+    <string name="attack_attackType">Tipo</string>
+    <string name="attack_bonus">Bonus</string>
+    <string name="attack_roll">Tirada</string>
+    <string name="attack_cancelButton">Cancelar</string>
+    <string name="attack_goButton">Atacar</string>
+    
+    
     <!-- Attack Edit Activity -->
     <string name="attackEdit_title">Edición de ataque</string>
+    <string name="attackEdit_name">Nombre</string>
+    <string name="attackEdit_attackType">Tipo</string>
+    <string name="attackEdit_cancelButton">Cancelar</string>
+    <string name="attackEdit_saveButton">Aplicar cambios</string>
+    
     
 </resources>

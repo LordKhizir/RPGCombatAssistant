@@ -30,7 +30,7 @@
         android:layout_alignParentTop="true"
         android:layout_marginLeft="14dp"
         android:layout_marginTop="37dp"
-        android:text="Nombre" />
+        android:text="@string/characterEdit_name" />
 
     <EditText
         android:id="@+id/characterEdit_name"
@@ -40,7 +40,7 @@
         android:layout_alignBottom="@+id/characterEdit_nameLabel"
         android:layout_toRightOf="@+id/characterEdit_cancelButton"
         android:ems="8"
-        android:inputType="textPersonName" />
+        android:inputType="textPersonName|textNoSuggestions" />
 
     <TextView
         android:id="@+id/characterEdit_playerNameLabel"
@@ -49,7 +49,7 @@
         android:layout_alignLeft="@+id/characterEdit_nameLabel"
         android:layout_below="@+id/characterEdit_name"
         android:layout_marginTop="22dp"
-        android:text="Jugador" />
+        android:text="@string/characterEdit_playerName" />
 
     <EditText
         android:id="@+id/characterEdit_playerName"
@@ -59,7 +59,7 @@
         android:layout_alignLeft="@+id/characterEdit_name"
         android:layout_alignRight="@+id/characterEdit_name"
         android:ems="8"
-        android:inputType="textPersonName" >
+        android:inputType="textPersonName|textNoSuggestions" >
 
         <requestFocus />
     </EditText>

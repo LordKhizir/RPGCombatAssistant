@@ -42,6 +42,14 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".AttackActivity"
+            android:label="@string/attack_title" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
             android:name=".AttackEditActivity"
             android:label="@string/attackEdit_title" >
             <intent-filter>

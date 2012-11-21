@@ -16,7 +16,6 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.altekis.rpg.combatassistant.R;
 import com.altekis.rpg.combatassistant.attack.Attack;
 import com.altekis.rpg.combatassistant.attack.LAOAttack;
 import com.altekis.rpg.combatassistant.character.CharacterAttacksArrayAdapter;
@@ -31,6 +30,7 @@ public class CharacterActivity extends Activity {
 
 	static final int REQUEST_CHARACTER_EDIT = 1;
 	static final int REQUEST_ADD_ATTACK = 2;
+	static final int REQUEST_ATTACK = 3;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -103,17 +103,22 @@ public class CharacterActivity extends Activity {
     	intent.putExtra("AttackId", newAttackId);
 		startActivityForResult(intent, REQUEST_ADD_ATTACK);
     }
+	
+	private void doAttack(long attackId) {
+    	Intent intent = new Intent(this, AttackActivity.class);
+    	intent.putExtra("AttackId", attackId);
+    	startActivityForResult(intent, REQUEST_ATTACK);
+
+	}
 
 	/**
 	 * Listener for attack list
 	 */ 
 	ListView.OnItemClickListener attacksClickListener = new ListView.OnItemClickListener() {
 		@Override
-		public void onItemClick(AdapterView<?> arg0, View v, int position, long id) {
-			//			Intent intent = new Intent(getApplicationContext(), CharacterActivity.class);
-			//	    	intent.putExtra("CharacterId", selectedCharacterId);
-			//	        startActivity(intent);			
-			//			return true;
+		public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+			long selectedAttackId = characterAttacksAdapter.getItemId(position);
+			doAttack(selectedAttackId);
 		}
 	};
 

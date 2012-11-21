@@ -42,4 +42,9 @@ public class CharacterAttacksArrayAdapter extends ArrayAdapter<Attack> {
 
 		return convertView;
 	  }
+
+	@Override
+	public long getItemId(int position) {
+		return attacks.get(position).getId();
+	}	 
 } 
