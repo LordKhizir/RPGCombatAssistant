@@ -4,16 +4,13 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemSelectedListener;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.altekis.rpg.combatassistant.attack.Attack;
+import com.altekis.rpg.combatassistant.attack.AttackResult;
 import com.altekis.rpg.combatassistant.attack.AttackType;
 import com.altekis.rpg.combatassistant.attack.LAOAttack;
 import com.altekis.rpg.combatassistant.character.ArmorType;
@@ -77,26 +74,61 @@ public class AttackActivity extends Activity {
 		// Get all UI values
 		EditText bonusText = (EditText) findViewById(R.id.attack_bonus);
 		EditText rollText = (EditText) findViewById(R.id.attack_roll);
-		int bonus = Integer.parseInt(bonusText.getText().toString());
-		int roll = Integer.parseInt(rollText.getText().toString());
-		// TODO Falta parry, bonuses/minuses por oportunidad, status, etc...
-		// TODO Falta Armor type... asumimos 1.
-		int total = bonus + roll;
+		int bonus = 0;
+		int roll = 0;
+		boolean errorFound = false;
+		// Check for errors on the UI as a whole
+		try {
+			bonus = Integer.parseInt(bonusText.getText().toString());
+		} catch (NumberFormatException e) {
+			errorFound = true;
+			bonusText.setError(getResources().getText(R.string.errorMustBeANumber));
+		}
+		try {
+			roll = Integer.parseInt(rollText.getText().toString());
+		} catch (NumberFormatException e) {
+			errorFound = true;
+			rollText.setError(getResources().getText(R.string.errorMustBeANumber));
+		}
 		
-		/* TODO Debería ser algo como esto
-		AttackType attackType = RPGCombatAssistant.attackTypes.get(attack.getAttackType());
-		
-		pero ahora mismo en attack.getAttackType tenemos el NOMBRE del ataque, no su Key.
-		Hay que cambiar el spinner de edición de ataque para que muestre "Filo" pero guarde "S"
-		
-		De momento, acceso a S a piñón
-		*/
-		AttackType attackType = RPGCombatAssistant.attackTypes.get("S");
-		String result = attackType.getValue(total, ArmorType.SoftLeather);
-
-    	Toast.makeText(getApplicationContext(), "Resultado:" + result, Toast.LENGTH_SHORT).show();
-    	// Set result as OK==updated
-//    	setResult(RESULT_OK);
-//    	finish();
+		if (!errorFound) {
+			// TODO Falta parry, bonuses/minuses por oportunidad, status, etc...
+			// TODO Falta Armor type... asumimos 1.
+			int total = bonus + roll;
+			
+			/* TODO Debería ser algo como esto
+			AttackType attackType = RPGCombatAssistant.attackTypes.get(attack.getAttackType());
+			
+			pero ahora mismo en attack.getAttackType tenemos el NOMBRE del ataque, no su Key.
+			Hay que cambiar el spinner de edición de ataque para que muestre "Filo" pero guarde "S"
+			
+			De momento, acceso a S a piñón
+			*/
+			AttackType attackType = RPGCombatAssistant.attackTypes.get("S");
+			AttackResult attackResult = attackType.getValue(roll, total, ArmorType.SoftLeather);
+			
+			if (attackResult.isNoEffects()) {
+				Toast.makeText(getApplicationContext(), "Sin efecto", Toast.LENGTH_SHORT).show();	
+			} else if (attackResult.isFumbled()){
+				// TODO implementar pifia
+				Toast.makeText(getApplicationContext(), "¡Pifia!", Toast.LENGTH_SHORT).show();
+			} else {
+				// TODO Mejorar mensaje
+				// TODO implementar pérdida de PV
+				// TODO implementar critico
+				String resultMessage = "";
+				if (attackResult.getHitPoints()>0) {
+					resultMessage = attackResult.getHitPoints() + " puntos de vida.\n";
+				}
+				if (attackResult.getCritLevel()!=null) {
+					resultMessage+= "Crítico " + attackResult.getCritLevel().toString() + " (" + attackResult.getCritType() + ")";
+				}
+				Toast.makeText(getApplicationContext(), resultMessage, Toast.LENGTH_SHORT).show();
+			}
+	    	
+	    	// Set result as OK==updated
+	//    	setResult(RESULT_OK);
+	//    	finish();
+		}
 	}
 }

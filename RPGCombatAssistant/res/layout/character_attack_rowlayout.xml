@@ -10,14 +10,14 @@
         android:id="@+id/character_attack_icon"
 	/>
     <TextView
-        style="@style/gameList_partnerName"
+        style="@style/character_attackName"
         android:layout_toRightOf="@+id/character_attack_icon"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:id="@+id/character_attack_name"
     />
 	<TextView
-        style="@style/gameList_partnerName"
+        style="@style/character_attackInfo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@+id/character_attack_icon"

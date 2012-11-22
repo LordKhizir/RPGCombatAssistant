@@ -60,8 +60,8 @@
         android:layout_alignLeft="@+id/attack_attackType"
         android:layout_below="@+id/attack_attackType"
         android:layout_marginTop="32dp"
-        android:ems="10"
         android:inputType="numberSigned"
+        android:minWidth="100px"
         />
     
     <TextView
@@ -71,6 +71,16 @@
         android:layout_alignBottom="@+id/attack_roll"
         android:layout_toLeftOf="@+id/attack_roll"
         android:text="@string/attack_roll" />
+    
+        <EditText
+            android:id="@+id/attack_roll"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/attack_bonus"
+            android:layout_below="@+id/attack_bonus"
+            android:inputType="numberSigned"
+            android:minWidth="100px"
+/>
     
     <Button
         android:id="@+id/attack_cancelButton"
@@ -90,17 +100,5 @@
         android:layout_alignParentRight="true"
         android:layout_marginRight="31dp"
         android:text="@string/attack_goButton" />
-
-    <EditText
-        android:id="@+id/attack_roll"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/attack_bonus"
-        android:layout_below="@+id/attack_bonus"
-        android:ems="10"
-        android:inputType="numberSigned" >
-
-        <requestFocus />
-    </EditText>
     
 </RelativeLayout>

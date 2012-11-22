@@ -8,20 +8,33 @@
         <item name="android:background">#116611</item>
         <item name="android:textColor">#ffffff</item>
         <item name="android:typeface">normal</item>
-        <item name="android:textSize">20dp</item>
+        <item name="android:textSize">20sp</item>
         <item name="android:paddingLeft">40dp</item>
     </style>
     <style name="characterList_name" parent="android:Theme.Light">
         <item name="android:textColor">#222222</item>
         <item name="android:typeface">sans</item>
-        <item name="android:textSize">18dp</item>
+        <item name="android:textSize">18sp</item>
     </style>
     <style name="characterList_playerName" parent="android:Theme.Light">
         <item name="android:textColor">#222222</item>
         <item name="android:typeface">sans</item>
-        <item name="android:textSize">14dp</item>
+        <item name="android:textSize">14sp</item>
     </style>
     <!-- END Character List activity -->
+
+	<!-- Character Activity -->
+    <style name="character_attackName" parent="android:Theme.Light">
+        <item name="android:textColor">#222222</item>
+        <item name="android:typeface">sans</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+    <style name="character_attackInfo" parent="android:Theme.Light">
+        <item name="android:textColor">#222222</item>
+        <item name="android:typeface">sans</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+    <!-- END Character activity -->
     
     
     <!-- Desde aqui, son antiguos... ir revisando y moviendo -->

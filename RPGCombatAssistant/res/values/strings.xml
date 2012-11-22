@@ -5,6 +5,8 @@
     <string name="menu_settings">Preferencias</string>
 
     <string name="mainTitle">RPG Combat Assistant</string>
+    <!-- Common elements -->
+    <string name="errorMustBeANumber">Debe ser numérico</string>
     
     <!-- Splash screen Activity -->
     <string name="splashScreen_title">SplahScreen</string>

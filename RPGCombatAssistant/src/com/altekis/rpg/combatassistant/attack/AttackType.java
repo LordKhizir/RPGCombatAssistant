@@ -3,6 +3,7 @@ package com.altekis.rpg.combatassistant.attack;
 import android.util.SparseArray;
 
 import com.altekis.rpg.combatassistant.character.ArmorType;
+import com.altekis.rpg.combatassistant.critical.CriticalLevel;
 
 public class AttackType {
 	/** Name of the attack type */
@@ -48,7 +49,7 @@ public class AttackType {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
+
 	/**
 	 * Add a result to the attack type
 	 * Used by XML inflaters
@@ -65,29 +66,45 @@ public class AttackType {
 	}
 
 	/**
-	 *  Return the result corresponding to passed roll and armour type
+	 *  Return the result corresponding to passed total and armour type. Roll is checked for fumble.
 	 * @param roll to check for
 	 * @return Descriptive result
 	 */
-	public String getValue(int roll, ArmorType armorType) {
-		int selectedIndex = -1; // If it remains as -1, no value found
-		for(int actualIndex = 0; actualIndex < results.size(); actualIndex++) {
-		   int actualKey = results.keyAt(actualIndex);
-		   // Array is set as key=min range value... so we use it to navigate
-		   if (roll>=actualKey) {
-			   // Roll is equal or greater than this range entry value... so it's valid, unless surpassed by next one
-			   selectedIndex = actualIndex;
-		   } else {
-			   // Roll is not enough to enter this range... just exit.
-			   break;
-		   }
-		}
-		if (selectedIndex!=-1) {
-			return results.valueAt(selectedIndex)[armorType.toInteger()];
+	public AttackResult getValue(int roll, int total, ArmorType armorType) {
+		AttackResult attackResult = new AttackResult();
+		if (roll<=maxFumble) {
+			// If fumble, just stop
+			attackResult.setFumbled(true);
 		} else {
-			return null;
+			// Not fumbled... check for results
+			int selectedIndex = -1; // If it remains as -1, no value found
+			for(int actualIndex = 0; actualIndex < results.size(); actualIndex++) {
+				int actualKey = results.keyAt(actualIndex);
+				// Array is set as key=min range value... so we use it to navigate
+				if (total>=actualKey) {
+					// Roll is equal or greater than this range entry value... so it's valid, unless surpassed by next one
+					selectedIndex = actualIndex;
+				} else {
+					// Roll is not enough to enter this range... just exit.
+					break;
+				}
+			}
+
+			if (selectedIndex!=-1) {
+				// We have found a match
+				String wholeResult = results.valueAt(selectedIndex)[armorType.toInteger()];
+				// wholeResult is formatted as [number|critLevel], we have to split it
+				String[] parts = wholeResult.split("-");
+				attackResult.setHitPoints(Integer.parseInt(parts[0]));
+				if (parts.length>1) {
+					attackResult.setCritLevel(CriticalLevel.valueOf(parts[1]));
+					attackResult.setCritType(key);
+				}
+			}
 		}
+		return attackResult;
 	}
+
 	public String getKey() {
 		return key;
 	}
