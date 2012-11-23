@@ -7,7 +7,7 @@ public class LAOAttack {
 	 * Get the list of attacks for the character
 	 * @return list of attacks
 	 */
-	public List<Attack> getAttacks(int characterId) {
+	public List<Attack> getAttacks(long characterId) {
 		return new DAOAttack().getAttacks(characterId);
 	}
 	

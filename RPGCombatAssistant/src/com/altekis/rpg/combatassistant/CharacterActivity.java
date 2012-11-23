@@ -40,6 +40,9 @@ public class CharacterActivity extends Activity {
 		// Get Extras
 		int characterId = getIntent().getIntExtra("CharacterId",0);
 		character = new LAOCharacter().getCharacter(characterId);
+		
+		// Set contextual title
+		setTitle(character.getName() + " (" + character.getPlayerName() + ")");
 
 		attacksListView = (ListView) findViewById(R.id.character_attacks);
 
@@ -77,11 +80,6 @@ public class CharacterActivity extends Activity {
 
 	private void populateAttackList() {
 		// Feed lists of attacks to the adapter
-		// FIXME Fake list
-//		Attack attack = new Attack();
-//		attack.setId(1);
-//		attack.setName("Espada");
-//		attack.setAttackType("SW");
 		attacks = new LAOAttack().getAttacks(character.getId());
 		characterAttacksAdapter = new CharacterAttacksArrayAdapter(this, attacks);
 
@@ -91,16 +89,11 @@ public class CharacterActivity extends Activity {
 
 
 	private void doAddAttack() {
-    	// Generate a BLANK, NEW character, and jump start to its edition
-    	Attack attack = new Attack();
-    	// id is not set, database will auto-increment it
-    	attack.setCharacterId(character.getId());
-    	attack.setName("NEW ATTACK");
-    	attack.setAttackType("");
-    	long newAttackId = new LAOAttack().addAttack(attack);
-    	
+    	// Jump start to the edition of a new Attack   	
     	Intent intent = new Intent(this, AttackEditActivity.class);
-    	intent.putExtra("AttackId", newAttackId);
+    	// We pass no AttackId as extra, to claim for a new attack
+    	// But the CharacterId will be needed, to assign the new attack to its correct parent character
+    	intent.putExtra("CharacterId", character.getId());
 		startActivityForResult(intent, REQUEST_ADD_ATTACK);
     }
 	
@@ -108,7 +101,6 @@ public class CharacterActivity extends Activity {
     	Intent intent = new Intent(this, AttackActivity.class);
     	intent.putExtra("AttackId", attackId);
     	startActivityForResult(intent, REQUEST_ATTACK);
-
 	}
 
 	/**
@@ -183,7 +175,7 @@ public class CharacterActivity extends Activity {
 	 * Delete character
 	 */
 	public void doDelete() {
-		int characterId = character.getId();
+		long characterId = character.getId();
 		new LAOCharacter().deleteCharacter(characterId);
 		finish(); // Close this activity
 	}
@@ -200,7 +192,7 @@ public class CharacterActivity extends Activity {
 			case RESULT_OK:
 				// Character was edited. So we have to RELOAD it.
 				// Only characterId is guaranteed to remain, we'll use it to access storage
-				int characterId = character.getId();
+				long characterId = character.getId();
 				character = new LAOCharacter().getCharacter(characterId);
 				populateCharacterUI();
 				break;

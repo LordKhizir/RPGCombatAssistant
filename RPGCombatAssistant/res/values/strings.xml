@@ -7,12 +7,19 @@
     <string name="mainTitle">RPG Combat Assistant</string>
     <!-- Common elements -->
     <string name="errorMustBeANumber">Debe ser numérico</string>
+    <string name="errorMandatory">Obligatorio</string>
     
     <!-- Splash screen Activity -->
-    <string name="splashScreen_title">SplahScreen</string>
+    <string name="splash_main">RPG Combat Assistant</string>
+    
+    <!-- Character List Activity -->
+    <string name="characterList_playerCharactersGroupHeader">Personajes jugadores</string>
+    <string name="characterList_nonPlayerCharactersGroupHeader">Personajes no-jugadores</string>
 
     <!-- Character Activity -->
     <string name="character_title">Personaje</string>
+    <string name="character_name">Nombre</string>
+    <string name="character_playerName">Jugador</string>
     <string name="menu_character_edit">Editar</string>
     <string name="menu_character_delete">Eliminar</string>
     <string name="character_deleteDialog_title">Eliminar personaje</string>
@@ -23,7 +30,9 @@
     <!-- Character Edit Activity -->
     <string name="characterEdit_title">Edición de personaje</string>
     <string name="characterEdit_name">Nombre</string>
+    <string name="characterEdit_nameHint">Personaje</string>
     <string name="characterEdit_playerName">Jugador</string>
+    <string name="characterEdit_playerNameHint">Jugador</string>
     <string name="characterEdit_cancelButton">Cancelar</string>
     <string name="characterEdit_saveButton">Aplicar cambios</string>
 

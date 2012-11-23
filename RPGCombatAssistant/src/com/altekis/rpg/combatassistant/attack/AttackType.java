@@ -35,6 +35,10 @@ public class AttackType {
 	 * */
 	private SparseArray<String[]> results = new SparseArray<String[]>();
 
+	/** Needed by spinners to show the correct value */
+	public String toString() {
+		return name;
+	}
 	/**
 	 * @return the name
 	 */

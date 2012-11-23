@@ -14,7 +14,7 @@ public class LAOCharacter {
 	/**
 	 * Get requested character from database
 	 */
-	public RPGCharacter getCharacter(int characterId) {
+	public RPGCharacter getCharacter(long characterId) {
 		return new DAOCharacter().getCharacter(characterId);
 	}
 
@@ -22,8 +22,8 @@ public class LAOCharacter {
 	 * Add a new character to database
 	 * @param character
 	 */
-	public void addCharacter(RPGCharacter character) {
-		new DAOCharacter().addCharacter(character);
+	public long addCharacter(RPGCharacter character) {
+		return new DAOCharacter().addCharacter(character);
 	}
 	
 	/**
@@ -38,7 +38,7 @@ public class LAOCharacter {
 	 * Delete an existing character in database
 	 * @param characterId
 	 */
-	public void deleteCharacter(int characterId) {
+	public void deleteCharacter(long characterId) {
 		new DAOCharacter().deleteCharacter(characterId);
 	}
 }

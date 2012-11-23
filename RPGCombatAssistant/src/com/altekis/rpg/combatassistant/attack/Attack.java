@@ -19,13 +19,13 @@ public class Attack {
 	/**
 	 * @return the characterId
 	 */
-	public int getCharacterId() {
+	public long getCharacterId() {
 		return characterId;
 	}
 	/**
 	 * @param characterId the characterId to set
 	 */
-	public void setCharacterId(int characterId) {
+	public void setCharacterId(long characterId) {
 		this.characterId = characterId;
 	}
 	/**
@@ -55,7 +55,7 @@ public class Attack {
 	/** Id. for internal use - Primary key */
 	long id;
 	/** Character that "owns" that attack */
-	int characterId;
+	long characterId;
 	/** Key for the attack type */
 	String attackType;
 	/** Attack name - default as the type, but user can rename it to differentiate between similar weapons */

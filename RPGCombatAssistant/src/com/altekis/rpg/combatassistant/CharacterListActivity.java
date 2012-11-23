@@ -1,7 +1,5 @@
 package com.altekis.rpg.combatassistant;
 
-import java.util.Random;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,10 +9,8 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.ExpandableListView;
 
-import com.altekis.rpg.combatassistant.R;
 import com.altekis.rpg.combatassistant.character.CharacterArrayAdapter;
 import com.altekis.rpg.combatassistant.character.LAOCharacter;
-import com.altekis.rpg.combatassistant.character.RPGCharacter;
 /**
  * Main application activity
  * Shows list of current PC+NPC, from where the user can decide the next step
@@ -23,6 +19,7 @@ import com.altekis.rpg.combatassistant.character.RPGCharacter;
 public class CharacterListActivity extends Activity {
 	ExpandableListView characterListView;
 	CharacterArrayAdapter characterAdapter;
+	String[] groupHeaders;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -32,6 +29,11 @@ public class CharacterListActivity extends Activity {
         setContentView(R.layout.activity_character_list);
         characterListView = (ExpandableListView) findViewById(R.id.characterListView);
  
+        // Prepare localized strings
+    	groupHeaders = new String[]{
+    			getResources().getString(R.string.characterList_playerCharactersGroupHeader),
+    			getResources().getString(R.string.characterList_nonPlayerCharactersGroupHeader)};
+
         // Assign listener to list
         characterListView.setOnChildClickListener(characterClickListener);
         // Add a +character button
@@ -55,15 +57,9 @@ public class CharacterListActivity extends Activity {
     }
     
     private void doAddCharacter() {
-    	// Generate a BLANK, NEW character, and jump start to its edition
-    	RPGCharacter character = new RPGCharacter();
-    	character.setId(new Random().nextInt()); // TODO Fix
-    	character.setName("");
-    	character.setPlayerName("");
-    	new LAOCharacter().addCharacter(character);
-    	
+    	// Jump start to the edition of a new Character
     	Intent intent = new Intent(this, CharacterEditActivity.class);
-    	intent.putExtra("CharacterId", character.getId());
+    	// We pass no CharacterId as extra, to claim for a new character 
         startActivity(intent);
     }
 
@@ -84,7 +80,7 @@ public class CharacterListActivity extends Activity {
 	
 	private void populatePlayerList() {
 		// Feed lists of games to the adapter 
-        characterAdapter = new CharacterArrayAdapter(this, new LAOCharacter().getCharacters());
+        characterAdapter = new CharacterArrayAdapter(this, new LAOCharacter().getCharacters(), groupHeaders);
 
 	    // Assign adapter to populate list
         characterListView.setAdapter(characterAdapter);

@@ -64,7 +64,7 @@ public class DAOCharacter {
 	 * Get requested character from local database
 	 * @return character
 	 */
-	public RPGCharacter getCharacter(int id) {
+	public RPGCharacter getCharacter(long id) {
 		SQLiteDatabase db = LocalDatabaseHelper.getInstance().getDB();
 
 		Cursor cursor = db.query(CHARACTERS_TABLE_NAME, // Table
@@ -87,11 +87,12 @@ public class DAOCharacter {
 	 * Add a new character to database
 	 * @param character
 	 */
-	protected void addCharacter(RPGCharacter character) {
+	protected long addCharacter(RPGCharacter character) {
 		SQLiteDatabase db = LocalDatabaseHelper.getInstance().getDB();
 
 		ContentValues cv = rpgCharacterToContentValues(character);
-		db.insert(CHARACTERS_TABLE_NAME, null, cv);
+		cv.remove("_id"); // _id is auto-increment, so we have to nullify it prior to calling
+		return db.insert(CHARACTERS_TABLE_NAME, null, cv);
 	}
 
 	/**
@@ -109,7 +110,7 @@ public class DAOCharacter {
 	 * Delete an existing character in database
 	 * @param character
 	 */
-	public void deleteCharacter(int characterId) {
+	public void deleteCharacter(long characterId) {
 		SQLiteDatabase db = LocalDatabaseHelper.getInstance().getDB();
 
 		db.delete(CHARACTERS_TABLE_NAME, "_id=?",  new String[] {String.valueOf(characterId)});
@@ -127,7 +128,7 @@ public class DAOCharacter {
 	private RPGCharacter cursorToRPGCharacter(Cursor cursor) {
 		RPGCharacter character = new RPGCharacter();
 		int i=0;
-		character.setId(cursor.getInt(i++));
+		character.setId(cursor.getLong(i++));
 		character.setName(cursor.getString(i++));
 		character.setPlayerName(cursor.getString(i++));
 		return character;

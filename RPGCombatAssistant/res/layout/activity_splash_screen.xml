@@ -5,11 +5,23 @@
 
     <TextView
         android:id="@+id/status"
+        style="@style/common_little"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="36dp"
+        android:text="@string/loading" />
+
+    <ImageView
+        android:id="@+id/imageView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:padding="@dimen/padding_medium"
-        android:text="@string/loading"
-        tools:context=".SplahScreen" />
+        android:src="@drawable/img_splash" />
+
+    <TextView
+        android:id="@+id/splash_main"
+        style="@style/splash_main"
+        android:text="@string/splash_main" />
+
 </RelativeLayout>

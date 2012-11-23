@@ -14,11 +14,10 @@ import com.altekis.rpg.combatassistant.attack.AttackResult;
 import com.altekis.rpg.combatassistant.attack.AttackType;
 import com.altekis.rpg.combatassistant.attack.LAOAttack;
 import com.altekis.rpg.combatassistant.character.ArmorType;
-import com.altekis.rpg.combatassistant.character.RPGCharacter;
 
 public class AttackActivity extends Activity {
-	static private RPGCharacter character; // TODO Check if we really need it
 	static private Attack attack;
+	static private AttackType attackType;
 	static String selectedAttackType = null;
 
 	@Override
@@ -30,15 +29,13 @@ public class AttackActivity extends Activity {
 		long attackId = getIntent().getLongExtra("AttackId",0);
 		attack = new LAOAttack().getAttack(attackId);
 
-//		LAOCharacter laoCharacter = new LAOCharacter(this);
-//		character = laoCharacter.getCharacter(characterId);
-
 		// Set UI
 		TextView nameText = (TextView) findViewById(R.id.attack_name);
 		nameText.setText(attack.getName());
 		
-		TextView attackType = (TextView) findViewById(R.id.attack_attackType);
-		attackType.setText(attack.getAttackType());
+		TextView attackTypeText = (TextView) findViewById(R.id.attack_attackType);
+		attackType = RPGCombatAssistant.attackTypes.get(attack.getAttackType());
+		attackTypeText.setText(attackType.getName());
 
 		// Add listeners for buttons
 		Button btnCancel = (Button) findViewById(R.id.attack_cancelButton);
@@ -96,15 +93,6 @@ public class AttackActivity extends Activity {
 			// TODO Falta Armor type... asumimos 1.
 			int total = bonus + roll;
 			
-			/* TODO Debería ser algo como esto
-			AttackType attackType = RPGCombatAssistant.attackTypes.get(attack.getAttackType());
-			
-			pero ahora mismo en attack.getAttackType tenemos el NOMBRE del ataque, no su Key.
-			Hay que cambiar el spinner de edición de ataque para que muestre "Filo" pero guarde "S"
-			
-			De momento, acceso a S a piñón
-			*/
-			AttackType attackType = RPGCombatAssistant.attackTypes.get("S");
 			AttackResult attackResult = attackType.getValue(roll, total, ArmorType.SoftLeather);
 			
 			if (attackResult.isNoEffects()) {

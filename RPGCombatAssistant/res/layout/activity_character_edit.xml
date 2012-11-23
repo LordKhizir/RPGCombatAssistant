@@ -40,6 +40,7 @@
         android:layout_alignBottom="@+id/characterEdit_nameLabel"
         android:layout_toRightOf="@+id/characterEdit_cancelButton"
         android:ems="8"
+        android:hint="@string/characterEdit_nameHint"
         android:inputType="textPersonName|textNoSuggestions" />
 
     <TextView
@@ -58,6 +59,7 @@
         android:layout_alignBottom="@+id/characterEdit_playerNameLabel"
         android:layout_alignLeft="@+id/characterEdit_name"
         android:layout_alignRight="@+id/characterEdit_name"
+        android:hint="@string/characterEdit_playerNameHint"
         android:ems="8"
         android:inputType="textPersonName|textNoSuggestions" >
 

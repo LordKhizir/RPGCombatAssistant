@@ -15,11 +15,13 @@ import com.altekis.rpg.combatassistant.R;
 public class CharacterArrayAdapter extends BaseExpandableListAdapter {
 	private final Context context;
 	private final List<List<RPGCharacter>> rpgCharacters;
+	private String[] groupHeaders;
 
-	public CharacterArrayAdapter(Context context, List<List<RPGCharacter>> rpgCharacters) {
+	public CharacterArrayAdapter(Context context, List<List<RPGCharacter>> rpgCharacters, String[] groupHeaders) {
 		super();
 		this.context = context;
 		this.rpgCharacters = rpgCharacters;
+		this.groupHeaders = groupHeaders;
 	}
 
 	@Override
@@ -46,7 +48,7 @@ public class CharacterArrayAdapter extends BaseExpandableListAdapter {
 		((TextView)convertView.findViewById(R.id.characterList_playerName)).setText(rpgCharacter.getPlayerName());
 
 		// Change the icon for that of the user...
-		ImageView imageView = (ImageView) convertView.findViewById(R.id.gameRow_icon);
+		ImageView imageView = (ImageView) convertView.findViewById(R.id.characterList_avatar);
 		String s = rpgCharacter.getName();
 		if (s.length()%2==1) {
 			imageView.setImageResource(R.drawable.ic_action_search);
@@ -85,17 +87,7 @@ public class CharacterArrayAdapter extends BaseExpandableListAdapter {
 		View headerView = inflater.inflate(R.layout.character_header_layout, parent, false);
 
 		// Fill UI elements with current header
-		String text = "Wrong turn status (" + groupPosition + ")";
-
-		switch (groupPosition) {
-		case 0: //TODO Avoid magic number!
-			text = "Player characters"; // TODO To be i18n
-			break;
-		case 1:
-			text = "Non-player characters";
-			break;
-		}
-		((TextView)headerView.findViewById(R.id.characterList_sectionHeader_title)).setText(text);
+		((TextView)headerView.findViewById(R.id.characterList_sectionHeader_title)).setText(groupHeaders[groupPosition]);
 
 		return headerView;
 	}

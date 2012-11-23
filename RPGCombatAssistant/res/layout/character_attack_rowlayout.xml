@@ -6,7 +6,7 @@
     android:paddingRight="16dp" >
 
     <ImageView
-        style="@style/gameList_partnerAvatar"
+        style="@style/character_attackImage"
         android:id="@+id/character_attack_icon"
 	/>
     <TextView

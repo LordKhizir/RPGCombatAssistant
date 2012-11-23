@@ -11,7 +11,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.altekis.rpg.combatassistant.R;
+import com.altekis.rpg.combatassistant.RPGCombatAssistant;
 import com.altekis.rpg.combatassistant.attack.Attack;
+import com.altekis.rpg.combatassistant.attack.AttackType;
 
 public class CharacterAttacksArrayAdapter extends ArrayAdapter<Attack> {
 	private final Context context;
@@ -33,7 +35,8 @@ public class CharacterAttacksArrayAdapter extends ArrayAdapter<Attack> {
 	
 		// Fill UI elements with current attack values
 		((TextView)convertView.findViewById(R.id.character_attack_name)).setText(attack.getName());
-		((TextView)convertView.findViewById(R.id.character_attack_info)).setText(attack.getAttackType());
+		AttackType attackType = RPGCombatAssistant.attackTypes.get(attack.getAttackType());
+		((TextView)convertView.findViewById(R.id.character_attack_info)).setText(attackType.getName());
 
 		// Change the icon for that of the weapon
 		// TODO link to real images

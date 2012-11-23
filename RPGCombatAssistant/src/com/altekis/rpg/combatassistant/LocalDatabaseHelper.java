@@ -12,7 +12,7 @@ import android.util.Log;
  */
 public class LocalDatabaseHelper extends SQLiteOpenHelper {
 	// CONFIG
-	private static final String DATABASE_NAME = "rpg-combat-assistant-v5.db";
+	private static final String DATABASE_NAME = "rpg-combat-assistant-v9.db";
 	private static final int DATABASE_VERSION = 1;
 
 	// Singleton instance
@@ -21,26 +21,28 @@ public class LocalDatabaseHelper extends SQLiteOpenHelper {
 
 	// DDL for database creation
 	private static String[] DATABASE_CREATE = {
+		// Characters table
 		"CREATE TABLE characters (\n" +
-				"_id INTEGER PRIMARY KEY,\n" +
-				"name TEXT NOT NULL,\n" +
-				"playerName TEXT);",
-				"CREATE TABLE attacks (\n" +
-						"_id INTEGER PRIMARY KEY autoincrement,\n" +
-						"characterId INTEGER NOT NULL,\n" +
-						"attackType TEXT NOT NULL,\n" +
-						"name TEXT NOT NULL);",
-						//		"CREATE TABLE answers (\n" +
-						//				"_id INTEGER PRIMARY KEY,\n" +
-						//				"question INTEGER NOT NULL,\n" +
-						//				"ordinal INTEGER NOT NULL,\n" +
-						//				"text TEXT NOT NULL);",
-						//		"CREATE TABLE users (\n" +
-						//				"_id INTEGER PRIMARY KEY autoincrement,\n" +
-						//				"fbId INTEGER,\n" +
-						//				"email TEXT NOT NULL,\n" +
-						//				"password TEXT NOT NULL,\n" +
-						//				"nickname TEXT NOT NULL);",
+		"_id INTEGER PRIMARY KEY autoincrement,\n" +
+		"name TEXT NOT NULL,\n" +
+		"playerName TEXT);",
+		// Attacks table
+		"CREATE TABLE attacks (\n" +
+		"_id INTEGER PRIMARY KEY autoincrement,\n" +
+		"characterId INTEGER NOT NULL,\n" +
+		"attackType TEXT NOT NULL,\n" +
+		"name TEXT NOT NULL);",
+		//		"CREATE TABLE answers (\n" +
+		//				"_id INTEGER PRIMARY KEY,\n" +
+		//				"question INTEGER NOT NULL,\n" +
+		//				"ordinal INTEGER NOT NULL,\n" +
+		//				"text TEXT NOT NULL);",
+		//		"CREATE TABLE users (\n" +
+		//				"_id INTEGER PRIMARY KEY autoincrement,\n" +
+		//				"fbId INTEGER,\n" +
+		//				"email TEXT NOT NULL,\n" +
+		//				"password TEXT NOT NULL,\n" +
+		//				"nickname TEXT NOT NULL);",
 	};
 
 	/**
@@ -71,7 +73,7 @@ public class LocalDatabaseHelper extends SQLiteOpenHelper {
 		}
 		return mInstance;
 	}
-	
+
 	@Override
 	protected void finalize() throws Throwable {
 		try {

@@ -6,13 +6,13 @@
     android:paddingRight="16dp" >
 
     <ImageView
-        style="@style/gameList_partnerAvatar"
-        android:id="@+id/gameRow_icon"
+        style="@style/characterList_avatar"
+        android:id="@+id/characterList_avatar"
 	/>
 
     <TextView
         style="@style/characterList_name"
-        android:layout_toRightOf="@+id/gameRow_icon"
+        android:layout_toRightOf="@+id/characterList_avatar"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:id="@+id/characterList_name"
@@ -22,7 +22,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/characterList_name"
-        android:layout_toRightOf="@+id/gameRow_icon"
+        android:layout_toRightOf="@+id/characterList_avatar"
         android:id="@+id/characterList_playerName"
     />
 </RelativeLayout> 

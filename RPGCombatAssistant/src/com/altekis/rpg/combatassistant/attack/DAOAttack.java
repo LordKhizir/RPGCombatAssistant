@@ -23,7 +23,7 @@ public class DAOAttack {
 	 * Get the list of attacks for the character
 	 * @return list of attacks
 	 */
-	protected List<Attack> getAttacks(int characterId) {
+	protected List<Attack> getAttacks(long characterId) {
 		SQLiteDatabase db = LocalDatabaseHelper.getInstance().getDB();
 
 		List<Attack> attacks = new ArrayList<Attack>();
@@ -118,7 +118,7 @@ public class DAOAttack {
 		Attack attack = new Attack();
 		int i=0;
 		attack.setId(cursor.getLong(i++));
-		attack.setCharacterId(cursor.getInt(i++));
+		attack.setCharacterId(cursor.getLong(i++));
 		attack.setAttackType(cursor.getString(i++));		
 		attack.setName(cursor.getString(i++));
 		return attack;
