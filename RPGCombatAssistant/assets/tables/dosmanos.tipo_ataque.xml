@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<attackType>
+    	<name>Dos manos</name>
+    	<key>2H</key>
+	<fumble max="8" />
+	<!--  p:plate c:chainmail hl:hardleather sl:softleather u:unarmored f:fumble-->
+	<range min="056" p="2"    c="0"    hl="0"    sl="0"    u="0" />
+	<range min="061" p="3"    c="0"    hl="0"    sl="0"    u="0" />
+	<range min="066" p="4"    c="3"    hl="0"    sl="6"    u="0" />
+	<range min="071" p="5"    c="5"    hl="2"    sl="8-A"  u="0" />
+	<range min="076" p="6"    c="7"    hl="4-A"  sl="10-A" u="0" />
+	<range min="081" p="7"    c="9"    hl="7-A"  sl="13-B" u="10-A" />
+	<range min="086" p="8"    c="11"   hl="9-B"  sl="15-B" u="13-B" />
+	<range min="091" p="9"    c="12-A" hl="12-B" sl="17-C" u="16-C" />
+	<range min="096" p="11"   c="14-A" hl="14-C" sl="20-C" u="19-D" />
+	<range min="101" p="12-A" c="16-B" hl="17-C" sl="22-C" u="22-D" />
+	<range min="106" p="13-A" c="18-B" hl="19-C" sl="24-C" u="25-D" />
+	<range min="111" p="14-B" c="20-C" hl="22-C" sl="27-D" u="28-E" />
+	<range min="116" p="15-B" c="22-C" hl="24-D" sl="29-D" u="31-E" />
+	<range min="121" p="16-C" c="24-C" hl="27-D" sl="31-D" u="33-E" />
+	<range min="126" p="17-C" c="26-D" hl="29-D" sl="33-E" u="36-E" />
+	<range min="131" p="19-D" c="28-D" hl="32-E" sl="36-E" u="39-E" />
+	<range min="136" p="20-D" c="29-E" hl="34-E" sl="38-E" u="42-E" />
+	<range min="141" p="21-E" c="31-E" hl="37-E" sl="40-E" u="45-E" />
+	<range min="146" p="22-E" c="33-E" hl="40-E" sl="43-E" u="48-E" />
+</attackType>

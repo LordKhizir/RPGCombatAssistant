@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<attackType>
+    	<name>Agarrar y desequilibrar</name>
+    	<key>G</key>
+	<fumble max="8" />
+	<!--  p:plate c:chainmail hl:hardleather sl:softleather u:unarmored -->
+	<range min="056" p="1"    c="0"    hl="0"    sl="0"    u="0" />
+	<range min="061" p="1"    c="0"    hl="0"    sl="0"    u="1" />
+	<range min="066" p="2-T"  c="1"    hl="0"    sl="1"    u="1" />
+	<range min="071" p="2-A"  c="2-T"  hl="1"    sl="3"    u="2" />
+	<range min="076" p="3-A"  c="3-T"  hl="2"    sl="4-T"  u="4" />
+	<range min="081" p="3-A"  c="4-A"  hl="4-T"  sl="6-T"  u="5" />
+	<range min="086" p="4-A"  c="4-A"  hl="5-T"  sl="7-T"  u="7-T" />
+	<range min="091" p="4-A"  c="5-A"  hl="6-T"  sl="8-A"  u="8-T" />
+	<range min="096" p="5-B"  c="6-A"  hl="7-A"  sl="9-A"  u="10-T" />
+	<range min="101" p="5-B"  c="7-A"  hl="8-A"  sl="10-A" u="11-A" />
+	<range min="106" p="6-C"  c="8-B"  hl="10-A" sl="12-B" u="14-A" />
+	<range min="111" p="7-C"  c="9-C"  hl="11-B" sl="13-B" u="15-A" />
+	<range min="116" p="8-C"  c="10-C" hl="12-B" sl="14-C" u="16-B" />
+	<range min="121" p="10-D" c="11-C" hl="14-B" sl="16-C" u="18-B" />
+	<range min="126" p="11-D" c="13-D" hl="16-C" sl="18-C" u="20-B" />
+	<range min="131" p="12-D" c="15-D" hl="18-C" sl="20-D" u="22-C" />
+	<range min="136" p="14-E" c="19-D" hl="22-C" sl="26-D" u="28-C" />
+	<range min="141" p="16-E" c="21-E" hl="25-D" sl="28-D" u="30-C" />
+	<range min="146" p="18-E" c="23-E" hl="27-E" sl="30-E" u="33-D" />
+</attackType>

@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<attackType>
+    	<name>Garras y dientes</name>
+    	<key>B</key>
+	<fumble max="8" />
+	<!--  p:plate c:chainmail hl:hardleather sl:softleather u:unarmored -->
+	<range min="046" p="0"    c="0"    hl="0"    sl="0"    u="1" />
+	<range min="051" p="0"    c="0"    hl="0"    sl="0"    u="2" />
+	<range min="056" p="1"    c="0"    hl="0"    sl="1"    u="4" />
+	<range min="061" p="1"    c="1"    hl="1"    sl="2"    u="5-T" />
+	<range min="066" p="2"    c="2"    hl="2"    sl="4"    u="6-T" />
+	<range min="071" p="3"    c="3"    hl="3"    sl="5"    u="8-T" />
+	<range min="076" p="4"    c="4"    hl="5"    sl="7-T"  u="9-A" />
+	<range min="081" p="5"    c="5"    hl="7-T"  sl="9-T"  u="10-A" />
+	<range min="086" p="6"    c="6-T"  hl="8-T"  sl="10-A" u="12-A" />
+	<range min="091" p="6-T"  c="7-T"  hl="9-A"  sl="11-A" u="13-B" />
+	<range min="096" p="7-T"  c="8-A"  hl="10-A" sl="12-A" u="14-B" />
+	<range min="101" p="7-A"  c="9-A"  hl="11-A" sl="13-B" u="15-B" />
+	<range min="106" p="8-A"  c="10-A" hl="12-B" sl="15-B" u="17-C" />
+	<range min="111" p="9-A"  c="11-B" hl="13-B" sl="16-C" u="19-C" />
+	<range min="116" p="10-B" c="11-B" hl="14-C" sl="17-C" u="20-D" />
+	<range min="121" p="14-B" c="15-B" hl="18-C" sl="20-C" u="26-D" />
+	<range min="126" p="16-B" c="18-C" hl="20-C" sl="23-D" u="28-E" />
+	<range min="131" p="18-C" c="20-C" hl="22-D" sl="25-D" u="30-E" />
+	<range min="136" p="20-C" c="23-D" hl="26-D" sl="30-E" u="36-E" />
+	<range min="141" p="22-D" c="25-D" hl="29-E" sl="33-E" u="38-E" />
+	<range min="146" p="24-E" c="27-E" hl="32-E" sl="36-E" u="40-E" />
+</attackType>
