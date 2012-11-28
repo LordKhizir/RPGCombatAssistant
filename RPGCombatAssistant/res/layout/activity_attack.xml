@@ -1,104 +1,125 @@
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
+    <!-- Name -->
     <TextView
         android:id="@+id/attack_nameLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:layout_marginLeft="14dp"
-        android:layout_marginTop="14dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="30dp"
         android:text="@string/attack_name" />
-
     <TextView
         android:id="@+id/attack_name"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:layout_alignBaseline="@+id/attack_nameLabel"
-        android:layout_alignBottom="@+id/attack_nameLabel"
-        android:layout_marginLeft="18dp"
+        android:layout_marginRight="10dp"
+        android:layout_alignBaseline="@+id/attack_nameLabel"  
         android:layout_toRightOf="@+id/attack_nameLabel" />
-
+	<!-- Type -->
     <TextView
         android:id="@+id/attack_attackTypeLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/attack_nameLabel"
-        android:layout_marginTop="16dp"
-        android:layout_toLeftOf="@+id/attack_name"
+        android:layout_alignLeft="@+id/attack_nameLabel"
+        android:layout_marginTop="40dp"
         android:text="@string/attack_attackType" />
-
     <TextView
         android:id="@+id/attack_attackType"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="false"
         android:layout_alignBaseline="@+id/attack_attackTypeLabel"
-        android:layout_alignBottom="@+id/attack_attackTypeLabel"
+        android:layout_alignRight="@+id/attack_name"
         android:layout_alignLeft="@+id/attack_name"
         android:layout_toRightOf="@+id/attack_attackTypeLabel"
     />
-
+	<!-- Bonus -->
     <TextView
         android:id="@+id/attack_bonusLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/attack_bonus"
-        android:layout_toLeftOf="@+id/attack_name"
+        android:layout_below="@id/attack_attackTypeLabel"
+        android:layout_alignLeft="@+id/attack_attackTypeLabel"
+        android:layout_marginTop="40dp"
         android:text="@string/attack_bonus" />
-    
     <EditText
         android:id="@+id/attack_bonus"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/attack_attackType"
-        android:layout_below="@+id/attack_attackType"
-        android:layout_marginTop="32dp"
-        android:inputType="numberSigned"
-        android:minWidth="100px"
-        />
-    
+        android:layout_alignRight="@+id/attack_attackType"
+        android:layout_alignBaseline="@id/attack_bonusLabel"
+        android:inputType="numberSigned" />
+    <!-- Roll -->
     <TextView
         android:id="@+id/attack_rollLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/attack_roll"
-        android:layout_toLeftOf="@+id/attack_roll"
+        android:layout_below="@+id/attack_bonusLabel"
+        android:layout_alignLeft="@+id/attack_bonusLabel"
+        android:layout_marginTop="40dp"
         android:text="@string/attack_roll" />
+    <EditText
+        android:id="@+id/attack_roll"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/attack_bonus"
+        android:layout_alignRight="@+id/attack_bonus"
+        android:layout_alignBaseline="@+id/attack_rollLabel"
+        android:inputType="numberSigned" />
     
-        <EditText
-            android:id="@+id/attack_roll"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/attack_bonus"
-            android:layout_below="@+id/attack_bonus"
-            android:inputType="numberSigned"
-            android:minWidth="100px"
-/>
-    
+    <!-- Buttons -->
     <Button
         android:id="@+id/attack_cancelButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/attack_nameLabel"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="165dp"
+        android:layout_below="@+id/attack_rollLabel"
+        android:layout_marginTop="40dp"
         android:text="@string/attack_cancelButton" />
 
     <Button
         android:id="@+id/attack_goButton"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@+id/attack_cancelButton"
-        android:layout_alignBottom="@+id/attack_cancelButton"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="31dp"
+        android:layout_toRightOf="@+id/attack_cancelButton"
+        android:layout_marginRight="10dp"
         android:text="@string/attack_goButton" />
     
+    <!-- Result area -->
+    <TextView
+        android:id="@+id/attack_result"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/attack_cancelButton"
+        android:layout_alignLeft="@+id/attack_nameLabel"
+        android:layout_alignRight="@+id/attack_name"
+        android:layout_marginTop="40dp"
+        />
+    <!-- CritRoll -->
+    <TextView
+        android:id="@+id/attack_critrollLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/attack_result"
+        android:layout_alignLeft="@+id/attack_rollLabel"
+        android:layout_marginTop="40dp"
+        android:text="@string/attack_roll"
+        android:visibility="invisible"/>
+    <EditText
+        android:id="@+id/attack_critroll"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/attack_roll"
+        android:layout_alignRight="@+id/attack_roll"
+        android:layout_alignBaseline="@+id/attack_critrollLabel"
+        android:inputType="numberSigned"
+        android:visibility="invisible" />
 </RelativeLayout>

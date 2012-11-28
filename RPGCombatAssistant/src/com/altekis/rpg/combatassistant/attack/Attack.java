@@ -4,6 +4,19 @@ package com.altekis.rpg.combatassistant.attack;
  *
  */
 public class Attack {
+	/** Id. for internal use - Primary key */
+	long id;
+	/** Character that "owns" that attack */
+	long characterId;
+	/** Key for the attack type */
+	String attackType;
+	/** Attack name - default as the type, but user can rename it to differentiate between similar weapons */
+	String name;
+	/** Total bonus for attack (statistic + skill + weapon) */
+	int bonus;
+	
+	// Just plain, auto-generated setters and getters
+
 	/**
 	 * @return the id
 	 */
@@ -52,12 +65,16 @@ public class Attack {
 	public void setName(String name) {
 		this.name = name;
 	}
-	/** Id. for internal use - Primary key */
-	long id;
-	/** Character that "owns" that attack */
-	long characterId;
-	/** Key for the attack type */
-	String attackType;
-	/** Attack name - default as the type, but user can rename it to differentiate between similar weapons */
-	String name;
+	/**
+	 * @return the bonus
+	 */
+	public int getBonus() {
+		return bonus;
+	}
+	/**
+	 * @param bonus the bonus to set
+	 */
+	public void setBonus(int bonus) {
+		this.bonus = bonus;
+	}
 }

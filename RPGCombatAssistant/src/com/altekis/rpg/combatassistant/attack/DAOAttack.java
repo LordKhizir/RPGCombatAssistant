@@ -18,7 +18,10 @@ public class DAOAttack {
 	
 	private final String ATTACKS_TABLE_NAME = "attacks";
 	private final String[] ALL_COLUMNS = {	"_id",
-											"characterId", "attackType", "name"};	
+											"characterId",
+											"name",
+											"attackType",
+											"bonus"};	
 	/**
 	 * Get the list of attacks for the character
 	 * @return list of attacks
@@ -31,7 +34,7 @@ public class DAOAttack {
 		Cursor cursor = db.query(ATTACKS_TABLE_NAME, // Table
 				ALL_COLUMNS, // returned columns
 				"characterId=?", // WHERE
-				new String[] {String.valueOf(characterId)},// selection args - characterId
+				new String[] {String.valueOf(characterId)},// selection arguments - characterId
 				null, // GROUP BY
 				null, // HAVING
 				null // ORDER BY
@@ -109,8 +112,9 @@ public class DAOAttack {
 		ContentValues cv = new ContentValues();
 		cv.put("_id", attack.getId());
 		cv.put("characterId", attack.getCharacterId());
-		cv.put("attackType", attack.getAttackType());
 		cv.put("name", attack.getName());
+		cv.put("attackType", attack.getAttackType());
+		cv.put("bonus", attack.getBonus());
 		return cv;
 	}
 	
@@ -119,8 +123,9 @@ public class DAOAttack {
 		int i=0;
 		attack.setId(cursor.getLong(i++));
 		attack.setCharacterId(cursor.getLong(i++));
-		attack.setAttackType(cursor.getString(i++));		
 		attack.setName(cursor.getString(i++));
+		attack.setAttackType(cursor.getString(i++));		
+		attack.setBonus(cursor.getInt(i++));
 		return attack;
 	}
 }

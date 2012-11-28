@@ -50,6 +50,7 @@
     <string name="attackEdit_title">Edición de ataque</string>
     <string name="attackEdit_name">Nombre</string>
     <string name="attackEdit_attackType">Tipo</string>
+    <string name="attackEdit_bonus">Bonus</string>
     <string name="attackEdit_cancelButton">Cancelar</string>
     <string name="attackEdit_saveButton">Aplicar cambios</string>
     

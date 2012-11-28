@@ -1,6 +1,7 @@
 package com.altekis.rpg.combatassistant;
 
 import android.app.Activity;
+import android.opengl.Visibility;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -32,10 +33,11 @@ public class AttackActivity extends Activity {
 		// Set UI
 		TextView nameText = (TextView) findViewById(R.id.attack_name);
 		nameText.setText(attack.getName());
-		
 		TextView attackTypeText = (TextView) findViewById(R.id.attack_attackType);
 		attackType = RPGCombatAssistant.attackTypes.get(attack.getAttackType());
 		attackTypeText.setText(attackType.getName());
+		TextView bonusText = (TextView) findViewById(R.id.attack_bonus);
+		bonusText.setText(Integer.toString(attack.getBonus()));
 
 		// Add listeners for buttons
 		Button btnCancel = (Button) findViewById(R.id.attack_cancelButton);
@@ -68,11 +70,22 @@ public class AttackActivity extends Activity {
 	 * Get all info and calculate attack result
 	 */
 	private void doGo() {
-		// Get all UI values
+		// Get all UI widgets
 		EditText bonusText = (EditText) findViewById(R.id.attack_bonus);
 		EditText rollText = (EditText) findViewById(R.id.attack_roll);
+		TextView resultText = (TextView) findViewById(R.id.attack_result);
+		TextView critrollLabel = (TextView) findViewById(R.id.attack_critrollLabel);
+		EditText critrollText = (EditText) findViewById(R.id.attack_critroll);
+
+		// Reset visibility
+		resultText.setText("");
+		critrollLabel.setVisibility(View.VISIBLE);
+		critrollText.setVisibility(View.VISIBLE);
+
 		int bonus = 0;
 		int roll = 0;
+		String resultMessage = "";
+
 		boolean errorFound = false;
 		// Check for errors on the UI as a whole
 		try {
@@ -96,27 +109,35 @@ public class AttackActivity extends Activity {
 			AttackResult attackResult = attackType.getValue(roll, total, ArmorType.SoftLeather);
 			
 			if (attackResult.isNoEffects()) {
-				Toast.makeText(getApplicationContext(), "Sin efecto", Toast.LENGTH_SHORT).show();	
+				// TODO Localizar
+				resultMessage = "Sin efecto";	
 			} else if (attackResult.isFumbled()){
 				// TODO implementar pifia
-				Toast.makeText(getApplicationContext(), "¡Pifia!", Toast.LENGTH_SHORT).show();
+				// TODO localizar
+				resultMessage = "¡Pifia!";
 			} else {
 				// TODO Mejorar mensaje
 				// TODO implementar pérdida de PV
 				// TODO implementar critico
-				String resultMessage = "";
+				// TODO localizar
 				if (attackResult.getHitPoints()>0) {
 					resultMessage = attackResult.getHitPoints() + " puntos de vida.\n";
 				}
 				if (attackResult.getCritLevel()!=null) {
 					resultMessage+= "Crítico " + attackResult.getCritLevel().toString() + " (" + attackResult.getCritType() + ")";
+					
+					// There's a critical result... show UI elements for it
+					critrollLabel.setVisibility(View.VISIBLE);
+					critrollText.setVisibility(View.VISIBLE);
 				}
-				Toast.makeText(getApplicationContext(), resultMessage, Toast.LENGTH_SHORT).show();
 			}
+			
 	    	
 	    	// Set result as OK==updated
 	//    	setResult(RESULT_OK);
 	//    	finish();
 		}
+		// Show result of attack
+		resultText.setText(resultMessage);
 	}
 }

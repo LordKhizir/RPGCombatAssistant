@@ -56,7 +56,9 @@ public class AttackEditActivity extends Activity {
 		// Apply the adapter to the spinner
 		attackTypeSpinner.setAdapter(attackTypeAdapter);
 		attackTypeSpinner.setOnItemSelectedListener(new AttackTypeSelectedListener());
-
+		
+		EditText bonusText = (EditText) findViewById(R.id.attackEdit_bonus);
+		bonusText.setText(Integer.toString(attack.getBonus()));
 
 		// Add listeners for buttons
 		Button btnCancel = (Button) findViewById(R.id.attackEdit_cancelButton);
@@ -102,18 +104,33 @@ public class AttackEditActivity extends Activity {
 	private void doSave() {
 		// Update attack with the info provided by the user
 		EditText nameText = (EditText) findViewById(R.id.attackEdit_name);
-		attack.setName(nameText.getText().toString());
+		EditText bonusText = (EditText) findViewById(R.id.attackEdit_bonus);
 
-		attack.setAttackType(selectedAttackType);
-
-
-		// Before saving, check for errors
+		// For each UI field: get input value, check for errors, update attack field
 		boolean errorFound = false;
-		if (attack.getName().length()==0) {
+		
+		// Name - mandatory
+		String name = nameText.getText().toString().trim();
+		if (name.length()==0) {
 			nameText.setError(getResources().getText(R.string.errorMandatory));
 			errorFound = true;
+		} else {
+			attack.setName(name);
 		}
-
+		
+		// Attack type - it's a spinner, no error possible
+		attack.setAttackType(selectedAttackType);
+		
+		// Bonus - numeric, mandatory
+		int bonus = 0;
+		try {
+			bonus = Integer.parseInt(bonusText.getText().toString());
+			attack.setBonus(bonus);
+		} catch (NumberFormatException e) {
+			errorFound = true;
+			bonusText.setError(getResources().getText(R.string.errorMustBeANumber));
+		}
+ 
 		if (!errorFound) {
 			// Everything is correct... go create/update the attack
 			if (attack.getId()==CREATE_NEW_ATTACK) {
