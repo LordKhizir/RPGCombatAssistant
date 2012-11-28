@@ -1,0 +1,87 @@
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <!-- Type -->
+    <TextView
+        android:id="@+id/critical_typeLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="30dp"
+        android:text="@string/critical_type" />
+    <Spinner
+        android:id="@+id/critical_type"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="10dp"
+        android:layout_alignBaseline="@+id/critical_typeLabel"
+        android:layout_toRightOf="@+id/critical_typeLabel" />
+
+    <!-- Level -->
+    <TextView
+        android:id="@+id/critical_levelLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/critical_typeLabel"
+        android:layout_alignLeft="@+id/critical_typeLabel"
+        android:layout_marginTop="40dp"
+        android:text="@string/critical_level" />
+    <Spinner
+        android:id="@+id/critical_level"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/critical_levelLabel"
+        android:layout_alignRight="@+id/critical_type"
+        android:layout_alignLeft="@+id/critical_type" />
+    
+    <!-- Roll -->
+    <TextView
+        android:id="@+id/critical_rollLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/critical_levelLabel"
+        android:layout_alignLeft="@+id/critical_levelLabel"
+        android:layout_marginTop="40dp"
+        android:text="@string/critical_roll" />
+    <EditText
+        android:id="@+id/critical_roll"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/critical_level"
+        android:layout_alignRight="@+id/critical_level"
+        android:layout_alignBaseline="@+id/critical_rollLabel"
+        android:inputType="numberSigned" />
+    
+    <!-- Buttons -->
+    <Button
+        android:id="@+id/critical_cancelButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/critical_rollLabel"
+        android:layout_below="@+id/critical_rollLabel"
+        android:layout_marginTop="40dp"
+        android:text="@string/critical_cancelButton" />
+    <Button
+        android:id="@+id/critical_goButton"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/critical_cancelButton"
+        android:layout_toRightOf="@+id/critical_cancelButton"
+        android:layout_marginRight="10dp"
+        android:text="@string/critical_goButton" />
+    
+    <!-- Result area -->
+    <TextView
+        android:id="@+id/critical_result"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/critical_cancelButton"
+        android:layout_alignLeft="@+id/critical_typeLabel"
+        android:layout_alignRight="@+id/critical_type"
+        android:layout_marginTop="40dp" />
+</RelativeLayout>
