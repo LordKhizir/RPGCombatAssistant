@@ -28,18 +28,17 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:layout_marginLeft="14dp"
-        android:layout_marginTop="37dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="30dp"
         android:text="@string/characterEdit_name" />
 
     <EditText
         android:id="@+id/characterEdit_name"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:layout_marginRight="10dp"
         android:layout_alignBaseline="@+id/characterEdit_nameLabel"
-        android:layout_alignBottom="@+id/characterEdit_nameLabel"
         android:layout_toRightOf="@+id/characterEdit_cancelButton"
-        android:ems="8"
         android:hint="@string/characterEdit_nameHint"
         android:inputType="textPersonName|textNoSuggestions" />
 
@@ -49,18 +48,17 @@
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/characterEdit_nameLabel"
         android:layout_below="@+id/characterEdit_name"
-        android:layout_marginTop="22dp"
+        android:layout_marginTop="40dp"
         android:text="@string/characterEdit_playerName" />
 
     <EditText
         android:id="@+id/characterEdit_playerName"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/characterEdit_playerNameLabel"
+        android:layout_alignBaseline="@+id/characterEdit_playerNameLabel"
         android:layout_alignLeft="@+id/characterEdit_name"
         android:layout_alignRight="@+id/characterEdit_name"
         android:hint="@string/characterEdit_playerNameHint"
-        android:ems="8"
         android:inputType="textPersonName|textNoSuggestions" >
 
         <requestFocus />

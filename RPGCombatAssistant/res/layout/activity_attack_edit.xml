@@ -9,44 +9,36 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:layout_marginLeft="14dp"
-        android:layout_marginTop="14dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="30dp"
         android:text="@string/attackEdit_name" />
 
     <EditText
         android:id="@+id/attackEdit_name"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
+        android:layout_marginRight="10dp"
         android:layout_alignBaseline="@+id/attackEdit_nameLabel"
-        android:layout_alignBottom="@+id/attackEdit_nameLabel"
-        android:layout_marginLeft="18dp"
         android:layout_toRightOf="@+id/attackEdit_nameLabel"
-        android:ems="10"
         android:inputType="textPersonName|textNoSuggestions" />
 
     <TextView
         android:id="@+id/attackEdit_attackTypeLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/attackEdit_nameLabel"
         android:layout_below="@+id/attackEdit_nameLabel"
-        android:layout_marginTop="16dp"
-        android:layout_toLeftOf="@+id/attackEdit_name"
+        android:layout_marginTop="40dp"
         android:text="@string/attackEdit_attackType" />
 
     <Spinner
         android:id="@+id/attackEdit_attackType"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="false"
         android:layout_alignBaseline="@+id/attackEdit_attackTypeLabel"
-        android:layout_alignBottom="@+id/attackEdit_attackTypeLabel"
         android:layout_alignLeft="@+id/attackEdit_name"
-        android:ems="8"
+        android:layout_alignRight="@+id/attackEdit_name"
         android:inputType="textPersonName"
-        android:layout_toRightOf="@+id/attackEdit_attackTypeLabel"
     />
 
     
