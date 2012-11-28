@@ -1,5 +1,6 @@
 package com.altekis.rpg.combatassistant.critical;
 
+
 public enum CriticalLevel {
 	/**Tiny*/	T		(1),
 				A		(2),

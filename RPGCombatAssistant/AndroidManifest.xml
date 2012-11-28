@@ -40,6 +40,10 @@
             android:name=".AttackEditActivity"
             android:label="@string/attackEdit_title" >
         </activity>
+        <activity
+            android:name=".CriticalActivity"
+            android:label="@string/critical_title" >
+        </activity>
     </application>
 
 </manifest>

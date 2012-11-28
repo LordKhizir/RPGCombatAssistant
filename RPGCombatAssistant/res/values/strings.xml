@@ -44,6 +44,7 @@
     <string name="attack_roll">Tirada</string>
     <string name="attack_cancelButton">Cancelar</string>
     <string name="attack_goButton">Atacar</string>
+    <string name="attack_goToCriticalButton">Lanzar crítico</string>
     
     
     <!-- Attack Edit Activity -->
@@ -54,5 +55,11 @@
     <string name="attackEdit_cancelButton">Cancelar</string>
     <string name="attackEdit_saveButton">Aplicar cambios</string>
     
-    
+    <!-- Critical Activity -->
+    <string name="critical_title">Crítico</string>
+    <string name="critical_type">Tipo</string>
+    <string name="critical_level">Nivel</string>
+    <string name="critical_roll">Tirada</string>
+    <string name="critical_cancelButton">Cancelar</string>
+    <string name="critical_goButton">Calcular</string>
 </resources>

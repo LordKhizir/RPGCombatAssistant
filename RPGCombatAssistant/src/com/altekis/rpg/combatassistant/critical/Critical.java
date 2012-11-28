@@ -11,6 +11,11 @@ public class Critical {
 	 * Stored using "min value for the range" as key, and text as value */
 	private SparseArray<String> results = new SparseArray<String>();
 
+	
+	/** Needed by spinners to show the correct value */
+	public String toString() {
+		return name;
+	}
 
 	/**
 	 * @return the name

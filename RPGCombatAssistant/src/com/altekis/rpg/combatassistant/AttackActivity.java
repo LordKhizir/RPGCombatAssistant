@@ -1,14 +1,13 @@
 package com.altekis.rpg.combatassistant;
 
 import android.app.Activity;
-import android.opengl.Visibility;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.altekis.rpg.combatassistant.attack.Attack;
 import com.altekis.rpg.combatassistant.attack.AttackResult;
@@ -20,7 +19,10 @@ public class AttackActivity extends Activity {
 	static private Attack attack;
 	static private AttackType attackType;
 	static String selectedAttackType = null;
+	static private AttackResult attackResult;
 
+	static final int REQUEST_ROLL_CRITICAL = 1;
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -55,6 +57,14 @@ public class AttackActivity extends Activity {
 				doGo();
 			}
 		});
+        
+        Button goToCriticalButton = (Button) findViewById(R.id.attack_goToCriticalButton);
+        goToCriticalButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				doGoToCritical();
+			}
+		});
 	}
 	
 	/**
@@ -74,13 +84,11 @@ public class AttackActivity extends Activity {
 		EditText bonusText = (EditText) findViewById(R.id.attack_bonus);
 		EditText rollText = (EditText) findViewById(R.id.attack_roll);
 		TextView resultText = (TextView) findViewById(R.id.attack_result);
-		TextView critrollLabel = (TextView) findViewById(R.id.attack_critrollLabel);
-		EditText critrollText = (EditText) findViewById(R.id.attack_critroll);
+		Button goToCriticalButton = (Button) findViewById(R.id.attack_goToCriticalButton);
 
 		// Reset visibility
 		resultText.setText("");
-		critrollLabel.setVisibility(View.VISIBLE);
-		critrollText.setVisibility(View.VISIBLE);
+		goToCriticalButton.setVisibility(View.INVISIBLE);
 
 		int bonus = 0;
 		int roll = 0;
@@ -106,7 +114,7 @@ public class AttackActivity extends Activity {
 			// TODO Falta Armor type... asumimos 1.
 			int total = bonus + roll;
 			
-			AttackResult attackResult = attackType.getValue(roll, total, ArmorType.SoftLeather);
+			attackResult = attackType.getValue(roll, total, ArmorType.SoftLeather);
 			
 			if (attackResult.isNoEffects()) {
 				// TODO Localizar
@@ -127,8 +135,7 @@ public class AttackActivity extends Activity {
 					resultMessage+= "Crítico " + attackResult.getCritLevel().toString() + " (" + attackResult.getCritType() + ")";
 					
 					// There's a critical result... show UI elements for it
-					critrollLabel.setVisibility(View.VISIBLE);
-					critrollText.setVisibility(View.VISIBLE);
+					goToCriticalButton.setVisibility(View.VISIBLE);
 				}
 			}
 			
@@ -139,5 +146,19 @@ public class AttackActivity extends Activity {
 		}
 		// Show result of attack
 		resultText.setText(resultMessage);
+	}
+	
+	/**
+	 * Go to critical rolling activity
+	 */
+	private void doGoToCritical() {
+		// Get needed info from static variables
+    	Intent intent = new Intent(this, CriticalActivity.class);
+    	// We pass no AttackId as extra, to claim for a new attack
+    	// But the CharacterId will be needed, to assign the new attack to its correct parent character
+    	intent.putExtra("CriticalType", attackResult.getCritType());
+    	intent.putExtra("CriticalLevelName", attackResult.getCritLevel().name());
+    	//intent.putExtra("CharacterId", character.getId());
+		startActivityForResult(intent, REQUEST_ROLL_CRITICAL);
 	}
 }

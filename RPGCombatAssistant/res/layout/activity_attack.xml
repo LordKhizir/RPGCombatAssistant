@@ -101,25 +101,18 @@
         android:layout_below="@+id/attack_cancelButton"
         android:layout_alignLeft="@+id/attack_nameLabel"
         android:layout_alignRight="@+id/attack_name"
-        android:layout_marginTop="40dp"
-        />
-    <!-- CritRoll -->
-    <TextView
-        android:id="@+id/attack_critrollLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/attack_result"
-        android:layout_alignLeft="@+id/attack_rollLabel"
-        android:layout_marginTop="40dp"
-        android:text="@string/attack_roll"
-        android:visibility="invisible"/>
-    <EditText
-        android:id="@+id/attack_critroll"
+        android:layout_marginTop="40dp" />
+
+    <!-- Go to critical -->
+    <Button
+        android:id="@+id/attack_goToCriticalButton"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/attack_roll"
-        android:layout_alignRight="@+id/attack_roll"
-        android:layout_alignBaseline="@+id/attack_critrollLabel"
-        android:inputType="numberSigned"
-        android:visibility="invisible" />
+        android:layout_below="@+id/attack_result"
+        android:layout_alignLeft="@+id/attack_result"
+        android:layout_alignRight="@+id/attack_result"
+        android:layout_marginTop="40dp" 
+        android:text="@string/attack_goToCriticalButton"
+        android:visibility="invisible"/>
+    
 </RelativeLayout>

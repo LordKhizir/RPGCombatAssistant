@@ -19,14 +19,12 @@ public class AttackType {
 		return maxFumble;
 	}
 
-
 	/**
 	 * @param maxFumble the maxFumble to set
 	 */
 	public void setMaxFumble(int maxFumble) {
 		this.maxFumble = maxFumble;
 	}
-
 
 	/** Ranges -we have an element on "results" for each Armor type
 	 * Stored using "min value for the range" as key, and String[] as value
