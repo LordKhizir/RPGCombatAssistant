@@ -3,14 +3,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
-    <TextView
-        android:id="@+id/status"
-        style="@style/common_little"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="36dp"
-        android:text="@string/loading" />
-
     <ImageView
         android:id="@+id/imageView1"
         android:layout_width="wrap_content"
@@ -23,5 +15,25 @@
         android:id="@+id/splash_main"
         style="@style/splash_main"
         android:text="@string/splash_main" />
+
+    <ProgressBar
+        android:id="@+id/splash_progressBar"
+        style="@android:style/Widget.ProgressBar.Horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/imageView1"
+        android:layout_margin="10dp"
+        android:indeterminate="false"
+        />
+
+    <TextView
+        android:id="@+id/status"
+        style="@style/common_little"
+        android:layout_alignBottom="@+id/splash_progressBar"
+        android:layout_alignLeft="@+id/splash_progressBar"
+        android:layout_alignRight="@+id/splash_progressBar"
+        android:gravity="center"
+        android:text="@string/loading"
+        android:textColor="@android:color/white" />
 
 </RelativeLayout>
