@@ -46,6 +46,8 @@ public class CharacterArrayAdapter extends BaseExpandableListAdapter {
 		// Fill UI elements with current character values
 		((TextView)convertView.findViewById(R.id.characterList_name)).setText(rpgCharacter.getName());
 		((TextView)convertView.findViewById(R.id.characterList_playerName)).setText(rpgCharacter.getPlayerName());
+		String hitsInfo = Integer.toString(rpgCharacter.getHitPoints()) + "/" + Integer.toString(rpgCharacter.getMaxHitPoints());
+		((TextView)convertView.findViewById(R.id.characterList_hitPoints)).setText(hitsInfo);
 
 		// Change the icon for that of the user...
 		ImageView imageView = (ImageView) convertView.findViewById(R.id.characterList_avatar);

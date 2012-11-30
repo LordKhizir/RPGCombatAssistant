@@ -28,6 +28,8 @@ public class CharacterActivity extends Activity {
 	ListView attacksListView;
 	CharacterAttacksArrayAdapter characterAttacksAdapter;
 
+	// Static view references used everywhere
+	static private TextView nameText;
 	static final int REQUEST_CHARACTER_EDIT = 1;
 	static final int REQUEST_ADD_ATTACK = 2;
 	static final int REQUEST_ATTACK = 3;
@@ -40,10 +42,9 @@ public class CharacterActivity extends Activity {
 		// Get Extras
 		int characterId = getIntent().getIntExtra("CharacterId",0);
 		character = new LAOCharacter().getCharacter(characterId);
-		
-		// Set contextual title
-		setTitle(character.getName() + " (" + character.getPlayerName() + ")");
 
+		// Set static view references to UI elements used everywhere...
+		nameText = (TextView) findViewById(R.id.character_nameLabel);
 		attacksListView = (ListView) findViewById(R.id.character_attacks);
 
 		// Assign listener to list
@@ -71,11 +72,7 @@ public class CharacterActivity extends Activity {
 	 * Used on activity create, and each time we return from Edit with info updated
 	 */
 	private void populateCharacterUI() {
-		// Set UI
-		TextView nameText = (TextView) findViewById(R.id.character_name);
-		nameText.setText(character.getName());
-		TextView playerNameText = (TextView) findViewById(R.id.character_playerName);
-		playerNameText.setText(character.getPlayerName());
+		nameText.setText(character.getName() + " (" + character.getPlayerName() + ")");
 	}
 
 	private void populateAttackList() {

@@ -2,66 +2,87 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
-
-    <Button
-        android:id="@+id/characterEdit_cancelButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/characterEdit_nameLabel"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="165dp"
-        android:text="@string/characterEdit_cancelButton" />
-
-    <Button
-        android:id="@+id/characterEdit_saveButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/characterEdit_cancelButton"
-        android:layout_alignBottom="@+id/characterEdit_cancelButton"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="31dp"
-        android:text="@string/characterEdit_saveButton" />
-
+	
+	<!-- Name -->
     <TextView
         android:id="@+id/characterEdit_nameLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/common_form_label"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="30dp"
         android:text="@string/characterEdit_name" />
-
     <EditText
         android:id="@+id/characterEdit_name"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="10dp"
+        style="@style/common_form_input"
         android:layout_alignBaseline="@+id/characterEdit_nameLabel"
-        android:layout_toRightOf="@+id/characterEdit_cancelButton"
+        android:layout_toRightOf="@+id/characterEdit_nameLabel"
         android:hint="@string/characterEdit_nameHint"
         android:inputType="textPersonName|textNoSuggestions" />
 
+	<!-- Player -->
     <TextView
         android:id="@+id/characterEdit_playerNameLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/characterEdit_nameLabel"
-        android:layout_below="@+id/characterEdit_name"
-        android:layout_marginTop="40dp"
+        style="@style/common_form_label"
+        android:layout_below="@+id/characterEdit_nameLabel"
         android:text="@string/characterEdit_playerName" />
-
     <EditText
         android:id="@+id/characterEdit_playerName"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        style="@style/common_form_input"
         android:layout_alignBaseline="@+id/characterEdit_playerNameLabel"
-        android:layout_alignLeft="@+id/characterEdit_name"
-        android:layout_alignRight="@+id/characterEdit_name"
+        android:layout_toRightOf="@+id/characterEdit_playerNameLabel"
         android:hint="@string/characterEdit_playerNameHint"
-        android:inputType="textPersonName|textNoSuggestions" >
+        android:inputType="textPersonName|textNoSuggestions" />
 
-        <requestFocus />
-    </EditText>
+    <!-- Max hit points -->
+    <TextView
+        android:id="@+id/characterEdit_maxHitPointsLabel"
+        style="@style/common_form_label"
+        android:layout_below="@+id/characterEdit_playerNameLabel"
+        android:text="@string/characterEdit_maxHitPoints" />
+    <EditText
+        android:id="@+id/characterEdit_maxHitPoints"
+        style="@style/common_form_input"
+        android:layout_alignBaseline="@+id/characterEdit_maxHitPointsLabel"
+        android:layout_toRightOf="@+id/characterEdit_maxHitPointsLabel"
+        android:hint="@string/characterEdit_maxHitPointsHint"
+        android:inputType="number" />
     
+    <!-- Hit points -->
+    <TextView
+        android:id="@+id/characterEdit_hitPointsLabel"
+        style="@style/common_form_label"
+        android:layout_below="@+id/characterEdit_maxHitPointsLabel"
+        android:text="@string/characterEdit_hitPoints" />
+    <EditText
+        android:id="@+id/characterEdit_hitPoints"
+        style="@style/common_form_input"
+        android:layout_alignBaseline="@+id/characterEdit_hitPointsLabel"
+        android:layout_toRightOf="@+id/characterEdit_hitPointsLabel"
+        android:hint="@string/characterEdit_hitPointsHint"
+        android:inputType="number" />
+    
+    <!-- Armor type -->
+    <TextView
+        android:id="@+id/characterEdit_armorTypeLabel"
+        android:layout_below="@+id/characterEdit_hitPointsLabel"
+        style="@style/common_form_label"
+        android:text="@string/characterEdit_armorType" />
+	<Spinner
+        android:id="@+id/characterEdit_armorType"
+        style="@style/common_form_input"
+        android:layout_alignBaseline="@+id/characterEdit_armorTypeLabel"
+        android:layout_toRightOf="@+id/characterEdit_armorTypeLabel"
+        android:inputType="textPersonName" />
+	
+	<!-- Buttons -->
+	<Button
+        android:id="@+id/characterEdit_cancelButton"
+        style="@style/common_form_label"
+        android:layout_below="@+id/characterEdit_armorTypeLabel"
+        android:text="@string/characterEdit_cancelButton" />
+    <Button
+        android:id="@+id/characterEdit_saveButton"
+        style="@style/common_form_input"
+        android:layout_alignBaseline="@+id/characterEdit_cancelButton"
+        android:layout_toRightOf="@+id/characterEdit_cancelButton"
+        android:text="@string/characterEdit_saveButton" />
 </RelativeLayout>

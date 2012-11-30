@@ -10,7 +10,15 @@ public class LAOCharacter {
 	public List<List<RPGCharacter>> getCharacters() {
 		return new DAOCharacter().getCharacters();
 	}
-	
+
+	/**
+	 * Get the list of ACTIVE characters
+	 * @return list of characters
+	 */
+	public List<RPGCharacter> getActiveCharacters() {
+		return new DAOCharacter().getActiveCharacters();
+	}
+
 	/**
 	 * Get requested character from database
 	 */
@@ -41,4 +49,20 @@ public class LAOCharacter {
 	public void deleteCharacter(long characterId) {
 		new DAOCharacter().deleteCharacter(characterId);
 	}
+	
+	/**
+	 * Add to the character's current hit points
+	 * @param characterId
+	 */
+	public void modifyHitPoints(long characterId, int hitPointsToAdd, int actualHitPoints, int maxHitPoints) {
+		int hitPoints = actualHitPoints + hitPointsToAdd;
+		if (hitPoints>maxHitPoints) {
+			hitPoints=maxHitPoints;
+		}
+		if (hitPoints<0) {
+			hitPoints = 0;
+		}
+		new DAOCharacter().updateHitPoints(characterId, hitPoints);
+	}
+
 }

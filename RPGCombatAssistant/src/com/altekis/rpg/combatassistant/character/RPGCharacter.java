@@ -6,6 +6,24 @@ package com.altekis.rpg.combatassistant.character;
 public class RPGCharacter {
 	/** Id, for internal use */
 	long id;
+	/** Character name */
+	String name;
+	/** Player */
+	String playerName;
+	/** Max hit points of character - that is, when it's full healed */ 
+	int maxHitPoints;
+	/** Current hit points of character - "full heal" - suffered wounds */ 
+	int hitPoints;
+	/** Type of the armor worn by the character */
+	ArmorType armorType; 
+	
+	/** Needed by spinners to show the correct value */
+	public String toString() {
+		return ((name!=null)?name:"") + ((playerName!=null)?" (" + playerName + ")":"");
+	}
+	
+	// From here, just plain old getters and setters
+	
 	/**
 	 * @return the id
 	 */
@@ -18,10 +36,6 @@ public class RPGCharacter {
 	public void setId(long id) {
 		this.id = id;
 	}
-	/** Character name */
-	String name;
-	/** Player */
-	String playerName;
 	/**
 	 * @return the name
 	 */
@@ -45,5 +59,41 @@ public class RPGCharacter {
 	 */
 	public void setPlayerName(String playerName) {
 		this.playerName = playerName;
+	}
+	/**
+	 * @return the maxHitPoints
+	 */
+	public int getMaxHitPoints() {
+		return maxHitPoints;
+	}
+	/**
+	 * @param maxHitPoints the maxHitPoints to set
+	 */
+	public void setMaxHitPoints(int maxHitPoints) {
+		this.maxHitPoints = maxHitPoints;
+	}
+	/**
+	 * @return the hitPoints
+	 */
+	public int getHitPoints() {
+		return hitPoints;
+	}
+	/**
+	 * @param hitPoints the hitPoints to set
+	 */
+	public void setHitPoints(int hitPoints) {
+		this.hitPoints = hitPoints;
+	}
+	/**
+	 * @return the armorType
+	 */
+	public ArmorType getArmorType() {
+		return armorType;
+	}
+	/**
+	 * @param armorType the armorType to set
+	 */
+	public void setArmorType(ArmorType armorType) {
+		this.armorType = armorType;
 	}
 }

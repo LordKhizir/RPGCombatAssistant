@@ -18,4 +18,13 @@ public enum ArmorType {
     {
         return type;
     }
+    
+    public static ArmorType fromInteger(int armorTypeId) {
+    	for (ArmorType armorType:ArmorType.values()) {
+    		if (armorType.toInteger()==armorTypeId) {
+    			return armorType;
+    		}
+    	}
+		return null;
+    }
 }

@@ -17,8 +17,13 @@ import com.altekis.rpg.combatassistant.LocalDatabaseHelper;
 public class DAOCharacter {
 
 	private final String CHARACTERS_TABLE_NAME = "characters";
-	private final String[] ALL_COLUMNS = {	"_id",
-			"name", "playerName"};	
+	private final String[] ALL_COLUMNS = {
+			"_id",
+			"name",
+			"playerName",
+			"maxHitPoints",
+			"hitPoints",
+			"armorType"};	
 	/**
 	 * Get the list of characters, both player and non-player types
 	 * @return list of characters
@@ -32,7 +37,7 @@ public class DAOCharacter {
 		Cursor cursor = db.query(CHARACTERS_TABLE_NAME, // Table
 				ALL_COLUMNS, // returned columns
 				null, // WHERE - We want all columns, so no filters here
-				null, // selection args - no filters
+				null, // selection arguments - no filters
 				null, // GROUP BY
 				null, // HAVING
 				null // ORDER BY
@@ -61,6 +66,37 @@ public class DAOCharacter {
 	}
 
 	/**
+	 * Get the list of ACTIVE characters
+	 * @return list of characters
+	 */
+	protected List<RPGCharacter> getActiveCharacters() {
+		List<RPGCharacter> list = new ArrayList<RPGCharacter>();
+
+		SQLiteDatabase db = LocalDatabaseHelper.getInstance().getDB();
+
+		// TODO! Filtrar, solo queremos activos
+		Cursor cursor = db.query(CHARACTERS_TABLE_NAME, // Table
+				ALL_COLUMNS, // returned columns
+				null, // WHERE - We want all columns, so no filters here
+				null, // selection arguments - no filters
+				null, // GROUP BY
+				null, // HAVING
+				null // ORDER BY
+				);
+
+		// Iterate through rows
+		boolean iterate = cursor.moveToFirst();
+		while (iterate) {
+			RPGCharacter character = cursorToRPGCharacter(cursor);
+			list.add(character);
+			iterate = cursor.moveToNext();
+		}
+		cursor.close();
+
+		// Encapsulate the lists and return
+		return list;
+	}
+	/**
 	 * Get requested character from local database
 	 * @return character
 	 */
@@ -70,7 +106,7 @@ public class DAOCharacter {
 		Cursor cursor = db.query(CHARACTERS_TABLE_NAME, // Table
 				ALL_COLUMNS, // returned columns
 				"_id=?", // WHERE - We want just one row
-				new String[] {String.valueOf(id)},// selection args - id
+				new String[] {String.valueOf(id)},// selection arguments - id
 				null, // GROUP BY
 				null, // HAVING
 				null // ORDER BY
@@ -105,6 +141,20 @@ public class DAOCharacter {
 		ContentValues cv = rpgCharacterToContentValues(character);
 		db.update(CHARACTERS_TABLE_NAME, cv, "_id=?",  new String[] {String.valueOf(character.getId())});
 	}
+	
+	/**
+	 * Add the character's current hit points
+	 * @param characterId
+	 * @param hitPoints
+	 */
+	public void updateHitPoints(long characterId, int hitPoints) {
+		SQLiteDatabase db = LocalDatabaseHelper.getInstance().getDB();
+
+		ContentValues cv = new ContentValues();
+		cv.put("hitPoints", hitPoints);
+		
+		db.update(CHARACTERS_TABLE_NAME, cv, "_id=?",  new String[] {String.valueOf(characterId)});
+	}
 
 	/**
 	 * Delete an existing character in database
@@ -122,6 +172,9 @@ public class DAOCharacter {
 		cv.put("_id", character.getId());
 		cv.put("name", character.getName());
 		cv.put("playerName", character.getPlayerName());
+		cv.put("maxHitPoints", character.getMaxHitPoints());
+		cv.put("hitPoints", character.getHitPoints());
+		cv.put("armorType", character.getArmorType().toInteger());
 		return cv;
 	}
 
@@ -131,6 +184,9 @@ public class DAOCharacter {
 		character.setId(cursor.getLong(i++));
 		character.setName(cursor.getString(i++));
 		character.setPlayerName(cursor.getString(i++));
+		character.setMaxHitPoints(cursor.getInt(i++));
+		character.setHitPoints(cursor.getInt(i++));
+		character.setArmorType(ArmorType.fromInteger(cursor.getInt(i++)));
 		return character;
 	}
 }

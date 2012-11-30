@@ -35,6 +35,11 @@
     <string name="characterEdit_nameHint">Personaje</string>
     <string name="characterEdit_playerName">Jugador</string>
     <string name="characterEdit_playerNameHint">Jugador</string>
+    <string name="characterEdit_maxHitPoints">PV (total)</string>
+    <string name="characterEdit_maxHitPointsHint">Puntos de vida totales</string>
+    <string name="characterEdit_hitPoints">PV (actual)</string>
+    <string name="characterEdit_hitPointsHint">Puntos de vida actuales</string>
+    <string name="characterEdit_armorType">Armadura</string>
     <string name="characterEdit_cancelButton">Cancelar</string>
     <string name="characterEdit_saveButton">Aplicar cambios</string>
 
@@ -43,10 +48,12 @@
     <string name="attack_name">Nombre</string>
     <string name="attack_attackType">Tipo</string>
     <string name="attack_extra">Extra</string>
+    <string name="attack_defender">Defensor</string>
     <string name="attack_defenderArmorType">Armadura</string>
     <string name="attack_roll">Tirada</string>
     <string name="attack_cancelButton">Cancelar</string>
     <string name="attack_goButton">Atacar</string>
+    <string name="attack_applyResultButton">Aplicar</string>
     <string name="attack_goToCriticalButton">Lanzar crítico</string>
     <string name="menu_attack_edit">Editar</string>
     <string name="menu_attack_delete">Eliminar</string>

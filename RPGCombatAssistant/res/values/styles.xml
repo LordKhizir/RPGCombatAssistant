@@ -6,6 +6,7 @@
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
     </style>
+
     <style name="common_form_label" parent="android:Theme.Light">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
@@ -16,13 +17,15 @@
         <item name="android:typeface">sans</item>
         <item name="android:textSize">18sp</item>
     </style>
+
     <style name="common_form_input" parent="android:Theme.Light">
         <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginTop">20dp</item>
         <item name="android:layout_marginRight">10dp</item>
     </style>
-     <style name="common_form_fullRow" parent="android:Theme.Light">
+
+    <style name="common_form_fullRow" parent="android:Theme.Light">
         <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginLeft">10dp</item>
@@ -30,7 +33,7 @@
         <item name="android:layout_marginRight">10dp</item>
         <item name="android:layout_centerInParent">true</item>
     </style>
-    
+
     <!-- Splash -->
     <style name="splash_main" parent="android:Theme.Light">
         <item name="android:layout_width">wrap_content</item>
@@ -41,9 +44,9 @@
         <item name="android:typeface">serif</item>
         <item name="android:textSize">30sp</item>
     </style>
-    
-	<!-- CharacterList Activity -->
-	<style name="characterList_header" parent="android:Theme.Light">
+
+    <!-- CharacterList Activity -->
+    <style name="characterList_header" parent="android:Theme.Light">
         <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:background">#731d2d</item>
@@ -52,27 +55,41 @@
         <item name="android:textSize">20sp</item>
         <item name="android:paddingLeft">40dp</item>
     </style>
-	<style name="characterList_avatar" parent="android:Theme.Light">
+
+    <style name="characterList_avatar" parent="android:Theme.Light">
         <item name="android:layout_width">40dp</item>
         <item name="android:layout_height">40dp</item>
-        <item name="android:layout_marginLeft">4px</item>
-        <item name="android:layout_marginRight">4px</item>
-        <item name="android:layout_marginTop">4px</item>
+        <item name="android:layout_margin">4dp</item>
         <item name="android:background">#111111</item>
-    </style>    
+    </style>
+
     <style name="characterList_name" parent="android:Theme.Light">
         <item name="android:textColor">#222222</item>
         <item name="android:typeface">sans</item>
         <item name="android:textSize">18sp</item>
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:width">200dp</item>
+        <item name="android:layout_height">wrap_content</item>
     </style>
+
     <style name="characterList_playerName" parent="android:Theme.Light">
         <item name="android:textColor">#222222</item>
         <item name="android:typeface">sans</item>
         <item name="android:textSize">14sp</item>
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
     </style>
 
-	<!-- Character Activity -->
-	<style name="character_attackImage" parent="android:Theme.Light">
+    <style name="characterList_hitPoints" parent="android:Theme.Light">
+        <item name="android:textColor">#222222</item>
+        <item name="android:typeface">sans</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+    </style>
+
+    <!-- Character Activity -->
+    <style name="character_attackImage" parent="android:Theme.Light">
         <item name="android:layout_width">40dp</item>
         <item name="android:layout_height">40dp</item>
         <item name="android:layout_marginLeft">4px</item>
@@ -80,16 +97,17 @@
         <item name="android:layout_marginTop">4px</item>
         <item name="android:background">#111111</item>
     </style>
+
     <style name="character_attackName" parent="android:Theme.Light">
         <item name="android:textColor">#222222</item>
         <item name="android:typeface">sans</item>
         <item name="android:textSize">18sp</item>
     </style>
+
     <style name="character_attackInfo" parent="android:Theme.Light">
         <item name="android:textColor">#222222</item>
         <item name="android:typeface">sans</item>
         <item name="android:textSize">14sp</item>
     </style>
-    
 
 </resources>

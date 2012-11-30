@@ -1,5 +1,7 @@
 package com.altekis.rpg.combatassistant;
 
+import java.util.List;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -14,6 +16,7 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ScrollView;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.Spinner;
@@ -24,21 +27,34 @@ import com.altekis.rpg.combatassistant.attack.AttackResult;
 import com.altekis.rpg.combatassistant.attack.AttackType;
 import com.altekis.rpg.combatassistant.attack.LAOAttack;
 import com.altekis.rpg.combatassistant.character.ArmorType;
+import com.altekis.rpg.combatassistant.character.LAOCharacter;
+import com.altekis.rpg.combatassistant.character.RPGCharacter;
 
 public class AttackActivity extends Activity {
 	static private Attack attack;
 	static private AttackType attackType;
-	static String selectedAttackType = null;
 	static private AttackResult attackResult;
-	static private ArmorType selectedDefenderArmorType = null;
+	static private RPGCharacter selectedDefender;
+	static private ArmorType selectedDefenderArmorType;
+	static private List<RPGCharacter> characters;
+
 	// Attack bonus - total = attack + parry
 	static private int totalBonus = 0;
 	static private int attackBonus = 0;
+
+	// Static view references used everywhere
+	static private TextView nameText;
 	static private TextView bonusSeekText;
 	static private SeekBar bonusSeek;
+	static private Spinner defenderSpinner;
 	static private Spinner defenderArmorTypeSpinner;
+	static private EditText extraText;
+	static private EditText rollText;
+	static private TextView resultText;
+	static private Button applyResultButton;
+	static private Button goToCriticalButton;
 
-
+	static final int VOID_CHARACTER_IDENTIFIER = -1;
 	static final int REQUEST_ROLL_CRITICAL = 1;
 	static final int REQUEST_ATTACK_EDIT = 2;
 
@@ -52,10 +68,38 @@ public class AttackActivity extends Activity {
 		attack = new LAOAttack().getAttack(attackId);
 
 		// Set static view references to UI elements used everywhere...
+		nameText = (TextView) findViewById(R.id.attack_nameLabel);
 		bonusSeekText = (TextView) findViewById(R.id.attack_bonusSeekLabel);
-		bonusSeek = (SeekBar) findViewById(R.id.attack_bonusSeek);		
+		bonusSeek = (SeekBar) findViewById(R.id.attack_bonusSeek);
+		defenderSpinner = (Spinner) findViewById(R.id.attack_defender);
 		defenderArmorTypeSpinner = (Spinner) findViewById(R.id.attack_defenderArmorType);
+		extraText = (EditText) findViewById(R.id.attack_extra);
+		rollText = (EditText) findViewById(R.id.attack_roll);
+		resultText = (TextView) findViewById(R.id.attack_result);
+		applyResultButton = (Button) findViewById(R.id.attack_applyResultButton);
+		goToCriticalButton = (Button) findViewById(R.id.attack_goToCriticalButton);
 
+		// Get actual characters
+		LAOCharacter laoCharacter = new LAOCharacter();
+		RPGCharacter voidCharacter = new RPGCharacter();
+		voidCharacter.setId(VOID_CHARACTER_IDENTIFIER);
+		voidCharacter.setName("(Nadie)");
+		characters = laoCharacter.getActiveCharacters();
+		characters.add(0,voidCharacter);
+
+		// Defender Spinner - fed with list of "current" characters
+		// Create an ArrayAdapter using the string array and a default spinner layout
+		ArrayAdapter<RPGCharacter> defenderAdapter = new ArrayAdapter<RPGCharacter>(this,
+				android.R.layout.simple_spinner_item,
+				characters);
+		// Specify the layout to use when the list of choices appears
+		defenderAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		// Apply the adapter to the spinner
+		defenderSpinner.setAdapter(defenderAdapter);
+		defenderSpinner.setOnItemSelectedListener(new DefenderSelectedListener());
+
+
+		// DefenderArmorType Spinner
 		// Create an ArrayAdapter using the string array and a default spinner layout
 		ArrayAdapter<ArmorType> defenderArmorTypeAdapter = new ArrayAdapter<ArmorType>(this,
 				android.R.layout.simple_spinner_item,
@@ -66,7 +110,7 @@ public class AttackActivity extends Activity {
 		defenderArmorTypeSpinner.setAdapter(defenderArmorTypeAdapter);
 		defenderArmorTypeSpinner.setOnItemSelectedListener(new DefenderArmorTypeSelectedListener());
 
-		// Add support for spinner
+		// Add support for seek bar
 		bonusSeek.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
 			public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
 				attackBonus = progress;
@@ -100,25 +144,31 @@ public class AttackActivity extends Activity {
 			}
 		});
 
-		Button goToCriticalButton = (Button) findViewById(R.id.attack_goToCriticalButton);
+		applyResultButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				doApplyResult();
+			}
+		});
+
 		goToCriticalButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				doGoToCritical();
 			}
 		});
-		
+
 		// Complete UI
 		populateAttackUI();
 	}
-	
+
 	/**
 	 * Display data
 	 * Used on activity creation, and each time we return from Edit with info updated
 	 */
 	private void populateAttackUI() {
 		// Set UI
-		TextView nameText = (TextView) findViewById(R.id.attack_nameLabel);
+
 		attackType = RPGCombatAssistant.attackTypes.get(attack.getAttackType());
 		nameText.setText(attack.getName() + " (" + attackType.getName() + ")");
 
@@ -130,11 +180,16 @@ public class AttackActivity extends Activity {
 		// By default, EVERYTHING to attack
 		attackBonus = totalBonus;
 		updateBonusText();
+	}
 
-		// TODO enable use without character/attack!
+	/**
+	 * Display data
+	 * Used each time the Defender Spinner is changed
+	 */
+	private void populateDefenderArmorType() {
+		selectedDefenderArmorType = selectedDefender.getArmorType();
 
-		// TODO get armor type from enemy (if any)
-		// Select spinner position - Defender armor type Level
+		// Select spinner position - Defender armor type
 		int position = 0;
 		for (ArmorType type:ArmorType.values()) {
 			if (type.equals(selectedDefenderArmorType)) {
@@ -143,7 +198,6 @@ public class AttackActivity extends Activity {
 			}
 			position++;
 		}
-
 	}
 
 	private void updateBonusText() {
@@ -159,7 +213,20 @@ public class AttackActivity extends Activity {
 		}
 
 		public void onNothingSelected(AdapterView<?> parent) {
-			selectedDefenderArmorType = null;
+			// 
+		}
+	}
+
+	/** Nested class for spinner value recovery */
+	public class DefenderSelectedListener implements OnItemSelectedListener {
+
+		public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+			selectedDefender = ((RPGCharacter)parent.getItemAtPosition(pos));
+			populateDefenderArmorType();
+		}
+
+		public void onNothingSelected(AdapterView<?> parent) {
+			//
 		}
 	}
 
@@ -176,15 +243,9 @@ public class AttackActivity extends Activity {
 	 * Get all info and calculate attack result
 	 */
 	private void doGo() {
-		// Get all UI widgets
-		EditText extraText = (EditText) findViewById(R.id.attack_extra);
-		EditText rollText = (EditText) findViewById(R.id.attack_roll);
-		TextView resultText = (TextView) findViewById(R.id.attack_result);
-		Button goToCriticalButton = (Button) findViewById(R.id.attack_goToCriticalButton);
-
 		// Reset visibility
 		resultText.setText("");
-		goToCriticalButton.setVisibility(View.INVISIBLE);
+		goToCriticalButton.setVisibility(View.GONE);
 
 		// Initialize variables
 		int bonus = 0;
@@ -241,23 +302,39 @@ public class AttackActivity extends Activity {
 				// TODO localizar
 				if (attackResult.getHitPoints()>0) {
 					resultMessage = attackResult.getHitPoints() + " puntos de vida.\n";
+					
+					// Some HP to substract... show UI elements for it... but only if we know the defender
+					if (selectedDefender.getId()!=VOID_CHARACTER_IDENTIFIER) {
+						applyResultButton.setEnabled(true);
+						applyResultButton.setVisibility(View.VISIBLE);	
+						applyResultButton.requestFocus();
+					}
 				}
 				if (attackResult.getCritLevel()!=null) {
 					resultMessage+= "Crítico " + attackResult.getCritLevel().toString() + " (" + attackResult.getCritType() + ")";
 
 					// There's a critical result... show UI elements for it
-					goToCriticalButton.setVisibility(View.VISIBLE);
+					goToCriticalButton.setVisibility(View.VISIBLE);					
+					goToCriticalButton.requestFocus();
+					
 				}
+				((ScrollView) findViewById(R.id.attack_scrollView)).scrollTo(0,((TextView)findViewById(R.id.attack_lastElement)).getBottom());
 			}
-
-			// Set result as OK==updated
-			//    	setResult(RESULT_OK);
-			//    	finish();
 		}
 		// Show result of attack
 		resultText.setText(resultMessage);
 	}
 
+	/**
+	 * Apply result to defender
+	 */
+	private void doApplyResult() {
+		LAOCharacter laoCharacter = new LAOCharacter();
+		laoCharacter.modifyHitPoints(selectedDefender.getId(), attackResult.getHitPoints()*-1, selectedDefender.getHitPoints(), selectedDefender.getMaxHitPoints());
+		applyResultButton.setText("Aplicado");
+		applyResultButton.setEnabled(false);
+
+	}
 	/**
 	 * Go to critical rolling activity
 	 */
@@ -271,7 +348,7 @@ public class AttackActivity extends Activity {
 		//intent.putExtra("CharacterId", character.getId());
 		startActivityForResult(intent, REQUEST_ROLL_CRITICAL);
 	}
-	
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.activity_attack, menu);
@@ -338,9 +415,6 @@ public class AttackActivity extends Activity {
 		finish(); // Close this activity
 	}
 
-	/**
-	 * 
-	 */
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
@@ -359,5 +433,4 @@ public class AttackActivity extends Activity {
 			}
 		}
 	}
-
 }

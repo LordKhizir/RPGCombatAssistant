@@ -3,34 +3,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
-    <!-- Name -->
+    <!-- Character name + player name -->
     <TextView
         android:id="@+id/character_nameLabel"
-        style="@style/common_form_label"
+        style="@style/common_form_fullRow"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:text="@string/character_name" />
-    <TextView
-        android:id="@+id/character_name"
-        style="@style/common_form_input"
-        android:layout_alignBaseline="@+id/character_nameLabel"
-        android:layout_toRightOf="@+id/character_nameLabel" />
-	<!-- Player -->
-    <TextView
-        android:id="@+id/character_playerNameLabel"
-        style="@style/common_form_label"
-        android:layout_below="@+id/character_nameLabel"
-        android:text="@string/character_playerName" />
-    <TextView
-        android:id="@+id/character_playerName"
-        style="@style/common_form_input"
-        android:layout_alignBaseline="@+id/character_playerNameLabel"
-        android:layout_toRightOf="@+id/character_playerNameLabel" />
-    
+        android:layout_alignParentTop="true" />    
     <!--  List for know attacks -->
     <ListView
         android:id="@+id/character_attacks"
         style="@style/common_form_fullRow"
     	android:orientation="vertical"
-    	android:layout_below="@+id/character_playerNameLabel" />
+    	android:layout_below="@+id/character_nameLabel" />
 </RelativeLayout>

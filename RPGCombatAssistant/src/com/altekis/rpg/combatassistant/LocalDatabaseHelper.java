@@ -12,7 +12,7 @@ import android.util.Log;
  */
 public class LocalDatabaseHelper extends SQLiteOpenHelper {
 	// CONFIG
-	private static final String DATABASE_NAME = "rpg-combat-assistant-v10.db";
+	private static final String DATABASE_NAME = "rpg-combat-assistant-v11.db";
 	private static final int DATABASE_VERSION = 1;
 
 	// Singleton instance
@@ -25,7 +25,10 @@ public class LocalDatabaseHelper extends SQLiteOpenHelper {
 		"CREATE TABLE characters (\n" +
 		"_id INTEGER PRIMARY KEY autoincrement,\n" +
 		"name TEXT NOT NULL,\n" +
-		"playerName TEXT);",
+		"playerName TEXT,\n" +
+		"hitPoints INTEGER NOT NULL DEFAULT 0,\n" +
+		"maxHitPoints INTEGER NOT NULL DEFAULT 0,\n" +
+		"armorType INTEGER NOT NULL DEFAULT 0);",
 		// Attacks table
 		"CREATE TABLE attacks (\n" +
 		"_id INTEGER PRIMARY KEY autoincrement,\n" +
