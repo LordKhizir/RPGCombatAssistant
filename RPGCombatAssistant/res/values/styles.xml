@@ -6,6 +6,30 @@
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
     </style>
+    <style name="common_form_label" parent="android:Theme.Light">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginLeft">10dp</item>
+        <item name="android:layout_marginTop">20dp</item>
+        <item name="android:layout_marginRight">2dp</item>
+        <item name="android:width">100dp</item>
+        <item name="android:typeface">sans</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+    <style name="common_form_input" parent="android:Theme.Light">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">20dp</item>
+        <item name="android:layout_marginRight">10dp</item>
+    </style>
+     <style name="common_form_fullRow" parent="android:Theme.Light">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginLeft">10dp</item>
+        <item name="android:layout_marginTop">20dp</item>
+        <item name="android:layout_marginRight">10dp</item>
+        <item name="android:layout_centerInParent">true</item>
+    </style>
     
     <!-- Splash -->
     <style name="splash_main" parent="android:Theme.Light">
@@ -22,7 +46,7 @@
 	<style name="characterList_header" parent="android:Theme.Light">
         <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:background">#116611</item>
+        <item name="android:background">#731d2d</item>
         <item name="android:textColor">#ffffff</item>
         <item name="android:typeface">normal</item>
         <item name="android:textSize">20sp</item>

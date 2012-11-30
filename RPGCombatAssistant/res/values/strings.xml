@@ -8,7 +8,9 @@
     <!-- Common elements -->
     <string name="errorMustBeANumber">Debe ser numérico</string>
     <string name="errorMandatory">Obligatorio</string>
-    
+    <string name="fumble">¡Pifia!</string>
+    <string name="noEffect">Sin efecto</string>
+
     <!-- Splash screen Activity -->
     <string name="splash_main">RPG Combat Assistant</string>
     
@@ -40,12 +42,18 @@
     <string name="attack_title">Ataque</string>
     <string name="attack_name">Nombre</string>
     <string name="attack_attackType">Tipo</string>
-    <string name="attack_bonus">Bonus</string>
+    <string name="attack_extra">Extra</string>
+    <string name="attack_defenderArmorType">Armadura</string>
     <string name="attack_roll">Tirada</string>
     <string name="attack_cancelButton">Cancelar</string>
     <string name="attack_goButton">Atacar</string>
     <string name="attack_goToCriticalButton">Lanzar crítico</string>
-    
+    <string name="menu_attack_edit">Editar</string>
+    <string name="menu_attack_delete">Eliminar</string>
+    <string name="attack_deleteDialog_title">Eliminar ataque</string>
+    <string name="attack_deleteDialog_message">¿Estás seguro de querer eliminar este ataque?</string>
+    <string name="attack_deleteDialog_ok">Sí, elimínalo</string>
+    <string name="attack_deleteDialog_cancel">No</string>
     
     <!-- Attack Edit Activity -->
     <string name="attackEdit_title">Edición de ataque</string>

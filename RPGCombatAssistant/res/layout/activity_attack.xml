@@ -1,4 +1,3 @@
-
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,111 +6,83 @@
     <!-- Name -->
     <TextView
         android:id="@+id/attack_nameLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/common_form_fullRow"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="30dp"
-        android:text="@string/attack_name" />
+        android:layout_alignParentTop="true" />
+	<!-- Attack/defense slider -->
+	<TextView
+        android:id="@+id/attack_bonusSeekLabel"
+        style="@style/common_form_fullRow"
+		android:gravity="center"
+        android:layout_below="@+id/attack_nameLabel" />
+    <SeekBar
+		android:id="@+id/attack_bonusSeek"
+		style="@style/common_form_fullRow"
+		android:layout_below="@+id/attack_bonusSeekLabel"
+		 />
+    <!-- Extra -->
     <TextView
-        android:id="@+id/attack_name"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="10dp"
-        android:layout_alignBaseline="@+id/attack_nameLabel"  
-        android:layout_toRightOf="@+id/attack_nameLabel" />
-	<!-- Type -->
-    <TextView
-        android:id="@+id/attack_attackTypeLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/attack_nameLabel"
-        android:layout_alignLeft="@+id/attack_nameLabel"
-        android:layout_marginTop="40dp"
-        android:text="@string/attack_attackType" />
-    <TextView
-        android:id="@+id/attack_attackType"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/attack_attackTypeLabel"
-        android:layout_alignRight="@+id/attack_name"
-        android:layout_alignLeft="@+id/attack_name"
-        android:layout_toRightOf="@+id/attack_attackTypeLabel"
-    />
-	<!-- Bonus -->
-    <TextView
-        android:id="@+id/attack_bonusLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/attack_attackTypeLabel"
-        android:layout_alignLeft="@+id/attack_attackTypeLabel"
-        android:layout_marginTop="40dp"
-        android:text="@string/attack_bonus" />
+        android:id="@+id/attack_extraLabel"
+        android:layout_below="@+id/attack_bonusSeek"
+        style="@style/common_form_label"
+        android:text="@string/attack_extra" />
     <EditText
-        android:id="@+id/attack_bonus"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/attack_attackType"
-        android:layout_alignRight="@+id/attack_attackType"
-        android:layout_alignBaseline="@id/attack_bonusLabel"
+        android:id="@+id/attack_extra"
+        style="@style/common_form_input"
+        android:layout_alignBaseline="@+id/attack_extraLabel"
+        android:layout_toRightOf="@+id/attack_extraLabel"
         android:inputType="numberSigned" />
+    
+    <!-- Defender armor type -->
+    <TextView
+        android:id="@+id/attack_defenderArmorTypeLabel"
+        android:layout_below="@+id/attack_extraLabel"
+        style="@style/common_form_label"
+        android:text="@string/attack_defenderArmorType" />
+	<Spinner
+        android:id="@+id/attack_defenderArmorType"
+        style="@style/common_form_input"
+        android:layout_alignBaseline="@+id/attack_defenderArmorTypeLabel"
+        android:layout_toRightOf="@+id/attack_defenderArmorTypeLabel"
+        android:inputType="textPersonName" />
     <!-- Roll -->
     <TextView
         android:id="@+id/attack_rollLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/attack_bonusLabel"
-        android:layout_alignLeft="@+id/attack_bonusLabel"
-        android:layout_marginTop="40dp"
+        style="@style/common_form_label"
+        android:layout_below="@+id/attack_defenderArmorTypeLabel"
         android:text="@string/attack_roll" />
     <EditText
         android:id="@+id/attack_roll"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/attack_bonus"
-        android:layout_alignRight="@+id/attack_bonus"
+        style="@style/common_form_input"
         android:layout_alignBaseline="@+id/attack_rollLabel"
+        android:layout_toRightOf="@+id/attack_rollLabel"
         android:inputType="numberSigned" />
     
     <!-- Buttons -->
     <Button
         android:id="@+id/attack_cancelButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/attack_nameLabel"
+        style="@style/common_form_label"
         android:layout_below="@+id/attack_rollLabel"
-        android:layout_marginTop="40dp"
         android:text="@string/attack_cancelButton" />
 
     <Button
         android:id="@+id/attack_goButton"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        style="@style/common_form_input"
         android:layout_alignBaseline="@+id/attack_cancelButton"
         android:layout_toRightOf="@+id/attack_cancelButton"
-        android:layout_marginRight="10dp"
         android:text="@string/attack_goButton" />
     
     <!-- Result area -->
     <TextView
         android:id="@+id/attack_result"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/attack_cancelButton"
-        android:layout_alignLeft="@+id/attack_nameLabel"
-        android:layout_alignRight="@+id/attack_name"
-        android:layout_marginTop="40dp" />
+        style="@style/common_form_fullRow"
+        android:layout_below="@+id/attack_cancelButton" />
 
     <!-- Go to critical -->
     <Button
         android:id="@+id/attack_goToCriticalButton"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        style="@style/common_form_fullRow"
         android:layout_below="@+id/attack_result"
-        android:layout_alignLeft="@+id/attack_result"
-        android:layout_alignRight="@+id/attack_result"
-        android:layout_marginTop="40dp" 
         android:text="@string/attack_goToCriticalButton"
         android:visibility="invisible"/>
     

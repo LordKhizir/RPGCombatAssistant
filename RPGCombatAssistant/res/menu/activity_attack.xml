@@ -1,0 +1,9 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/menu_attack_edit"
+        android:title="@string/menu_attack_edit"
+        android:orderInCategory="100"
+        android:showAsAction="ifRoom" />
+    <item android:id="@+id/menu_attack_delete"
+        android:title="@string/menu_attack_delete"
+        android:orderInCategory="200" />
+</menu>

@@ -185,7 +185,6 @@ public class CharacterActivity extends Activity {
 	 */
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		// TODO Auto-generated method stub
 		super.onActivityResult(requestCode, resultCode, data);
 		if (requestCode == REQUEST_CHARACTER_EDIT) {
 			switch (resultCode) {
@@ -210,6 +209,9 @@ public class CharacterActivity extends Activity {
 				// Attack creation edition was cancelled. So, no need to reload it.
 				break;
 			}
+		} else if (requestCode == REQUEST_ATTACK) {
+			// Reload attacks, as the attack can have been edited or even deleted
+			populateAttackList();			
 		}
 	}
 }
