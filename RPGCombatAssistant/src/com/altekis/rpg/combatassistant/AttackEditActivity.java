@@ -1,9 +1,11 @@
 package com.altekis.rpg.combatassistant;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
-import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -14,13 +16,17 @@ import android.widget.EditText;
 import android.widget.Spinner;
 
 import com.altekis.rpg.combatassistant.attack.Attack;
-import com.altekis.rpg.combatassistant.attack.AttackType;
-import com.altekis.rpg.combatassistant.attack.LAOAttack;
+import com.altekis.rpg.combatassistant.character.RPGCharacter;
+import com.altekis.rpg.combatassistant.character.RPGCharacterAttack;
+import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.stmt.QueryBuilder;
 
-public class AttackEditActivity extends Activity {
-	static private Attack attack;
-	static String selectedAttackType = null;
-	static final int CREATE_NEW_ATTACK = -1;
+public class AttackEditActivity extends BaseActivity {
+
+    private static final int CREATE_NEW_ATTACK = 0;
+
+	private RPGCharacterAttack characterAttack;
+	private long attackId;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -28,65 +34,98 @@ public class AttackEditActivity extends Activity {
 		setContentView(R.layout.activity_attack_edit);
 
 		// Get Extras
-		long attackId = getIntent().getLongExtra("AttackId",CREATE_NEW_ATTACK);
+		long attackId = getIntent().getLongExtra("AttackId", CREATE_NEW_ATTACK);
 
-		if (attackId==CREATE_NEW_ATTACK) {
+		if (attackId == CREATE_NEW_ATTACK) {
 			// If no AttackId, we'll create a new one instead of updating
-			attack = new Attack();
-			attack.setId(CREATE_NEW_ATTACK);
+			characterAttack = new RPGCharacterAttack();
 			// ... but the parent character should be assigned!
-			long characterId = getIntent().getLongExtra("CharacterId",0);
-			attack.setCharacterId(characterId);
+			long characterId = getIntent().getLongExtra(CharacterActivity.ARG_CHARACTER_ID, 0);
+            RPGCharacter rpgCharacter = new RPGCharacter();
+            rpgCharacter.setId(characterId);
+			characterAttack.setRPGCharacter(rpgCharacter);
 		} else {
-			// Retrieve the desired attack
-			attack = new LAOAttack().getAttack(attackId);
-		}
+			// Retrieve the desired characterAttack
+            try {
+                Dao<RPGCharacterAttack, Long> dao = getHelper().getDaoRPGCharacterAttack();
+                characterAttack = dao.queryForId(attackId);
+            } catch (SQLException e) {
+                Log.e("RPGCombatAssistant", "Can't read database", e);
+            }
+        }
 
-		// Set UI
-		EditText nameText = (EditText) findViewById(R.id.attackEdit_name);
-		nameText.setText(attack.getName());
+        if (characterAttack == null) {
+            // Database not accesible, we need to finish
+            finish();
+        } else {
+            // Set UI
+            EditText nameText = (EditText) findViewById(R.id.attackEdit_name);
+            nameText.setText(characterAttack.getName());
 
-		Spinner attackTypeSpinner = (Spinner) findViewById(R.id.attackEdit_attackType);
-		// Create an ArrayAdapter using the string array and a default spinner layout
-		ArrayAdapter<AttackType> attackTypeAdapter = new ArrayAdapter<AttackType>(this,
-				android.R.layout.simple_spinner_item,
-				new ArrayList<AttackType>(RPGCombatAssistant.attackTypes.values()));
-		// Specify the layout to use when the list of choices appears
-		attackTypeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		// Apply the adapter to the spinner
-		attackTypeSpinner.setAdapter(attackTypeAdapter);
-		attackTypeSpinner.setOnItemSelectedListener(new AttackTypeSelectedListener());
-		
-		EditText bonusText = (EditText) findViewById(R.id.attackEdit_bonus);
-		bonusText.setText(Integer.toString(attack.getBonus()));
+            Spinner attackTypeSpinner = (Spinner) findViewById(R.id.attackEdit_attackType);
+            // Create an ArrayAdapter using the string array and a default spinner layout
+            List<Attack> attackList;
+            try {
+                Dao<Attack, Long> dao = getHelper().getDaoAttack();
+                QueryBuilder<Attack, Long> qb = dao.queryBuilder();
+                // TODO - Change when rolemaster will available
+                qb.setWhere(qb.where().eq(Attack.FIELD_RM, false));
+                qb.orderBy(Attack.FIELD_NAME, true);
+                attackList = dao.query(qb.prepare());
+            } catch (SQLException e) {
+                Log.e("RPGCombatAssistant", "Can't read database", e);
+                attackList = new ArrayList<Attack>();
+            }
+            ArrayAdapter<Attack> attackTypeAdapter = new ArrayAdapter<Attack>(this,
+                    android.R.layout.simple_spinner_item, attackList);
+            // Specify the layout to use when the list of choices appears
+            attackTypeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            // Apply the adapter to the spinner
+            attackTypeSpinner.setAdapter(attackTypeAdapter);
+            if (characterAttack.getAttack() != null) {
+                // Editting, we need to set de spinner on right position
+                int position = 0;
+                for (Attack attack : attackList) {
+                    if (attack.getId() == characterAttack.getId()) {
+                        attackTypeSpinner.setSelection(position);
+                        break;
+                    }
+                    position++;
+                }
+            }
+            attackTypeSpinner.setOnItemSelectedListener(new AttackTypeSelectedListener());
 
-		// Add listeners for buttons
-		Button btnCancel = (Button) findViewById(R.id.attackEdit_cancelButton);
-		btnCancel.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				doCancel();
-			}
-		});
+            EditText bonusText = (EditText) findViewById(R.id.attackEdit_bonus);
+            bonusText.setText(Integer.toString(characterAttack.getBonus()));
 
-		Button btnSave = (Button) findViewById(R.id.attackEdit_saveButton);
-		btnSave.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				doSave();
-			}
-		});
+            // Add listeners for buttons
+            Button btnCancel = (Button) findViewById(R.id.attackEdit_cancelButton);
+            btnCancel.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    doCancel();
+                }
+            });
+
+            Button btnSave = (Button) findViewById(R.id.attackEdit_saveButton);
+            btnSave.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    doSave();
+                }
+            });
+        }
 	}
 
 	/** Nested class for spinner value recovery */
 	public class AttackTypeSelectedListener implements OnItemSelectedListener {
 
 		public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-			selectedAttackType = ((AttackType)parent.getItemAtPosition(pos)).getKey();
+			attackId = ((Attack) parent.getItemAtPosition(pos)).getId();
 		}
 
 		public void onNothingSelected(AdapterView<?> parent) {
-			selectedAttackType = null;
+			attackId = 0;
 		}
 	}
 	/**
@@ -102,11 +141,11 @@ public class AttackEditActivity extends Activity {
 	 * Apply changes and go back to caller
 	 */
 	private void doSave() {
-		// Update attack with the info provided by the user
+		// Update characterAttack with the info provided by the user
 		EditText nameText = (EditText) findViewById(R.id.attackEdit_name);
 		EditText bonusText = (EditText) findViewById(R.id.attackEdit_bonus);
 
-		// For each UI field: get input value, check for errors, update attack field
+		// For each UI field: get input value, check for errors, update characterAttack field
 		boolean errorFound = false;
 		
 		// Name - mandatory
@@ -115,33 +154,33 @@ public class AttackEditActivity extends Activity {
 			nameText.setError(getResources().getText(R.string.errorMandatory));
 			errorFound = true;
 		} else {
-			attack.setName(name);
+			characterAttack.setName(name);
 		}
 		
 		// Attack type - it's a spinner, no error possible
-		attack.setAttackType(selectedAttackType);
+        Attack attack = new Attack();
+        attack.setId(attackId);
+		characterAttack.setAttack(attack);
 		
 		// Bonus - numeric, mandatory
 		int bonus = 0;
 		try {
 			bonus = Integer.parseInt(bonusText.getText().toString());
-			attack.setBonus(bonus);
+			characterAttack.setBonus(bonus);
 		} catch (NumberFormatException e) {
 			errorFound = true;
 			bonusText.setError(getResources().getText(R.string.errorMustBeANumber));
 		}
  
 		if (!errorFound) {
-			// Everything is correct... go create/update the attack
-			if (attack.getId()==CREATE_NEW_ATTACK) {
-				// Create a new attack with the entered info
-				new LAOAttack().addAttack(attack);
-			} else {
-				// Update an existing attack
-				new LAOAttack().updateAttack(attack);
-			}
+            try {
+                Dao<RPGCharacterAttack, Long> dao = getHelper().getDaoRPGCharacterAttack();
+                dao.createOrUpdate(characterAttack);
+                setResult(RESULT_OK); // Set result as OK == created/updated
+            } catch (SQLException e) {
+                Log.e("RPGCombatAssistant", "Can't write database", e);
+            }
 
-			setResult(RESULT_OK); // Set result as OK == created/updated
 			finish();
 		}
 	}

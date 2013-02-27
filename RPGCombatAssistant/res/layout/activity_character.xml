@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
-    <!-- Character name + player name -->
+    <!-- RPGCharacter name + player name -->
     <TextView
         android:id="@+id/character_nameLabel"
         style="@style/common_form_fullRow"

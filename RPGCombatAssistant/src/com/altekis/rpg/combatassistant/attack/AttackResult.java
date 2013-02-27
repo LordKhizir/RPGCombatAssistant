@@ -1,6 +1,7 @@
 package com.altekis.rpg.combatassistant.attack;
 
 import com.altekis.rpg.combatassistant.critical.CriticalLevel;
+import com.altekis.rpg.combatassistant.critical.Critical;
 
 /**
  * Wrapper for the results of an attack
@@ -9,7 +10,7 @@ import com.altekis.rpg.combatassistant.critical.CriticalLevel;
 public class AttackResult {
 	int hitPoints = 0;
 	CriticalLevel critLevel = null;
-	String critType = null;
+	Critical critical = null;
 	boolean fumbled = false;
 	
 	// Getters
@@ -19,14 +20,14 @@ public class AttackResult {
 	public CriticalLevel getCritLevel() {
 		return critLevel;
 	}
-	public String getCritType() {
-		return critType;
+	public Critical getCritical() {
+		return critical;
 	}
 	public boolean isFumbled() {
 		return fumbled;
 	}
 	public boolean isNoEffects() {
-		return (hitPoints==0 && critType == null && fumbled==false);
+		return (hitPoints==0 && critical == null && fumbled==false);
 	}
 	// Setters
 	public void setHitPoints(int hitPoints) {
@@ -35,8 +36,8 @@ public class AttackResult {
 	public void setCritLevel(CriticalLevel critLevel) {
 		this.critLevel = critLevel;
 	}
-	public void setCritType(String critType) {
-		this.critType = critType;
+	public void setCritical(Critical critical) {
+		this.critical = critical;
 	}
 	public void setFumbled(boolean fumbled) {
 		this.fumbled = fumbled;

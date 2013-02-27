@@ -1,7 +1,7 @@
 package com.altekis.rpg.combatassistant;
 
-import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -12,21 +12,24 @@ import android.widget.EditText;
 import android.widget.Spinner;
 
 import com.altekis.rpg.combatassistant.character.ArmorType;
-import com.altekis.rpg.combatassistant.character.LAOCharacter;
 import com.altekis.rpg.combatassistant.character.RPGCharacter;
+import com.j256.ormlite.dao.Dao;
 
-public class CharacterEditActivity extends Activity {
-	static private RPGCharacter character;
-	static final int CREATE_NEW_CHARACTER = -1;
-	
-	static private ArmorType selectedArmorType = null;
+import java.sql.SQLException;
 
-	// Static view references used everywhere
-	static private EditText nameText;
-	static private EditText playerNameText;
-	static private EditText maxHitPointsText;
-	static private EditText hitPointsText;
-	static private Spinner armorTypeSpinner;
+public class CharacterEditActivity extends BaseActivity {
+
+	static final int CREATE_NEW_CHARACTER = 0;
+
+    private RPGCharacter character;
+	private ArmorType[] armorTypes;
+
+	// view references used everywhere
+	private EditText nameText;
+	private EditText playerNameText;
+	private EditText maxHitPointsText;
+	private EditText hitPointsText;
+	private Spinner armorTypeSpinner;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -34,53 +37,70 @@ public class CharacterEditActivity extends Activity {
 		setContentView(R.layout.activity_character_edit);
 
 		// Get Extras
-		long characterId = getIntent().getLongExtra("CharacterId",CREATE_NEW_CHARACTER);
+		long characterId = getIntent().getLongExtra(CharacterActivity.ARG_CHARACTER_ID, CREATE_NEW_CHARACTER);
 
     	if (characterId==CREATE_NEW_CHARACTER) {
     		// If no CharacterId, we'll create a new one instead of updating
     		character = new RPGCharacter();
+            character.setArmorType(ArmorType.TP1.getArmor());
     		character.setId(CREATE_NEW_CHARACTER);
     	} else {
     		// Retrieve the desired character
-    		character = new LAOCharacter().getCharacter(characterId);
+            try {
+                Dao<RPGCharacter, Long> dao = getHelper().getDaoRPGCharacter();
+                character = dao.queryForId(characterId);
+            } catch (SQLException e) {
+                Log.e("RPGCombatAssistant", "Can't read database", e);
+            }
     	}
-		
-    	// Set static view references to UI elements used everywhere...
-		nameText = (EditText) findViewById(R.id.characterEdit_name);
-		playerNameText = (EditText) findViewById(R.id.characterEdit_playerName);
-		maxHitPointsText = (EditText) findViewById(R.id.characterEdit_maxHitPoints);
-		hitPointsText = (EditText) findViewById(R.id.characterEdit_hitPoints);
-		armorTypeSpinner = (Spinner) findViewById(R.id.characterEdit_armorType);
 
-		// Create an ArrayAdapter using the string array and a default spinner layout
-		ArrayAdapter<ArmorType> armorTypeAdapter = new ArrayAdapter<ArmorType>(this,
-				android.R.layout.simple_spinner_item,
-				ArmorType.values());
-		// Specify the layout to use when the list of choices appears
-		armorTypeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		// Apply the adapter to the spinner
-		armorTypeSpinner.setAdapter(armorTypeAdapter);
-		armorTypeSpinner.setOnItemSelectedListener(new ArmorTypeSelectedListener());
+        if (character == null) {
+            // Database not accesible, we need to finish
+            finish();
+        } else {
+            // Set static view references to UI elements used everywhere...
+            nameText = (EditText) findViewById(R.id.characterEdit_name);
+            playerNameText = (EditText) findViewById(R.id.characterEdit_playerName);
+            maxHitPointsText = (EditText) findViewById(R.id.characterEdit_maxHitPoints);
+            hitPointsText = (EditText) findViewById(R.id.characterEdit_hitPoints);
+            armorTypeSpinner = (Spinner) findViewById(R.id.characterEdit_armorType);
 
-		// Add listeners for buttons
-		Button btnCancel = (Button) findViewById(R.id.characterEdit_cancelButton);
-        btnCancel.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				doCancel();
-			}
-		});
+            // TODO - Change when rolemaster setting will available
+            armorTypes = ArmorType.getArmorTypes(false);
+            final String[] titles = new String[armorTypes.length];
+            for (int i = 0 ; i < armorTypes.length ; i++) {
+                titles[i] = getString(armorTypes[i].getMerpString());
+            }
+            // Create an ArrayAdapter using the string array and a default spinner layout
+            ArrayAdapter<String> armorTypeAdapter = new ArrayAdapter<String>(this,
+                    android.R.layout.simple_spinner_item,
+                    titles);
+            // Specify the layout to use when the list of choices appears
+            armorTypeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            // Apply the adapter to the spinner
+            armorTypeSpinner.setAdapter(armorTypeAdapter);
+            armorTypeSpinner.setOnItemSelectedListener(new ArmorTypeSelectedListener());
 
-		Button btnSave = (Button) findViewById(R.id.characterEdit_saveButton);
-        btnSave.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				doSave();
-			}
-		});
-        
-        // Complete UI
-        populateUI();
+            // Add listeners for buttons
+            Button btnCancel = (Button) findViewById(R.id.characterEdit_cancelButton);
+            btnCancel.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    doCancel();
+                }
+            });
+
+            Button btnSave = (Button) findViewById(R.id.characterEdit_saveButton);
+            btnSave.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    doSave();
+                }
+            });
+
+            // Complete UI
+            populateUI();
+        }
 	}
 	
 	/**
@@ -95,8 +115,8 @@ public class CharacterEditActivity extends Activity {
 		
 		// Select spinner position - Armor type
 		int position = 0;
-		for (ArmorType type:ArmorType.values()) {
-			if (type.equals(selectedArmorType)) {
+		for (ArmorType type : armorTypes) {
+			if (type.getArmor() == character.getArmorType()) {
 				armorTypeSpinner.setSelection(position);
 				break;
 			}
@@ -108,11 +128,11 @@ public class CharacterEditActivity extends Activity {
 	public class ArmorTypeSelectedListener implements OnItemSelectedListener {
 
 		public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-			selectedArmorType = ((ArmorType)parent.getItemAtPosition(pos));
+			character.setArmorType(armorTypes[pos].getArmor());
 		}
 
 		public void onNothingSelected(AdapterView<?> parent) {
-			selectedArmorType = null;
+			//
 		}
 	}
 	
@@ -169,19 +189,18 @@ public class CharacterEditActivity extends Activity {
 			}
 		}
 		// armor type is a spinner, it's always correct
-		character.setArmorType(selectedArmorType);
+        // Armor is setted on spinner change
+		//character.setArmorType(selectedArmorType);
 
 		if (!errorFound) {
 			// Everything is correct... go create/update the character
-			if (character.getId()==CREATE_NEW_CHARACTER) {
-				// Create a new character with the entered info
-				new LAOCharacter().addCharacter(character);
-			} else {
-				// Update an existing character
-		    	new LAOCharacter().updateCharacter(character);
-			}
-
-			setResult(RESULT_OK); // Set result as OK == created/updated
+            try {
+                Dao<RPGCharacter, Long> dao = getHelper().getDaoRPGCharacter();
+                dao.createOrUpdate(character);
+                setResult(RESULT_OK); // Set result as OK == created/updated
+            } catch (SQLException e) {
+                Log.e("RPGCombatAssistant", "Can't read database", e);
+            }
 	    	finish();
 		}
 	}

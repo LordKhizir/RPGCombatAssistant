@@ -1,0 +1,12 @@
+#id;name
+1;Aplastamiento
+2;Tajo
+3;Perforación
+4;Desequilibrio
+5;Presa
+6;Calor
+7;Frío
+8;Electricidad
+9;Impacto
+10;Grandes Criaturas
+11;Grandes Criaturas - Sortilegios

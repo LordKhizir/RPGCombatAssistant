@@ -1,58 +1,52 @@
 package com.altekis.rpg.combatassistant;
 
-import java.util.List;
-
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.AdapterView;
+import android.widget.*;
 import android.widget.AdapterView.OnItemSelectedListener;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ScrollView;
-import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
-import android.widget.Spinner;
-import android.widget.TextView;
-
-import com.altekis.rpg.combatassistant.attack.Attack;
 import com.altekis.rpg.combatassistant.attack.AttackResult;
-import com.altekis.rpg.combatassistant.attack.AttackType;
-import com.altekis.rpg.combatassistant.attack.LAOAttack;
 import com.altekis.rpg.combatassistant.character.ArmorType;
-import com.altekis.rpg.combatassistant.character.LAOCharacter;
+import com.altekis.rpg.combatassistant.attack.Attack;
+import com.altekis.rpg.combatassistant.db.DBUtil;
 import com.altekis.rpg.combatassistant.character.RPGCharacter;
+import com.altekis.rpg.combatassistant.character.RPGCharacterAttack;
+import com.j256.ormlite.dao.Dao;
 
-public class AttackActivity extends Activity {
-	static private Attack attack;
-	static private AttackType attackType;
-	static private AttackResult attackResult;
-	static private RPGCharacter selectedDefender;
-	static private ArmorType selectedDefenderArmorType;
-	static private List<RPGCharacter> characters;
+import java.sql.SQLException;
+import java.util.List;
 
-	// Attack bonus - total = attack + parry
-	static private int totalBonus = 0;
-	static private int attackBonus = 0;
+public class AttackActivity extends BaseActivity {
 
-	// Static view references used everywhere
-	static private TextView nameText;
-	static private TextView bonusSeekText;
-	static private SeekBar bonusSeek;
-	static private Spinner defenderSpinner;
-	static private Spinner defenderArmorTypeSpinner;
-	static private EditText extraText;
-	static private EditText rollText;
-	static private TextView resultText;
-	static private Button applyResultButton;
-	static private Button goToCriticalButton;
+	private RPGCharacterAttack characterAttack;
+    private List<RPGCharacter> characters;
+    private ArmorType[] armorTypes;
+    private ArmorType selectedDefenderArmorType;
+    private AttackResult attackResult;
+	private RPGCharacter selectedDefender;
+
+
+	// Attack bonus - total = characterAttack + parry
+	private int totalBonus = 0;
+	private int attackBonus = 0;
+
+	// View references used everywhere
+	private TextView nameText;
+	private TextView bonusSeekText;
+	private SeekBar bonusSeek;
+    private Spinner defenderArmorTypeSpinner;
+	private EditText extraText;
+	private EditText rollText;
+	private TextView resultText;
+	private Button applyResultButton;
+	private Button goToCriticalButton;
 
 	static final int VOID_CHARACTER_IDENTIFIER = -1;
 	static final int REQUEST_ROLL_CRITICAL = 1;
@@ -65,27 +59,34 @@ public class AttackActivity extends Activity {
 
 		// Get Extras
 		long attackId = getIntent().getLongExtra("AttackId",0);
-		attack = new LAOAttack().getAttack(attackId);
+        try {
+            Dao<RPGCharacterAttack, Long> daoRPGCharacterAttack = getHelper().getDaoRPGCharacterAttack();
+            Dao<RPGCharacter, Long> daoRPGCharacter = getHelper().getDaoRPGCharacter();
+            Dao<Attack, Long> daoAttack = getHelper().getDaoAttack();
+            characterAttack = daoRPGCharacterAttack.queryForId(attackId);
+            daoAttack.refresh(characterAttack.getAttack());
+            // Get actual characters
+		    characters = daoRPGCharacter.query(daoRPGCharacter.queryBuilder().orderBy(RPGCharacter.FIELD_NAME, true).prepare());
+            RPGCharacter voidCharacter = new RPGCharacter();
+		    voidCharacter.setId(VOID_CHARACTER_IDENTIFIER);
+		    voidCharacter.setName("(Nadie)");
+            voidCharacter.setArmorType(ArmorType.TP1.getArmor());
+            characters.add(0,voidCharacter);
+        } catch (SQLException e) {
+            Log.e("RPGCombatAssistant", "Can't read database", e);
+        }
 
 		// Set static view references to UI elements used everywhere...
 		nameText = (TextView) findViewById(R.id.attack_nameLabel);
 		bonusSeekText = (TextView) findViewById(R.id.attack_bonusSeekLabel);
 		bonusSeek = (SeekBar) findViewById(R.id.attack_bonusSeek);
-		defenderSpinner = (Spinner) findViewById(R.id.attack_defender);
+        Spinner defenderSpinner = (Spinner) findViewById(R.id.attack_defender);
 		defenderArmorTypeSpinner = (Spinner) findViewById(R.id.attack_defenderArmorType);
 		extraText = (EditText) findViewById(R.id.attack_extra);
 		rollText = (EditText) findViewById(R.id.attack_roll);
 		resultText = (TextView) findViewById(R.id.attack_result);
 		applyResultButton = (Button) findViewById(R.id.attack_applyResultButton);
 		goToCriticalButton = (Button) findViewById(R.id.attack_goToCriticalButton);
-
-		// Get actual characters
-		LAOCharacter laoCharacter = new LAOCharacter();
-		RPGCharacter voidCharacter = new RPGCharacter();
-		voidCharacter.setId(VOID_CHARACTER_IDENTIFIER);
-		voidCharacter.setName("(Nadie)");
-		characters = laoCharacter.getActiveCharacters();
-		characters.add(0,voidCharacter);
 
 		// Defender Spinner - fed with list of "current" characters
 		// Create an ArrayAdapter using the string array and a default spinner layout
@@ -101,9 +102,15 @@ public class AttackActivity extends Activity {
 
 		// DefenderArmorType Spinner
 		// Create an ArrayAdapter using the string array and a default spinner layout
-		ArrayAdapter<ArmorType> defenderArmorTypeAdapter = new ArrayAdapter<ArmorType>(this,
+        // TODO - Change when rolemaster setting will available
+        armorTypes = ArmorType.getArmorTypes(false);
+        final String[] titles = new String[armorTypes.length];
+        for (int i = 0 ; i < armorTypes.length ; i++) {
+            titles[i] = getString(armorTypes[i].getMerpString());
+        }
+		ArrayAdapter<String> defenderArmorTypeAdapter = new ArrayAdapter<String>(this,
 				android.R.layout.simple_spinner_item,
-				ArmorType.values());
+				titles);
 		// Specify the layout to use when the list of choices appears
 		defenderArmorTypeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		// Apply the adapter to the spinner
@@ -168,16 +175,14 @@ public class AttackActivity extends Activity {
 	 */
 	private void populateAttackUI() {
 		// Set UI
+        nameText.setText(characterAttack.getName() + " (" + characterAttack.getAttack().getName() + ")");
 
-		attackType = RPGCombatAssistant.attackTypes.get(attack.getAttackType());
-		nameText.setText(attack.getName() + " (" + attackType.getName() + ")");
-
-		totalBonus = attack.getBonus();
+		totalBonus = characterAttack.getBonus();
 
 		bonusSeek.setMax(totalBonus);
 		bonusSeek.setProgress(totalBonus);
 
-		// By default, EVERYTHING to attack
+		// By default, EVERYTHING to characterAttack
 		attackBonus = totalBonus;
 		updateBonusText();
 	}
@@ -187,17 +192,18 @@ public class AttackActivity extends Activity {
 	 * Used each time the Defender Spinner is changed
 	 */
 	private void populateDefenderArmorType() {
-		selectedDefenderArmorType = selectedDefender.getArmorType();
-
+		selectedDefenderArmorType = ArmorType.fromInteger(selectedDefender.getArmorType());
+        // TODO - Change when rolemaster setting will available
+        if (selectedDefenderArmorType.getMerpString() == 0) {
+            selectedDefenderArmorType = ArmorType.fromInteger(selectedDefenderArmorType.getMerpArmor());
+        }
 		// Select spinner position - Defender armor type
-		int position = 0;
-		for (ArmorType type:ArmorType.values()) {
-			if (type.equals(selectedDefenderArmorType)) {
-				defenderArmorTypeSpinner.setSelection(position);
+        for (int i = 0 ; i < armorTypes.length ; i++) {
+            if (armorTypes[i] == selectedDefenderArmorType) {
+				defenderArmorTypeSpinner.setSelection(i);
 				break;
 			}
-			position++;
-		}
+        }
 	}
 
 	private void updateBonusText() {
@@ -209,7 +215,7 @@ public class AttackActivity extends Activity {
 	public class DefenderArmorTypeSelectedListener implements OnItemSelectedListener {
 
 		public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-			selectedDefenderArmorType = ((ArmorType)parent.getItemAtPosition(pos));
+			selectedDefenderArmorType = armorTypes[pos];
 		}
 
 		public void onNothingSelected(AdapterView<?> parent) {
@@ -240,7 +246,7 @@ public class AttackActivity extends Activity {
 	}
 
 	/**
-	 * Get all info and calculate attack result
+	 * Get all info and calculate characterAttack result
 	 */
 	private void doGo() {
 		// Reset visibility
@@ -248,7 +254,7 @@ public class AttackActivity extends Activity {
 		goToCriticalButton.setVisibility(View.GONE);
 
 		// Initialize variables
-		int bonus = 0;
+		int bonus;
 		int roll = 0;
 		int extra = 0;
 		String resultMessage = "";
@@ -288,7 +294,7 @@ public class AttackActivity extends Activity {
 			// TODO Falta parry, bonuses/minuses por oportunidad, status, etc...
 			int total = bonus + extra + roll;
 
-			attackResult = attackType.getValue(roll, total, selectedDefenderArmorType);
+            attackResult = DBUtil.getValue(getHelper(), characterAttack.getAttack(), roll, total, selectedDefenderArmorType);
 
 			if (attackResult.isNoEffects()) {
 				resultMessage = getResources().getString(R.string.noEffect);	
@@ -311,17 +317,17 @@ public class AttackActivity extends Activity {
 					}
 				}
 				if (attackResult.getCritLevel()!=null) {
-					resultMessage+= "Crítico " + attackResult.getCritLevel().toString() + " (" + attackResult.getCritType() + ")";
+					resultMessage+= "Crítico " + attackResult.getCritLevel().toString() + " (" + attackResult.getCritical() + ")";
 
 					// There's a critical result... show UI elements for it
 					goToCriticalButton.setVisibility(View.VISIBLE);					
 					goToCriticalButton.requestFocus();
 					
 				}
-				((ScrollView) findViewById(R.id.attack_scrollView)).scrollTo(0,((TextView)findViewById(R.id.attack_lastElement)).getBottom());
+				findViewById(R.id.attack_scrollView).scrollTo(0, findViewById(R.id.attack_lastElement).getBottom());
 			}
 		}
-		// Show result of attack
+		// Show result of characterAttack
 		resultText.setText(resultMessage);
 	}
 
@@ -329,9 +335,23 @@ public class AttackActivity extends Activity {
 	 * Apply result to defender
 	 */
 	private void doApplyResult() {
-		LAOCharacter laoCharacter = new LAOCharacter();
-		laoCharacter.modifyHitPoints(selectedDefender.getId(), attackResult.getHitPoints()*-1, selectedDefender.getHitPoints(), selectedDefender.getMaxHitPoints());
-		applyResultButton.setText("Aplicado");
+		int hitPoints = selectedDefender.getHitPoints() + (attackResult.getHitPoints() * -1);
+        if (hitPoints > selectedDefender.getMaxHitPoints()) {
+            hitPoints = selectedDefender.getMaxHitPoints();
+        }
+        if (hitPoints < 0) {
+            hitPoints = 0;
+        }
+        selectedDefender.setHitPoints(hitPoints);
+
+        try {
+            Dao<RPGCharacter, Long> daoRPGCharacter = getHelper().getDaoRPGCharacter();
+            daoRPGCharacter.update(selectedDefender);
+        } catch (SQLException e) {
+            Log.e("RPGCombatAssistant", "Can't read database", e);
+        }
+
+        applyResultButton.setText("Aplicado");
 		applyResultButton.setEnabled(false);
 
 	}
@@ -341,9 +361,9 @@ public class AttackActivity extends Activity {
 	private void doGoToCritical() {
 		// Get needed info from static variables
 		Intent intent = new Intent(this, CriticalActivity.class);
-		// We pass no AttackId as extra, to claim for a new attack
-		// But the CharacterId will be needed, to assign the new attack to its correct parent character
-		intent.putExtra("CriticalType", attackResult.getCritType());
+		// We pass no AttackId as extra, to claim for a new characterAttack
+		// But the CharacterId will be needed, to assign the new characterAttack to its correct parent character
+		intent.putExtra("CriticalId", attackResult.getCritical().getId());
 		intent.putExtra("CriticalLevelName", attackResult.getCritLevel().name());
 		//intent.putExtra("CharacterId", character.getId());
 		startActivityForResult(intent, REQUEST_ROLL_CRITICAL);
@@ -374,9 +394,9 @@ public class AttackActivity extends Activity {
 	 * Action for "Edit" command option
 	 */
 	public void doEdit() {
-		// Jump to the edition activity for this attack
+		// Jump to the edition activity for this characterAttack
 		Intent intent = new Intent(this, AttackEditActivity.class);
-		intent.putExtra("AttackId", attack.getId());
+		intent.putExtra("AttackId", characterAttack.getId());
 		startActivityForResult(intent, REQUEST_ATTACK_EDIT);
 	}
 
@@ -410,8 +430,13 @@ public class AttackActivity extends Activity {
 	 * Delete character
 	 */
 	public void doDelete() {
-		long attackId = attack.getId();
-		new LAOAttack().deleteAttack(attackId);
+		long attackId = characterAttack.getId();
+        try {
+            Dao<Attack, Long> daoAttack = getHelper().getDaoAttack();
+            daoAttack.deleteById(attackId);
+        } catch (SQLException e) {
+            Log.e("RPGCombatAssistant", "Can't read database", e);
+        }
 		finish(); // Close this activity
 	}
 
@@ -423,12 +448,19 @@ public class AttackActivity extends Activity {
 			case RESULT_OK:
 				// Attack was edited. So we have to RELOAD it.
 				// Only attackId is guaranteed to remain, we'll use it to access storage
-				long attackId = attack.getId();
-				attack = new LAOAttack().getAttack(attackId);
+				long attackId = characterAttack.getId();
+                try {
+                    Dao<RPGCharacterAttack, Long> daoRPGCharacterAttack = getHelper().getDaoRPGCharacterAttack();
+                    Dao<Attack, Long> daoAttack = getHelper().getDaoAttack();
+                    characterAttack = daoRPGCharacterAttack.queryForId(attackId);
+                    daoAttack.refresh(characterAttack.getAttack());
+                } catch (SQLException e) {
+                    Log.e("RPGCombatAssistant", "Can't read database", e);
+                }
 				populateAttackUI();
 				break;
 			case RESULT_CANCELED:
-				// Character edition was cancelled. So, no need to reload it.
+				// RPGCharacter edition was cancelled. So, no need to reload it.
 				break;
 			}
 		}
