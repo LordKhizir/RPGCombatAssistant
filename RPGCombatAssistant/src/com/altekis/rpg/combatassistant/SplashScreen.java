@@ -1,16 +1,16 @@
 package com.altekis.rpg.combatassistant;
 
-import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.Window;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.altekis.rpg.combatassistant.LoadingTask.LoadingTaskFinishedListener;
+import com.altekis.rpg.combatassistant.db.LoadingTask;
+import com.altekis.rpg.combatassistant.db.LoadingTask.LoadingTaskFinishedListener;
+import com.altekis.rpg.combatassistant.db.DatabaseHelper;
 
-public class SplashScreen extends Activity implements LoadingTaskFinishedListener {
+public class SplashScreen extends BaseActivity implements LoadingTaskFinishedListener {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -21,8 +21,11 @@ public class SplashScreen extends Activity implements LoadingTaskFinishedListene
         // Ready status output
         TextView status = (TextView)findViewById(R.id.status);
         ProgressBar progressBar = (ProgressBar) findViewById(R.id.splash_progressBar);
+
         // Start your loading
-        new LoadingTask(status, progressBar, this, this.getApplicationContext()).execute(); // 
+        setResult(RESULT_CANCELED);
+        DatabaseHelper dbHelper = getHelper();
+        new LoadingTask(status, progressBar, this, this.getApplicationContext()).execute(dbHelper.getWritableDatabase());
     }
 
     @Override
@@ -32,10 +35,11 @@ public class SplashScreen extends Activity implements LoadingTaskFinishedListene
     }
 
 	@Override
-	public void onTaskFinished() {
-		// Loading finished... now start main activity
-		Intent intent = new Intent(this, CharacterListActivity.class);
-        startActivity(intent);
-		finish(); // destroy splash screen
+	public void onTaskFinished(boolean success) {
+		// Loading finished...
+        if (success) {
+            setResult(RESULT_OK);
+        }
+        finish();
 	}
 }

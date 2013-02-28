@@ -1,80 +1,71 @@
 package com.altekis.rpg.combatassistant.attack;
-/**
- * All info related to a character's attack
- *
- */
-public class Attack {
-	/** Id. for internal use - Primary key */
-	long id;
-	/** Character that "owns" that attack */
-	long characterId;
-	/** Key for the attack type */
-	String attackType;
-	/** Attack name - default as the type, but user can rename it to differentiate between similar weapons */
-	String name;
-	/** Total bonus for attack (statistic + skill + weapon) */
-	int bonus;
-	
-	// Just plain, auto-generated setters and getters
 
-	/**
-	 * @return the id
-	 */
-	public long getId() {
-		return id;
-	}
-	/**
-	 * @param id the id to set
-	 */
-	public void setId(long id) {
-		this.id = id;
-	}
-	/**
-	 * @return the characterId
-	 */
-	public long getCharacterId() {
-		return characterId;
-	}
-	/**
-	 * @param characterId the characterId to set
-	 */
-	public void setCharacterId(long characterId) {
-		this.characterId = characterId;
-	}
-	/**
-	 * @return the attackType
-	 */
-	public String getAttackType() {
-		return attackType;
-	}
-	/**
-	 * @param attackType the attackType to set
-	 */
-	public void setAttackType(String attackType) {
-		this.attackType = attackType;
-	}
-	/**
-	 * @return the name
-	 */
-	public String getName() {
-		return name;
-	}
-	/**
-	 * @param name the name to set
-	 */
-	public void setName(String name) {
-		this.name = name;
-	}
-	/**
-	 * @return the bonus
-	 */
-	public int getBonus() {
-		return bonus;
-	}
-	/**
-	 * @param bonus the bonus to set
-	 */
-	public void setBonus(int bonus) {
-		this.bonus = bonus;
-	}
+import com.altekis.rpg.combatassistant.critical.Critical;
+import com.altekis.rpg.combatassistant.db.DatabaseHelper;
+import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.table.DatabaseTable;
+
+@DatabaseTable(tableName = DatabaseHelper.TABLE_ATTACK)
+public class Attack {
+
+    public static final String FIELD_NAME = "name";
+    public static final String FIELD_RM = "rolemaster_system";
+    public static final String FIELD_FUMBLE = "fumble";
+    public static final String FIELD_CRITICAL_ID = "critical_id";
+
+    @DatabaseField(id = true, columnName = DatabaseHelper.FIELD_ID)
+    private long id;
+    @DatabaseField(columnName = FIELD_NAME)
+    private String name;
+    @DatabaseField(columnName = FIELD_RM)
+    private boolean rolematerSystem;
+    @DatabaseField(columnName = FIELD_FUMBLE)
+    private int fumble;
+    @DatabaseField(foreign = true, columnName = FIELD_CRITICAL_ID)
+    private Critical critical;
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public boolean isRolematerSystem() {
+        return rolematerSystem;
+    }
+
+    public void setRolematerSystem(boolean rolematerSystem) {
+        this.rolematerSystem = rolematerSystem;
+    }
+
+    public int getFumble() {
+        return fumble;
+    }
+
+    public void setFumble(int fumble) {
+        this.fumble = fumble;
+    }
+
+    public Critical getCritical() {
+        return critical;
+    }
+
+    public void setCritical(Critical critical) {
+        this.critical = critical;
+    }
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }

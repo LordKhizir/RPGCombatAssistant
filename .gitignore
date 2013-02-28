@@ -22,3 +22,8 @@ local.properties
 .classpath
 .project
 .settings/
+
+#Idea project files
+out/
+.idea/
+*.iml
