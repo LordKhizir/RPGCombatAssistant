@@ -1,9 +1,11 @@
 package com.altekis.rpg.combatassistant;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
-import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -14,13 +16,19 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.altekis.rpg.combatassistant.critical.Critical;
 import com.altekis.rpg.combatassistant.critical.CriticalLevel;
+import com.altekis.rpg.combatassistant.critical.Critical;
+import com.altekis.rpg.combatassistant.db.DBUtil;
+import com.j256.ormlite.dao.Dao;
 
-public class CriticalActivity extends Activity {
-	static String selectedAttackType = null;
-	static Critical selectedCritical = null;
-	static CriticalLevel selectedCriticalLevel = null;
+public class CriticalActivity extends BaseActivity {
+
+    public static final String ARG_CRITICAL_ID = "CriticalId";
+    public static final String ARG_CRITICAL_LEVEL = "CriticalLevelName";
+
+	private Critical selectedCritical;
+	private CriticalLevel selectedCriticalLevel;
+    private List<Critical> criticalList;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -28,15 +36,22 @@ public class CriticalActivity extends Activity {
 		setContentView(R.layout.activity_critical);
 
 		// Get Extras
-		selectedCritical = RPGCombatAssistant.criticals.get(getIntent().getStringExtra("CriticalType"));
-		selectedCriticalLevel= CriticalLevel.valueOf(getIntent().getStringExtra("CriticalLevelName"));
+        long criticalId = getIntent().getLongExtra(ARG_CRITICAL_ID, 0);
+        try {
+            Dao<Critical, Long> dao = getHelper().getDaoCritical();
+            selectedCritical = dao.queryForId(criticalId);
+            criticalList = dao.queryForAll();
+        } catch (SQLException e) {
+            Log.e("RPGCombatAssistant", "Can't read database", e);
+        }
+        selectedCriticalLevel = CriticalLevel.valueOf(getIntent().getStringExtra(ARG_CRITICAL_LEVEL));
 
 		// Spinner for critical type
 		Spinner criticalTypeSpinner = (Spinner) findViewById(R.id.critical_type);
 		// Create an ArrayAdapter using the string array and a default spinner layout
 		ArrayAdapter<Critical> criticalTypeAdapter = new ArrayAdapter<Critical>(this,
 				android.R.layout.simple_spinner_item,
-				new ArrayList<Critical>(RPGCombatAssistant.criticals.values()));
+				new ArrayList<Critical>(criticalList));
 		// Specify the layout to use when the list of choices appears
 		criticalTypeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		// Apply the adapter to the spinner
@@ -58,8 +73,8 @@ public class CriticalActivity extends Activity {
 		// Set UI
 		// Select spinner position - Critical Type
 		int position = 0;
-		for (Critical crit:RPGCombatAssistant.criticals.values()) {
-			if (crit.equals(selectedCritical)) {
+		for (Critical crit : criticalList) {
+			if (crit.getId() == selectedCritical.getId()) {
 				criticalTypeSpinner.setSelection(position);
 				break;
 			}
@@ -149,34 +164,7 @@ public class CriticalActivity extends Activity {
 		}
 		
 		if (!errorFound) {
-			// TODO mejorar esto! necesitamos modificadores por nivel de crítico, topes, etc.
-			total = roll;
-			switch (selectedCriticalLevel) {
-			case T:
-					total-=50;
-					break;
-				case A:
-					total-=20;
-					break;
-				case B:
-					total-=10;
-					break;
-				case C:
-					// it's ok
-					break;
-				case D:
-					total+=10;
-					break;
-				case E:
-					total+=20;
-					break;
-			}
-			String result = selectedCritical.getValue(total);
-			resultMessage = result;
-	    	
-	    	// Set result as OK==updated
-	//    	setResult(RESULT_OK);
-	//    	finish();
+			resultMessage = DBUtil.getCritical(getHelper(), selectedCritical, selectedCriticalLevel, roll);
 		}
 		// Show result of attack
 		resultText.setText(resultMessage);

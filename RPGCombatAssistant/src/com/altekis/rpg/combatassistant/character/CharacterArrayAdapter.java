@@ -14,44 +14,47 @@ import com.altekis.rpg.combatassistant.R;
 
 public class CharacterArrayAdapter extends BaseExpandableListAdapter {
 	private final Context context;
-	private final List<List<RPGCharacter>> rpgCharacters;
+	private final List<RPGCharacter> RPGCharacters;
+	private final List<RPGCharacter> pnjs;
 	private String[] groupHeaders;
 
-	public CharacterArrayAdapter(Context context, List<List<RPGCharacter>> rpgCharacters, String[] groupHeaders) {
+	public CharacterArrayAdapter(Context context, List<RPGCharacter> RPGCharacters, List<RPGCharacter> pnjs, String[] groupHeaders) {
 		super();
 		this.context = context;
-		this.rpgCharacters = rpgCharacters;
+		this.RPGCharacters = RPGCharacters;
+        this.pnjs = pnjs;
 		this.groupHeaders = groupHeaders;
 	}
 
 	@Override
 	public Object getChild(int groupPosition, int childPosition) {
-		return rpgCharacters.get(groupPosition).get(childPosition);
+        return ((List) getGroup(groupPosition)).get(childPosition);
 	}
 
 	@Override
 	public long getChildId(int groupPosition, int childPosition) {
-		return ((RPGCharacter)getChild(groupPosition,childPosition)).getId();
+		return ((RPGCharacter) getChild(groupPosition, childPosition)).getId();
 	}
 
 	@Override
 	public View getChildView(int groupPosition, int childPosition,
 			boolean isLastChild, View convertView, ViewGroup parent) {
-		RPGCharacter rpgCharacter = (RPGCharacter)getChild(groupPosition, childPosition);
+		RPGCharacter rpgRPGCharacter = (RPGCharacter)getChild(groupPosition, childPosition);
+
 		if (convertView==null) {
 			LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			convertView = inflater.inflate(R.layout.character_rowlayout, parent, false);
 		}
 
 		// Fill UI elements with current character values
-		((TextView)convertView.findViewById(R.id.characterList_name)).setText(rpgCharacter.getName());
-		((TextView)convertView.findViewById(R.id.characterList_playerName)).setText(rpgCharacter.getPlayerName());
-		String hitsInfo = Integer.toString(rpgCharacter.getHitPoints()) + "/" + Integer.toString(rpgCharacter.getMaxHitPoints());
+		((TextView)convertView.findViewById(R.id.characterList_name)).setText(rpgRPGCharacter.getName());
+		((TextView)convertView.findViewById(R.id.characterList_playerName)).setText(rpgRPGCharacter.getPlayerName());
+		String hitsInfo = Integer.toString(rpgRPGCharacter.getHitPoints()) + "/" + Integer.toString(rpgRPGCharacter.getMaxHitPoints());
 		((TextView)convertView.findViewById(R.id.characterList_hitPoints)).setText(hitsInfo);
 
 		// Change the icon for that of the user...
 		ImageView imageView = (ImageView) convertView.findViewById(R.id.characterList_avatar);
-		String s = rpgCharacter.getName();
+		String s = rpgRPGCharacter.getName();
 		if (s.length()%2==1) {
 			imageView.setImageResource(R.drawable.ic_action_search);
 		} else {
@@ -63,17 +66,21 @@ public class CharacterArrayAdapter extends BaseExpandableListAdapter {
 
 	@Override
 	public int getChildrenCount(int groupPosition) {
-		return rpgCharacters.get(groupPosition).size();
+		return ((List) getGroup(groupPosition)).size();
 	}
 
 	@Override
 	public Object getGroup(int groupPosition) {
-		return rpgCharacters.get(groupPosition);
+        if (groupPosition == 0) {
+            return RPGCharacters;
+        } else {
+            return pnjs;
+        }
 	}
 
 	@Override
 	public int getGroupCount() {
-		return rpgCharacters.size();
+        return 2;
 	}
 
 	@Override
@@ -84,8 +91,7 @@ public class CharacterArrayAdapter extends BaseExpandableListAdapter {
 	@Override
 	public View getGroupView(int groupPosition, boolean isExpanded,
 			View convertView, ViewGroup parent) {
-		LayoutInflater inflater = (LayoutInflater) context
-				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View headerView = inflater.inflate(R.layout.character_header_layout, parent, false);
 
 		// Fill UI elements with current header

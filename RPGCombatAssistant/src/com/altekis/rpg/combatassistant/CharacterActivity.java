@@ -1,12 +1,10 @@
 package com.altekis.rpg.combatassistant;
 
-import java.util.List;
-
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,21 +13,28 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
-
-import com.altekis.rpg.combatassistant.attack.Attack;
-import com.altekis.rpg.combatassistant.attack.LAOAttack;
 import com.altekis.rpg.combatassistant.character.CharacterAttacksArrayAdapter;
-import com.altekis.rpg.combatassistant.character.LAOCharacter;
+import com.altekis.rpg.combatassistant.attack.Attack;
 import com.altekis.rpg.combatassistant.character.RPGCharacter;
+import com.altekis.rpg.combatassistant.character.RPGCharacterAttack;
+import com.j256.ormlite.dao.Dao;
 
-public class CharacterActivity extends Activity {
-	static private RPGCharacter character;
-	static private List<Attack> attacks;
-	ListView attacksListView;
-	CharacterAttacksArrayAdapter characterAttacksAdapter;
+import java.sql.SQLException;
+import java.util.List;
 
-	// Static view references used everywhere
-	static private TextView nameText;
+public class CharacterActivity extends BaseActivity {
+
+    public static final String ARG_CHARACTER_ID = "CharacterId";
+
+	private RPGCharacter character;
+	private List<RPGCharacterAttack> attacks;
+
+	private ListView attacksListView;
+	private CharacterAttacksArrayAdapter characterAttacksAdapter;
+
+	// view references used everywhere
+	private TextView nameText;
+
 	static final int REQUEST_CHARACTER_EDIT = 1;
 	static final int REQUEST_ADD_ATTACK = 2;
 	static final int REQUEST_ATTACK = 3;
@@ -40,10 +45,10 @@ public class CharacterActivity extends Activity {
 		setContentView(R.layout.activity_character);
 
 		// Get Extras
-		int characterId = getIntent().getIntExtra("CharacterId",0);
-		character = new LAOCharacter().getCharacter(characterId);
+		long characterId = getIntent().getLongExtra(ARG_CHARACTER_ID, 0);
+        reload(characterId, true, true);
 
-		// Set static view references to UI elements used everywhere...
+        // Set static view references to UI elements used everywhere...
 		nameText = (TextView) findViewById(R.id.character_nameLabel);
 		attacksListView = (ListView) findViewById(R.id.character_attacks);
 
@@ -61,10 +66,12 @@ public class CharacterActivity extends Activity {
 		});
 		attacksListView.addFooterView(btnAddAttack);
 
-		// Show character data
-		populateCharacterUI();
-		// attacks list will be shown on 
-		populateAttackList();
+        if (character != null) {
+            // Show character data
+            populateCharacterUI();
+            // attacks list will be shown on
+            populateAttackList();
+        }
 	}
 
 	/**
@@ -77,7 +84,6 @@ public class CharacterActivity extends Activity {
 
 	private void populateAttackList() {
 		// Feed lists of attacks to the adapter
-		attacks = new LAOAttack().getAttacks(character.getId());
 		characterAttacksAdapter = new CharacterAttacksArrayAdapter(this, attacks);
 
 		// Assign adapter to populate list
@@ -90,7 +96,7 @@ public class CharacterActivity extends Activity {
     	Intent intent = new Intent(this, AttackEditActivity.class);
     	// We pass no AttackId as extra, to claim for a new attack
     	// But the CharacterId will be needed, to assign the new attack to its correct parent character
-    	intent.putExtra("CharacterId", character.getId());
+    	intent.putExtra(ARG_CHARACTER_ID, character.getId());
 		startActivityForResult(intent, REQUEST_ADD_ATTACK);
     }
 	
@@ -138,7 +144,7 @@ public class CharacterActivity extends Activity {
 	public void doEdit() {
 		// Jump to the edition activity for this character
 		Intent intent = new Intent(this, CharacterEditActivity.class);
-		intent.putExtra("CharacterId", character.getId());
+		intent.putExtra(ARG_CHARACTER_ID, character.getId());
 		startActivityForResult(intent, REQUEST_CHARACTER_EDIT);
 	}
 
@@ -172,8 +178,12 @@ public class CharacterActivity extends Activity {
 	 * Delete character
 	 */
 	public void doDelete() {
-		long characterId = character.getId();
-		new LAOCharacter().deleteCharacter(characterId);
+        try {
+            Dao<RPGCharacter, Long> dao = getHelper().getDaoRPGCharacter();
+            dao.delete(character);
+        } catch (SQLException e) {
+            Log.e("RPGCombatAssistant", "Can't read database", e);
+        }
 		finish(); // Close this activity
 	}
 
@@ -186,20 +196,20 @@ public class CharacterActivity extends Activity {
 		if (requestCode == REQUEST_CHARACTER_EDIT) {
 			switch (resultCode) {
 			case RESULT_OK:
-				// Character was edited. So we have to RELOAD it.
+				// RPGCharacter was edited. So we have to RELOAD it.
 				// Only characterId is guaranteed to remain, we'll use it to access storage
-				long characterId = character.getId();
-				character = new LAOCharacter().getCharacter(characterId);
+                reload(character.getId(), true, false);
 				populateCharacterUI();
 				break;
 			case RESULT_CANCELED:
-				// Character edition was cancelled. So, no need to reload it.
+				// RPGCharacter edition was cancelled. So, no need to reload it.
 				break;
 			}
 		} else if (requestCode == REQUEST_ADD_ATTACK) {
 			switch (resultCode) {
 			case RESULT_OK:
 				// A new attack has been added to the character. So we have to RELOAD its attack list.
+                reload(character.getId(), false, true);
 				populateAttackList();
 				break;
 			case RESULT_CANCELED:
@@ -211,4 +221,25 @@ public class CharacterActivity extends Activity {
 			populateAttackList();			
 		}
 	}
+
+    private void reload(long characterId, boolean reloadCharacter, boolean reloadAttacks) {
+        try {
+            if (reloadCharacter) {
+                Dao<RPGCharacter, Long> dao = getHelper().getDaoRPGCharacter();
+                character = dao.queryForId(characterId);
+            }
+            if (reloadAttacks) {
+                Dao<RPGCharacterAttack, Long> daoA = getHelper().getDaoRPGCharacterAttack();
+                Dao<Attack, Long> daoAttack = getHelper().getDaoAttack();
+                attacks = daoA.queryForEq(RPGCharacterAttack.FIELD_CHARACTER_ID, characterId);
+                if (attacks != null) {
+                    for (RPGCharacterAttack a : attacks) {
+                        daoAttack.refresh(a.getAttack());
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            Log.e("RPGCombatAssistant", "Can't read database", e);
+        }
+    }
 }

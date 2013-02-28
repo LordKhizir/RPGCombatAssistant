@@ -1,0 +1,210 @@
+#critical_type_id;minimum;desc
+1;-49;Poco dominio. No hay daño extra.
+1;6;Fractura leve en las costillas. -5PV. -5 a la actividad.
+1;21;Golpe en un costado. -4PV. -40 a la actividad durante 1 asalto.
+1;36;Golpe en el antebrazo. -5PV. Aturdido durante 1 asalto.
+1;51;Un golpe al hombro del lado del escudo, rompe el escudo. Si no hay, el hombro se rompe y el brazo queda inutilizado.
+1;66;El golpe rompe un hueso de la pierna. -12PV. -40 a la actividad. Aturdido durante 2 asaltos.
+1;80;Golpe en la frente. -30PV. Un ojo destruido. Aturdido 24 asaltos. Si no se lleva yelmo puesto, en coma 1 mes.
+1;81;El golpe rompe el brazo del arma. El brazo inutilizado. Daño en los tendones. -8PV. Aturdido durante 2 asaltos.
+1;87;Rodilla hecha trizas. -9PV. -60 a la actividad. Derribado y aturdido durante 3 asaltos.
+1;90;Un golpe en la base del cuello deja paralizado de los hombros hacia abajo. -25PV. El enemigo queda desconcertado.
+1;91;Inconsciente 4 horas por un golpe en un lado de la cabeza. Si no lleva yelmo, cráneo queda aplastado. -20PV.
+1;97;Un golpe tremendo en el pecho hace que las costillas perforen los pulmones. Cae y muere en 6 asaltos. Salvaje.
+1;100;Golpe en la mandíbula, hace que el hueso penetre en el cerebro. Muerte instantánea.
+1;101;Un golpe rompe la cadera. -15PV. -75 a la actividad. Cae al suelo y queda aturdido durante 3 asaltos.
+1;107;Un golpe en el cuello aplasta la garganta. No puede respirar y queda aturdido 12 asaltos. Después, el pobre infeliz muere.
+1;110;Cadera aplastada. -35PV. Aturdido durante 2 asaltos. Activo los siguientes cuatro asaltos, pero luego muere debido a un fallo del sistema nervioso.
+1;111;Destrozado el codo del brazo que sostenía el arma. El brazo queda inutilizado. Aturdido 5 asaltos.
+1;117;Un golpe en el costado aplasta la cavidad torácica. Cae y muere en 3 asaltos.
+1;120;Golpe tremendo en la zona del pecho. El corazón queda destruido y el sujeto muere instantáneamente. -25PV. Un buen trabajo.
+2;-49;Un golpe débil que no produce daño extra.
+2;6;Herida leve en la pantorrilla. 1 Punto de Vida por asalto.
+2;21;Golpe en la parte superior de la pierna. -5PV. Si no se llevan grebas, 3PV y +2PV por asalto.
+2;36;Herida leve en el pecho. -3PV. 1PV por asalto. -5 a la actividad.
+2;51;Herida leve en el antebrazo. -4PV. 2 PV más por asalto. Aturdido durante 1 asalto.
+2;66;Herida menos grave en el muslo. -6PV. 1PV por asalto. -10 a la actividad. Aturdido durante 2 asaltos.
+2;80;Un golpe en el cuello secciona la arteria carótida. Cuello roto. Muerte tras 1 asalto de intensa agonía.
+2;81;Tajo en los músculos y tendones del brazo que esgrime el arma. El brazo queda inutilizado. -10PV y 1PV más cada asalto.
+2;87;Un ojo destruído. -10PV. Aturdido durante 30 asaltos.
+2;90;Destripado, muere instantáneamente. 25% de que tu arma se quede atascada en el contrincante durante 2 asaltos.
+2;91;Inconsciente 6 horas debido a un tajo en el lado de la cabeza. -15PV. Si no se lleva yelmo, muerte instantánea.
+2;97;Extremo inferior de la pierna seccionado. -20PV por asalto. Cae y se desmaya.
+2;100;Tajo abierto en el costado. Cae inconsciente y muere en 3 asaltos debido a daños masivos en los órganos internos.
+2;101;Grave herida en el abdomen. -10PV. Pierde 8PV más cada asalto. -10 a la actividad. Aturdido durante 4 asaltos.
+2;107;El brazo que esgrimía el arma queda cercenado. -15PV por asalto. Cae inconsciente inmediatamente.
+2;110;Corazón empalado. Muere instantáneamente, el corazón destrozado. 25% de que el arma se quede atascada en el enemigo durante 3 asaltos.
+2;111;Mano cercenada. 12 PV por asalto. Cae al suelo y queda aturdido durante 6 asaltos.
+2;117;Tajo en la espina dorsal. Colapso inmediato. Paralizado desde el cuello para abajo, permanentemente. -20PV adicionales.
+2;120;Un tajo en la cabeza destruye el cerebro, lo que hace difícil que el pobre infeliz siga con vida. Cae fulminado.
+3;-49;Golpe oblicuo. No hay daño extra.
+3;6;Golpe oblicuo en un costado. -3PV.
+3;21;Impacto en el muslo, -3PV. Si no se lleva armadura, -3PV más por asalto.
+3;36;Herida leve en el antebrazo. -2PV. Aturdido durante 1 asalto.
+3;51;Impacto en un lado del pecho. Pérdida de un PV por asalto. Aturdido durante 1 asalto.
+3;66;Impacto en la parte inferior de la pierna. Tendones desgarrados y -3PV, -25 a la actividad. Aturdido 1 asalto.
+3;80;Impacto en el cuello. Nervios y vasos sanguíneos seccionado. Muerte por fallo del corazón.
+3;81;Golpe en el brazo que sostiene el arma. Hueso roto. -10PV. Aturdido durante 3 asaltos.
+3;87;Golpe que perfora la parte inferior de la pierna. Músculo seccionado. -50 a la actividad. Aturdido 3 asaltos.
+3;90;Impacto en ambos pulmones. Cae y queda inconsciente. Muere en asaltos.
+3;91;Impacto en un lado de la cabeza. Inconsciente durante 6 horas.-10PV. Si no lleva yelmo, muerte inmediata.
+3;97;Un golpe que atraviesa el cuello rompe el espinazo y secciona la espina dorsal. Paralizado permanentemente de cuello para abajo.
+3;100;Estocada en el ojo. Muerte instantánea, una auténtica diana.
+3;101;Herida grave en el abdomen. -10PV. Pérdida de 6 PV por asalto. -20 a la actividad. Aturdido 4 asaltos.
+3;107;Clavado en la parte inferior de la espalda. Cae derribado e inconsciente. Muerte por hemorragia y shock interno en 6 asaltos.
+3;110;Estocada que atraviesa el corazón. Retrocede girando sobre sí mismo 3 metros, hasta que fallece. El arma queda clavada en la víctima que gira durante 3 asaltos.
+3;111;Estocada a la pierna. Arteria seccionada. Derribado e inconsciente. -12PV.
+3;117;Impacto en los riñones. -9PV. Derribado, muere tras 6 asaltos de intensa agonía.
+3;120;Atravesado de oreja a oreja. No podrá oír y muere inmediatamente. Vaya puntería.
+4;-49;Demasiado débil. 0 PV adicionales.
+4;6;Golpe en el brazo. -2PV. -5 a la actividad durante 2 asaltos.
+4;21;Golpe en la pierna. -4PV. Si no lleva armadura en las piernas aturdido 1 asalto.
+4;36;Golpe en el pecho. Recula 1 metro. -5PV. -10 a la actividad 2 asaltos.
+4;51;Golpe en el brazo que sostiene el escudo. -5PV. El escudo es arrancado. Si no se usa escudo, -8PV y aturdido 2 asaltos.
+4;66;Golpe en el codo. El brazo queda dormido. -8PV. Se cae el arma. -10 a la actividad durante 10 asaltos.
+4;80;Brutal golpe en la cadera. Blanco derribado. Tendones y junturas desgarrados. Pierna inutilizada. -80 a la actividad.
+4;81;Golpe en el costado. Desplazado lateralmente metro y medio. Se le cae cualquier cosa que lleve en las manos. Aturdido durante 3 asaltos.
+4;87;Golpe en el costado. Tropieza para acabar en una embarazosa posición de decúbito supino. Aturdido 6 asaltos.
+4;90;Golpe en la espalda. Vuelas por el golpe 3m hacia adelante. Grave daño nervioso. Paralizado de cintura para abajo.
+4;91;Duro golpe en la cabeza. Retrocede 3m y queda aturdido 6 asaltos. Si no lleva yelmo, queda inconsciente 24 horas.
+4;97;Golpe terrible. La víctima cae de rodillas. Si usa un arma de filo o contundente, ésta sale despedida a 3m a sus espaldas. Aturdido 15 asaltos.
+4;100;Golpe en la parte superior del pecho. Desplazado 3m lateralmente. Cae y se rompe ambos brazos. En coma 2 meses.
+4;101;Golpe que rompe una pierna. -12PV. -50 a la actividad. Aturdido durante 1 asalto.
+4;107;Golpe en la cabeza. Despedido hacia atrás 3m. -9PV. Aturdido 6 asaltos. Si no lleva yelmo, en coma 4 semanas.
+4;110;Golpe salvaje en la cabeza. Cae al suelo. Muerte en 12 asaltos debido a una vena seccionada.
+4;111;Tremendo golpe lateral. Derribado y desplazado 1.5m lateralmente. Aturdido 7 asaltos. -40 a la actividad.
+4;117;Golpe en el hombro del lado del escudo. Aturdido 9 asaltos. -20 a la actividad. Si no se lleva escudo, inconsciente y el brazo hecho trizas.
+4;120;Horrible golpe en la sien. Desplazado hacia atrás 6m. Muere inmediatamente. Nada bonito.
+5;-49;Una oportunidad desaprovechada.
+5;6;Golpe superficial. -2PV.
+5;21;Ataque rechazado. -3PV. Si se lleva armadura en los brazos, aturdido 1 asalto.
+5;36;Ataque a la parte superior de la pierna. Hay presa, pero la víctima consigue soltarse. Aturdida 1 asalto.
+5;51;El brazo del escudo queda atracado. Si se lleva escudo, -50 a la actividad hasta que se deje caer el escudo. Si no se lleva escudo, -50 a la actividad.
+5;66;Atrapado el brazo del arma. Desarmado y muñeca torcida. Aturdido 2 asaltos. -25 a la actividad.
+5;80;Ambas piernas trabadas. Derribado e inconsciente, -9PV.
+5;81;El brazo que sostiene el arma queda inmovilizado. Rotura de ligamentos y tirón muscular. Desarmado y aturdido durante 3 asaltos. -40 a la actividad.
+5;87;Completamente atrapado e inmovilizado. Derribado pero todavía consciente. No hay actividad posible.
+5;90;Peligrosa presa en el cuello. Inconsciente. Cuello torcido, -60 a la actividad.
+5;91;Presa en la cabeza. Aturdido durante 9 asaltos. Si no lleva yelmo se produce estado de coma debido a una fractura en el cráneo.
+5;97;Ambos brazos atrapados y pegados al techo. No podrá mover los brazos hasta que se retire la presa. -75 a la actividad.
+5;100;Presa en el cuello. Si hay armadura, -60 a la actividad por la torcedura en el cuello y aturdido 3 asaltos. Si no hay armadura, muerto con el cuello roto.
+5;101;Presa en el pecho. Costillas rotas. Aturdido durante 5 asaltos. -10 a la actividad.
+5;107;Piernas enredadas y completamente inmovilizadas. Cae y se rompe el brazo que sostenía el arma. Desarmado e inconsciente. -20PV.
+5;110;Presa en el cuello. Si lleva armadura en el cuello, desarmado y aturdido durante 5 asaltos. Si no, muere en 6 asaltos.
+5;111;Pie trabado. Tropieza, cae y se rompe el arma, y el sujeto queda aturdido 2 asaltos. Si no lleva armadura en el pecho, recibe un crítico D de Aplastamiento.
+5;117;Ambas piernas lisiadas. Tropieza y cae al suelo quedando inconsciente. -80 a la actividad debido a un brazo y un tobillo rotos. -20PV.
+5;120;La tráquea aplastada. Muere inmediatamente debido al traumatismo total y la asfixia.
+6;-49;Aire caliente. -0PV.
+6;6;Fuerte calor con pocos efectos. -3PV.
+6;21;Quemaduras leves. -8PV. Pérdida de 1PV más por asalto.
+6;36;Cegado por un humo ardiente. -12PV. Aturdido durante 1 asalto.
+6;51;La ropa comienza a arder y tarda 2 asaltos en apagarse. -12PV. -8PV por cada asalto ardiendo. Aturdido 1 asalto.
+6;66;Derribado por un tremendo impacto. Todos los recubrimientos y protecciones orgánicos de pies y pantorrillas destruidos. -10PV.
+6;80;Impacto en la cabeza. El rostro horriblemente quemado. Inconsciente. -15PV. Pérdida de 5PV más por asalto. Si no se lleva yelmo, un mes en coma.
+6;81;El fuego se apodera de la espalda. Derribado. Toda la materia orgánica en la espalda queda destruida. Pérdida de 2PV por asalto. Aturdido durante 1 asalto.
+6;87;Impacto en la cabeza. Cegado durante 6 asaltos. Cualquier protección orgánica de la cabeza (sombrero, casco, yelmo) destruida. Si no lleva yelmo, toda la cabellera quemada.
+6;90;La cabeza convertida en un fragmento carbonizado. Tristemente, se muere de inmediato debido a este inaceptable estado.
+6;91;El brazo que sostiene el escudo frito. Cualquier escudo queda destruido, junto con la mano. Aturdido 5 asaltos. Si no se lleva escudo, perdida del brazo e inconsciente.
+6;97;Quemadura en la parte superior de la pierna. Pierna inutilizada debido a la destrucción de tejido muscular. Pérdida de 2PV por asalto. -60 a la actividad. Aturdido durante 6 asaltos.
+6;100;Impacto en el cuello que funde las vértebras y pega la piel a la ropa. Parálisis permanente y -25PV.
+6;101;Impacto en una pierna. Pérdida de 2PV por asalto. -20 a la actividad. Si no se lleva armadura en las piernas: lesiones masivas, -70 a la actividad.
+6;107;Impacto en la cabeza. Si se lleva el yelmo, cegado durante 2 semanas. Si no, muere en 6 asaltos.
+6;110;Cintura volatilizada. Partido por la mitad, el sujeto muere. Destruidos todos los objetos.
+6;111;Impacto en el pecho. Destruida cualquier armadura de esta zona. -12PV. Aturdido durante 2 asaltos. Si no se lleva armadura, derribado y pérdida de 6PV más por asalto.
+6;117;El fuego se apodera del cuerpo. Toda la materia orgánica queda destruida. Muerte en 6 asaltos debido al trauma y a las lesiones del sistema nervioso. -25PV.
+6;120;Todo lo que queda son fragmentos carbonizados de huesos y dientes.
+7;-49;Fresca brisa. No hay pérdida adicional de pv.
+7;6;Golpe frío. -3 pv. Si no se lleva puesta una capa o armadura, aturdido durante 1 asalto.
+7;21;Congelación leve. -7pv.Pérdida de 1 pv. más por asalto.
+7;36;Congelación. -5 pv. Pérdida de 2 pv. más por asalto y -10 a la actividad.
+7;51;Golpe frío en la espalda. -2 pv. por asalto. Todo objeto de madera en la espalda queda mservible y quebradizo.
+7;66;Golpe bajo. Aturdido durante 1 asalto. Destruido cualquier tipo de calzado y protección de los pies.Si se va descalzo, congelación, -30 a la actividad.
+7;80;Impacto helado en la cabeza. Como resultado, estado de coma durante un mes (y gran resfriado de cabeza). Pérdida de la nariz a consecuencia de congelación grave y trauma.
+7;81;Muslo congelado. Aparte de la congelación, hueso roto. Pérdida de 5 pv. por asalto. -30 a la actividad. Aturdido durante 4 asaltos.
+7;87;Impacto en la zona del cuello. Inconsciente. Pérdida de la oreja (oído externo). Si no se lleva armadura en el cuello, congelación de éste y muerte tras 9 asaltos de inactividad..
+7;90;Un impacto congela y seca la cabeza. Muerte en 2 asaltos. El cerebro y el cráneo quebradizos y sin vida
+7;91;Muslo congelado. Aparte de la congelación, hueso roto. Pérdida de 5 pv. por asalto. -30 a la actividad. Aturdido durante 4 asaltos.
+7;97;Un impacto lateral congela y hace astillas la pelvis. Muerte en 12 asaltos debido al trauma y las lesiones del sistema nervioso
+7;100;Impacto en la cabeza. Ojos congelados. Estado de coma durante 3 semanas. Parálisis del cuello para abajo
+7;101;Un impacto congela ambas manos. Pérdida del uso de los brazos durante 1 hora. Pérdida de 6 pv. por asalto. Aturdido durante 5 asaltos.
+7;107;Corazón y pulmones congelados de repente. Muerte en 6 asaltos de inactividad, debido al shock y a la asfixia
+7;110;Un golpe tremendo hace añicos el pecho y congela los preciosos fluidos corporales. Muerte en 3 asaltos.
+7;111;Gélido golpe a la parte superior del pecho. Inconsciente y derribado. Si no lleva armadura en el pecho, muerte en 10 asaltos por tener un corazón de hielo
+7;117;Congelado y convertido en una estatua sin vida, muy bien conservada, pero el personaje ha muerto.
+7;120;Congelación repentina y luego estalla en mil pedazos.
+8;-49;Pelos de punta. -0 pv.
+8;6;Pequeña descarga. 3 pv. Si se lleva armadura de metal, aturdido durante 1 asalto.
+8;21;Explosión de luz. Aturdido durante 1 asalto.
+8;36;Descarga moderada. -6 pv. -5 a la actividad. Si se lleva armadura de metal, aturdido durante 2 asaltos.
+8;51;Descarga potente. -9 pv. -10 a la actividad. Aturdido durante 1 asalto. Si se lleva armadura de metal, aturdido durante 3 asaltos.
+8;66;Impacto en el brazo que sostiene el escudo. -12 pv. -20 a la actividad. Si se lleva armadura metálica y no se tiene escudo, inconsciente durante 1 día entero.
+8;80;Un impacto en el costado devasta el sistema nervioso. Graves resultados traumáticos. La víctima será un vegetal durante 1 mes.
+8;81;Golpe en el brazo que sostiene el arma. Músculos y cartílagos destrozados. El brazo inútil, pérdida de 2 pv. por asalto. Aturdido durante 6 asaltos
+8;87;Completamente cubierto por la electricidad. Todo el sistema nervioso reorganizado. Cae y yace en estado de shock durante 12 asaltos antes de morir.
+8;90;Impacto en la cabeza. Si se lleva yelmo de cuero, éste queda destruido y se produce un coma de 2 semanas. Si no, muerte instantánea.
+8;91;Impacto en el pecho. Si se lleva armadura metálica no se podrá quitar. Blanco inmovilizado. Si no, inconsciente durante 6 horas
+8;97;Electrificante experiencia. Colapso cerebro debido a un shock general y quemaduras de superficie. Desmayado y muere en 6 asaltos
+8;100;El sistema nervioso actúa como superconductor. La inmediata muerte proporciona a los presentes un inesperado espectáculo de luce
+8;101;Impacto en la cara. Pérdida de la nariz. Aturdido durante 8 asaltos. Ciego durante 2 semanas. Si no se lleva yelmo, también derribado.
+8;107;Impacto en el pecho que destruye el corazón y los pulmones. Si se lleva armadura metálica, ésta se funde y se muere en 6 asaltos. Si no, la muerte es inmediata.
+8;110;La cabeza ya no está disfonible para su u
+8;111;Impacto en el abdomen. Aturdido durante 7 asaltos. Pérdida de 6 puntos de vida por asalto. Si no se lleva armadura protegiendo el abdomen, muerte por trauma y hemorragia en 12 asaltos.
+8;117;Un impacto en el pecho destroza ambos pulmones. Partido por la mitad. La descarp,a se extiende 3 metros infligiendo un crítico 'A" a todos los que estén en medio.
+8;120;La descarga deshace la estructura celular. Todo el cuerpo se convierte en polvo.
+9;-49;Ni un rasguño. -Opuntos de vida.
+9;6;Un golpe sesgado. -5 pv.
+9;21;Tambaleante debido a un golpe en el costado. -10 pv.Aturdido durante 1 asalto.
+9;36;Golpe en el hombro. La víctima gira sobre sí misma y retrocede 3 metros como una peónzil. -12 pv. Si no se lleva armadura, aturdido durante 2 asaltos.
+9;51;Golpe en la pierna. Derribado, pérdida de 8 pv. Si no lleva armadura en la pierna, aturdido durante 2 asaltos
+9;66;Porrazo en el brazo del escudo. -10 pv. Escudo aplastado e inútil. Si no se lleva escudo, brazo roto y aturdido durante 3 asaltos.
+9;80;Golpe en la cabeza. -12 pv, El yelmo destrozado.Derribado e inconsciente durante 1 día. Sin yelmo,cráneo fracturado y muerte en 3 asaltos.
+9;81;Golpe a la parte superior de la pierna. Músculosdesgarrados. -15 pv. -10 a la actividad. Sin armadura enla pierna, -20 a la actividad y aturdido en 3 asaltos.
+9;87;Impacto en la zona del cuello. Pérdida de 12 pv.Aturdido durante 5 asaltos. Pérdida del habla durante1 semana. Si no se lleva armadura en el cuello la pérdida del habla es permanente.
+9;90;Golpe en el cuello. Paralizado de los hombros hacia abajo. Pérdida adicional de 20 pv. La víctima se pone melancólica.
+9;91;Golpe en una rodilla. La rodilla dislocada. Cartílagos y tendones desgarrados. -15 pv. -50 a la actividad. Aturdido durante 9 asaltos.
+9;97;Impacto en el abdomen. -18 pv. Aturdido durante 12 asaltos. Sin armadura en el abdomen muere en 6 asaltos por órganos destruidos.
+9;100;Un impacto en la cabeza fractura el cráneo. Estado de coma durante 3 semanas. Si no lleva yelmo, muerte instantánea.
+9;101;Golpe en la mandíbula, gue se rompe. No podrá ni hablar ni comer nada sóhdo hasta ser curado. -15 pv. -10 a la actividad. Aturdido en 7 asaltos.
+9;107;Golpe en un lado. Un hueso se clava en los riñones, muerte en 6 asaltos
+9;110;Pecho destrozado. Los pulmones y el corazón estallan. Muerte instantánea que lo pone todo hecho un asco
+9;111;Gira sobre sí mismo por el Impacto, cae al suelo. Se rompe los dos brazos. -60 a la actividad. Aturdido durante 3 asaltos.
+9;117;Un porrazo que destroza el cráneo en miles de partícul¡~s. Muerte instantánea. Impacto directo, buen punetazo.
+9;120;El porrazo aniquila todo el esqueleto. El blanco queda reducido a una pulpa gelatinosa.
+10;-49;-10 PV. 20% de que se rompa un arma normal y un 1% si es mágica.
+10;6;-6pv.
+10;21;12 pv.
+10;36;-18 pV.
+10;51;Asombrado por un fuerte golpe. -20 pv. -10 a la actividad. Aturdido durante 2 asaltos.
+10;66;Buen golpe a la pierna. -18 pv, -5 pv. por asalto. -20 a la actividad. Aturdido 3 asaltos.
+10;80;Un golpe bien colocado al cuello secciona la vena yugular. -15 pv, Muere en 6 asaltos, pero hasta entonces puede actuar con -60 a la actividad.
+10;81;Duro golpe. -25 pv, Pérdida de 3 puntos de vida por asalto debido a una herida ligera. -10 a la actividad. Aturdido durante 2 asaltos.
+10;87;El golpe secciona una arteria en una pierna (o pata). Puede actuar con -30 a la actividad durante 4 asaltos, después caerá y morirá en 6 asaltos más
+10;90;Seccionada una vena en la juntura de una extremidad. -20 pv, Aturdido durante 6 asaltos, después cae muerto.
+10;91;Golpe en una pierna. -15 pv. -20 a la actividad. Pérdida de 2 puntos de vida por asalto. Aturdido 3 asaltos.
+10;97;Golpe en la cabeza. Fractura del cráneo. -30 pv, Inconsciente. Un buen golpe.
+10;100;Golpe al corazón. Muerte instantánea. El arma queda. clavada y atrapada bajo el cuerpo. La probabilidad de que el arma se rompa es de 60% menos la bonificación del arma
+10;101;El ~ombro del brazo que sostiene el arma hecho añicos.-15 pv. Aturdido durante 3 asaltos. El brazo (o la pata) queda inutilizado.
+10;107;Peligroso golpe cruzado. Ciego y enfadado. Aturdido durante 2 asaltos, pero luego, la pobre bestia podrá moverse a tientas.
+10;110;Golpe que perforala mejilla. Muere inmediatamente. Por desgracia, el arma se queda clavada en el hueso durante 2 asaltos.
+10;111;Golpe enla barbilla. La mandíbula destrozada. Inconsciente. -60 pv, Resulta un estado de coma durante 1 mes.
+10;117;Golpe que atraviesa un ojo. Muere inmediatamente y cae sobre el atacante quien pierde 20 puntos de vida y queda atrapado durante 6 asaltos.
+10;120;Un golpe que atraviesa un oído destruye el cerebro. El desgraciado bobo muere inmediatamente.
+11;-49;El tamaño de la criatura te impresiona. O puntos de vida adicionales.
+11;6;Pérdida de 5 puntos de vida adicionales.
+11;21;Pérdida de 8 puntos de vida adicionales.
+11;36;Pérdida de 10 puntos de vida adicionales.
+11;51;Pérdida de 12 puntos de vida adicionales
+11;66;Pérdida de 15 puntos de vida adicionales.
+11;80;Desequilibrado por el impacto. Pérdida de 15 puntos de vida adicionales. Aturdido durante 2 asaltos.
+11;81;Estupefacto por el fuerte impacto. Pérdida de 20 :puntos de vida adicionales. Aturdido durante 1 asal
+11;87;Impacto en una pierna. Pérdida de 15 puntos de VIda adicionales. -20 a la actividad. Aturdido durante 2 asaltos.
+11;90;Impacto en la boca. Derribado al suelo. Estado de coma durante un mes. Pérdida de 30 puntos de vida adicionales.
+11;91;El impacto le hace girar sobre sí mismo. Desequilibrado. Pérdida de 18 puntos de vida adicionales. -10 a la actividad. Aturdido durante 1 asalto.
+11;97;Impacto en un costado. Pérdida de 25 puntos de vida adicionales. -20 a la actividad debido a las costillas rotas. Aturdido durante 3 asaltos.
+11;100;Impacto en la sección media. La vejiga destrozada. Muere en 4 asaltos pero hasta entonces está plenamente activo
+11;101;Impacto en la cabeza. Momentáneamente confuso. Pérdida de 20 puntos de vida adicionales. Aturdido durante 2 asaltos.
+11;107;El impacto comba una pierna. Grave herida en el muslo. Pérdida de 25 puntos de vida adicionales. Muere en 5 asaltos debido a lesiones nerviosas, pero hasta entonces está plenamente activo.
+11;110;Tremendo impacto. El cuello roto y la espina dorsal quebrada. Cae y muere en 3 asaltos.
+11;111;Impacto en los ojos. Cegado durante 2 asaltos. Pérdida de 15 puntos de vida adicionales. -20 a la actividad.
+11;117;El impacto en el cuerpo destruye una serie de órganos. Muerte en 3 asaltos pero-el ignorante bruto permanece completamente activo hasta ese momento.
+11;120;Un impacto soberbio hace que una costilla atraviese el corazón. Cae y muere en seis agonizantes asaltos

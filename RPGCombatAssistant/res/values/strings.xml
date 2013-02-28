@@ -14,11 +14,11 @@
     <!-- Splash screen Activity -->
     <string name="splash_main">RPG Combat Assistant</string>
     
-    <!-- Character List Activity -->
+    <!-- RPGCharacter List Activity -->
     <string name="characterList_playerCharactersGroupHeader">Personajes jugadores</string>
     <string name="characterList_nonPlayerCharactersGroupHeader">Personajes no-jugadores</string>
 
-    <!-- Character Activity -->
+    <!-- RPGCharacter Activity -->
     <string name="character_title">Personaje</string>
     <string name="character_name">Nombre</string>
     <string name="character_playerName">Jugador</string>
@@ -29,7 +29,7 @@
     <string name="character_deleteDialog_ok">Sí, elimínalo</string>
     <string name="character_deleteDialog_cancel">No</string>
     
-    <!-- Character Edit Activity -->
+    <!-- RPGCharacter Edit Activity -->
     <string name="characterEdit_title">Edición de personaje</string>
     <string name="characterEdit_name">Nombre</string>
     <string name="characterEdit_nameHint">Personaje</string>
@@ -77,4 +77,31 @@
     <string name="critical_roll">Tirada</string>
     <string name="critical_cancelButton">Cancelar</string>
     <string name="critical_goButton">Calcular</string>
+
+    <!-- Armors -->
+    <string name="armor_merp_1">No Armor</string>
+    <string name="armor_merp_5">Soft Leather</string>
+    <string name="armor_merp_10">Rigid Leather</string>
+    <string name="armor_merp_15">Cain Mail</string>
+    <string name="armor_merp_20">Plate</string>
+    <string name="armor_rm_1">Skin</string>
+    <string name="armor_rm_2">Robes</string>
+    <string name="armor_rm_3">Light Hide</string>
+    <string name="armor_rm_4">Heavy Hide</string>
+    <string name="armor_rm_5">Leather Jerkin</string>
+    <string name="armor_rm_6">Leather Coat</string>
+    <string name="armor_rm_7">Reinforced Leather Coat</string>
+    <string name="armor_rm_8">Reinforced Fill-Length Leather Coat</string>
+    <string name="armor_rm_9">Leather Breastplate</string>
+    <string name="armor_rm_10">Leather Breastplate and Greaves</string>
+    <string name="armor_rm_11">Halsf-Hide Plate</string>
+    <string name="armor_rm_12">Fill-Hide Plate</string>
+    <string name="armor_rm_13">Chain Shirt</string>
+    <string name="armor_rm_14">Chain Shirt and Greaves</string>
+    <string name="armor_rm_15">Full Chain</string>
+    <string name="armor_rm_16">Chain Hauberk</string>
+    <string name="armor_rm_17">Metal Breastplate</string>
+    <string name="armor_rm_18">Metal Breastplate and Greaves</string>
+    <string name="armor_rm_19">Half Plate</string>
+    <string name="armor_rm_20">Full Plate</string>
 </resources>
