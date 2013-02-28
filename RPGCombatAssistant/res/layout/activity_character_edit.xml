@@ -19,11 +19,12 @@
         android:inputType="textPersonName|textNoSuggestions" />
 
 	<!-- Player -->
-    <TextView
+    <CheckBox
         android:id="@+id/characterEdit_playerNameLabel"
         style="@style/common_form_label"
         android:layout_below="@+id/characterEdit_nameLabel"
-        android:text="@string/characterEdit_playerName" />
+        android:text="@string/characterEdit_playerName"
+        android:checked="false"/>
     <EditText
         android:id="@+id/characterEdit_playerName"
         style="@style/common_form_input"
@@ -78,7 +79,7 @@
         android:id="@+id/characterEdit_cancelButton"
         style="@style/common_form_label"
         android:layout_below="@+id/characterEdit_armorTypeLabel"
-        android:text="@string/characterEdit_cancelButton" />
+        android:text="@string/characterEdit_cancelButton"/>
     <Button
         android:id="@+id/characterEdit_saveButton"
         style="@style/common_form_input"

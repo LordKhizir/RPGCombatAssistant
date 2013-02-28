@@ -79,7 +79,11 @@ public class CharacterActivity extends BaseActivity {
 	 * Used on activity create, and each time we return from Edit with info updated
 	 */
 	private void populateCharacterUI() {
-		nameText.setText(character.getName() + " (" + character.getPlayerName() + ")");
+        if (character.isPnj()) {
+            nameText.setText(getString(R.string.character_name_pnj, character.getName()));
+        } else {
+            nameText.setText(getString(R.string.character_name_pnj, character.getName(), character.getPlayerName()));
+        }
 	}
 
 	private void populateAttackList() {

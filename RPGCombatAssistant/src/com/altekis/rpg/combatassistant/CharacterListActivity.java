@@ -45,8 +45,8 @@ public class CharacterListActivity extends BaseActivity {
 
         // Prepare localized strings
         groupHeaders = new String[]{
-                getResources().getString(R.string.characterList_playerCharactersGroupHeader),
-                getResources().getString(R.string.characterList_nonPlayerCharactersGroupHeader)};
+                getString(R.string.characterList_playerCharactersGroupHeader),
+                getString(R.string.characterList_nonPlayerCharactersGroupHeader)};
 
         // Assign listener to list
         characterListView.setOnChildClickListener(characterClickListener);

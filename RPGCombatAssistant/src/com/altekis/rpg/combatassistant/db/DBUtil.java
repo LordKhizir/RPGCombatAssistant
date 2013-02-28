@@ -36,7 +36,7 @@ public final class DBUtil {
                         .eq(AttackTable.FIELD_ATTACK_ID, attack.getId())
                         .and()
                         .le(AttackTable.FIELD_MINIMUM, total));
-                qb.orderBy(DatabaseHelper.FIELD_ID, false);
+                qb.orderBy(AttackTable.FIELD_MINIMUM, false);
                 PreparedQuery<AttackTable> pq = qb.prepare();
                 AttackTable attackTable = dao.queryForFirst(pq);
                 if (attackTable != null) {
@@ -92,8 +92,8 @@ public final class DBUtil {
             qb.setWhere(qb.where()
                     .eq(CriticalTable.FIELD_CRITICAL_ID, critical.getId())
                     .and()
-                    .ge(CriticalTable.FIELD_MINIMUM, total));
-            qb.orderBy(DatabaseHelper.FIELD_ID, false);
+                    .le(CriticalTable.FIELD_MINIMUM, total));
+            qb.orderBy(CriticalTable.FIELD_MINIMUM, false);
             CriticalTable criticalTable = dao.queryForFirst(qb.prepare());
             if (criticalTable != null) {
                 // TODO In rolemaster check the valid column (criticalTable.getTypeA()...)

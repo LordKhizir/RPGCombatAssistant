@@ -52,6 +52,20 @@ public enum ArmorType {
         return rmString;
     }
 
+    public ArmorType getMerp() {
+        if (armor >= 1 && armor <= 4) {
+            return TP1;
+        } else if (armor >= 5 && armor <= 8) {
+            return TP5;
+        } else if (armor >= 8 && armor <= 12) {
+            return TP10;
+        } else if (armor >= 13 && armor <= 16) {
+            return TP15;
+        } else /*if (armor >= 17 && armor <= 20)*/ {
+            return TP20;
+        }
+    }
+
     public static ArmorType fromInteger(int armor) {
     	for (ArmorType armorType : ArmorType.values()) {
     		if (armorType.armor == armor) {

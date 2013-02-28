@@ -28,7 +28,6 @@ public class AttackActivity extends BaseActivity {
 	private RPGCharacterAttack characterAttack;
     private List<RPGCharacter> characters;
     private ArmorType[] armorTypes;
-    private ArmorType selectedDefenderArmorType;
     private AttackResult attackResult;
 	private RPGCharacter selectedDefender;
 
@@ -41,7 +40,7 @@ public class AttackActivity extends BaseActivity {
 	private TextView nameText;
 	private TextView bonusSeekText;
 	private SeekBar bonusSeek;
-    private Spinner defenderArmorTypeSpinner;
+    private Spinner defenderArmorSpinner;
 	private EditText extraText;
 	private EditText rollText;
 	private TextView resultText;
@@ -67,11 +66,6 @@ public class AttackActivity extends BaseActivity {
             daoAttack.refresh(characterAttack.getAttack());
             // Get actual characters
 		    characters = daoRPGCharacter.query(daoRPGCharacter.queryBuilder().orderBy(RPGCharacter.FIELD_NAME, true).prepare());
-            RPGCharacter voidCharacter = new RPGCharacter();
-		    voidCharacter.setId(VOID_CHARACTER_IDENTIFIER);
-		    voidCharacter.setName("(Nadie)");
-            voidCharacter.setArmorType(ArmorType.TP1.getArmor());
-            characters.add(0,voidCharacter);
         } catch (SQLException e) {
             Log.e("RPGCombatAssistant", "Can't read database", e);
         }
@@ -81,7 +75,7 @@ public class AttackActivity extends BaseActivity {
 		bonusSeekText = (TextView) findViewById(R.id.attack_bonusSeekLabel);
 		bonusSeek = (SeekBar) findViewById(R.id.attack_bonusSeek);
         Spinner defenderSpinner = (Spinner) findViewById(R.id.attack_defender);
-		defenderArmorTypeSpinner = (Spinner) findViewById(R.id.attack_defenderArmorType);
+		defenderArmorSpinner = (Spinner) findViewById(R.id.attack_defenderArmorType);
 		extraText = (EditText) findViewById(R.id.attack_extra);
 		rollText = (EditText) findViewById(R.id.attack_roll);
 		resultText = (TextView) findViewById(R.id.attack_result);
@@ -89,10 +83,23 @@ public class AttackActivity extends BaseActivity {
 		goToCriticalButton = (Button) findViewById(R.id.attack_goToCriticalButton);
 
 		// Defender Spinner - fed with list of "current" characters
+        int size = characters == null ? 1 : characters.size() + 1;
+        String[] titles = new String[size];
+        int pos = 0;
+        titles[pos++] = "(Nadie)";
+        if (size > 1) {
+            for (RPGCharacter c : characters) {
+                if (c.isPnj()) {
+                    titles[pos++] = getString(R.string.character_name_pnj, c.getName());
+                } else {
+                    titles[pos++] = getString(R.string.character_name, c.getName(), c.getPlayerName());
+                }
+            }
+        }
 		// Create an ArrayAdapter using the string array and a default spinner layout
-		ArrayAdapter<RPGCharacter> defenderAdapter = new ArrayAdapter<RPGCharacter>(this,
+		ArrayAdapter<String> defenderAdapter = new ArrayAdapter<String>(this,
 				android.R.layout.simple_spinner_item,
-				characters);
+				titles);
 		// Specify the layout to use when the list of choices appears
 		defenderAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		// Apply the adapter to the spinner
@@ -104,7 +111,7 @@ public class AttackActivity extends BaseActivity {
 		// Create an ArrayAdapter using the string array and a default spinner layout
         // TODO - Change when rolemaster setting will available
         armorTypes = ArmorType.getArmorTypes(false);
-        final String[] titles = new String[armorTypes.length];
+        titles = new String[armorTypes.length];
         for (int i = 0 ; i < armorTypes.length ; i++) {
             titles[i] = getString(armorTypes[i].getMerpString());
         }
@@ -114,8 +121,8 @@ public class AttackActivity extends BaseActivity {
 		// Specify the layout to use when the list of choices appears
 		defenderArmorTypeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		// Apply the adapter to the spinner
-		defenderArmorTypeSpinner.setAdapter(defenderArmorTypeAdapter);
-		defenderArmorTypeSpinner.setOnItemSelectedListener(new DefenderArmorTypeSelectedListener());
+		defenderArmorSpinner.setAdapter(defenderArmorTypeAdapter);
+		//defenderArmorSpinner.setOnItemSelectedListener(new DefenderArmorTypeSelectedListener());
 
 		// Add support for seek bar
 		bonusSeek.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
@@ -192,17 +199,18 @@ public class AttackActivity extends BaseActivity {
 	 * Used each time the Defender Spinner is changed
 	 */
 	private void populateDefenderArmorType() {
-		selectedDefenderArmorType = ArmorType.fromInteger(selectedDefender.getArmorType());
-        // TODO - Change when rolemaster setting will available
-        if (selectedDefenderArmorType.getMerpString() == 0) {
-            selectedDefenderArmorType = ArmorType.fromInteger(selectedDefenderArmorType.getMerpArmor());
-        }
-		// Select spinner position - Defender armor type
-        for (int i = 0 ; i < armorTypes.length ; i++) {
-            if (armorTypes[i] == selectedDefenderArmorType) {
-				defenderArmorTypeSpinner.setSelection(i);
-				break;
-			}
+        if (selectedDefender == null) {
+            defenderArmorSpinner.setSelection(0);
+        } else {
+            // TODO - Change when rolemaster setting will available
+            ArmorType type = ArmorType.fromInteger(selectedDefender.getArmorType()).getMerp();
+            // Select spinner position - Defender armor type
+            for (int i = 0 ; i < armorTypes.length ; i++) {
+                if (armorTypes[i] == type) {
+                    defenderArmorSpinner.setSelection(i);
+                    break;
+                }
+            }
         }
 	}
 
@@ -212,22 +220,14 @@ public class AttackActivity extends BaseActivity {
 	}
 
 	/** Nested class for spinner value recovery */
-	public class DefenderArmorTypeSelectedListener implements OnItemSelectedListener {
-
-		public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-			selectedDefenderArmorType = armorTypes[pos];
-		}
-
-		public void onNothingSelected(AdapterView<?> parent) {
-			// 
-		}
-	}
-
-	/** Nested class for spinner value recovery */
 	public class DefenderSelectedListener implements OnItemSelectedListener {
 
 		public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-			selectedDefender = ((RPGCharacter)parent.getItemAtPosition(pos));
+            if (pos == 0) {
+                selectedDefender = null;
+            } else {
+                selectedDefender = characters.get(pos - 1);
+            }
 			populateDefenderArmorType();
 		}
 
@@ -254,7 +254,6 @@ public class AttackActivity extends BaseActivity {
 		goToCriticalButton.setVisibility(View.GONE);
 
 		// Initialize variables
-		int bonus;
 		int roll = 0;
 		int extra = 0;
 		String resultMessage = "";
@@ -273,10 +272,6 @@ public class AttackActivity extends BaseActivity {
 			}
 		}
 
-		// Bonus is always calculated
-		// TODO - check from text/seekbar
-		bonus = attackBonus;
-
 		String rollRaw = rollText.getText().toString().trim();
 		if (rollRaw.length()==0) {
 			errorFound = true; // 0 is allowed, just in case of fumble (example, 02 - (02))... but we'll require it to be explicitly typed, to avoid usual errors
@@ -292,9 +287,11 @@ public class AttackActivity extends BaseActivity {
 
 		if (!errorFound) {
 			// TODO Falta parry, bonuses/minuses por oportunidad, status, etc...
-			int total = bonus + extra + roll;
+			int total = attackBonus + extra + roll;
 
-            attackResult = DBUtil.getValue(getHelper(), characterAttack.getAttack(), roll, total, selectedDefenderArmorType);
+            // Get user selected armor
+            ArmorType armorType = armorTypes[defenderArmorSpinner.getSelectedItemPosition()];
+            attackResult = DBUtil.getValue(getHelper(), characterAttack.getAttack(), roll, total, armorType);
 
 			if (attackResult.isNoEffects()) {
 				resultMessage = getResources().getString(R.string.noEffect);	
@@ -303,9 +300,6 @@ public class AttackActivity extends BaseActivity {
 				resultMessage = getResources().getString(R.string.fumble);
 			} else {
 				// TODO Mejorar mensaje
-				// TODO implementar pérdida de PV
-				// TODO implementar critico
-				// TODO localizar
 				if (attackResult.getHitPoints()>0) {
 					resultMessage = attackResult.getHitPoints() + " puntos de vida.\n";
 					

@@ -1,15 +1,12 @@
 package com.altekis.rpg.combatassistant;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.AdapterView;
+import android.widget.*;
 import android.widget.AdapterView.OnItemSelectedListener;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Spinner;
 
 import com.altekis.rpg.combatassistant.character.ArmorType;
 import com.altekis.rpg.combatassistant.character.RPGCharacter;
@@ -26,6 +23,7 @@ public class CharacterEditActivity extends BaseActivity {
 
 	// view references used everywhere
 	private EditText nameText;
+    private CheckBox playerCheck;
 	private EditText playerNameText;
 	private EditText maxHitPointsText;
 	private EditText hitPointsText;
@@ -58,12 +56,26 @@ public class CharacterEditActivity extends BaseActivity {
             // Database not accesible, we need to finish
             finish();
         } else {
-            // Set static view references to UI elements used everywhere...
+            // Set view references to UI elements used everywhere...
             nameText = (EditText) findViewById(R.id.characterEdit_name);
             playerNameText = (EditText) findViewById(R.id.characterEdit_playerName);
             maxHitPointsText = (EditText) findViewById(R.id.characterEdit_maxHitPoints);
             hitPointsText = (EditText) findViewById(R.id.characterEdit_hitPoints);
             armorTypeSpinner = (Spinner) findViewById(R.id.characterEdit_armorType);
+
+            // If check is active, the user must fill the name, if not is active the character is an NPC and no
+            // playername is required
+            playerCheck = (CheckBox) findViewById(R.id.characterEdit_playerNameLabel);
+            playerCheck.setChecked(!character.isPnj());
+            playerCheck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if (!isChecked) {
+                        playerNameText.setText(null);
+                    }
+                    playerNameText.setEnabled(isChecked);
+                }
+            });
 
             // TODO - Change when rolemaster setting will available
             armorTypes = ArmorType.getArmorTypes(false);
@@ -152,17 +164,18 @@ public class CharacterEditActivity extends BaseActivity {
 		// Update character with the info provided by the user
 		character.setName(nameText.getText().toString().trim());
 		character.setPlayerName(playerNameText.getText().toString().trim());
+        character.setPnj(!playerCheck.isChecked());
 		
 		// Before saving, check for errors
 		String maxHitPointsRaw = maxHitPointsText.getText().toString().trim();
 		String hitPointsRaw = hitPointsText.getText().toString().trim();
  
 		boolean errorFound = false;
-		if (character.getName().length()==0) {
+		if (TextUtils.isEmpty(character.getName())) {
 			nameText.setError(getResources().getText(R.string.errorMandatory));
 			errorFound = true;
 		}
-		if (character.getPlayerName().length()==0) {
+		if (TextUtils.isEmpty(character.getPlayerName()) && !character.isPnj()) {
 			playerNameText.setError(getResources().getText(R.string.errorMandatory));
 			errorFound = true;
 		}
