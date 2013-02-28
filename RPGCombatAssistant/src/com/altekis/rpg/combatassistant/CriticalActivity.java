@@ -23,6 +23,9 @@ import com.j256.ormlite.dao.Dao;
 
 public class CriticalActivity extends BaseActivity {
 
+    public static final String ARG_CRITICAL_ID = "CriticalId";
+    public static final String ARG_CRITICAL_LEVEL = "CriticalLevelName";
+
 	private Critical selectedCritical;
 	private CriticalLevel selectedCriticalLevel;
     private List<Critical> criticalList;
@@ -33,8 +36,7 @@ public class CriticalActivity extends BaseActivity {
 		setContentView(R.layout.activity_critical);
 
 		// Get Extras
-        // TODO
-        long criticalId = getIntent().getLongExtra("CriticalId", 0);
+        long criticalId = getIntent().getLongExtra(ARG_CRITICAL_ID, 0);
         try {
             Dao<Critical, Long> dao = getHelper().getDaoCritical();
             selectedCritical = dao.queryForId(criticalId);
@@ -42,7 +44,7 @@ public class CriticalActivity extends BaseActivity {
         } catch (SQLException e) {
             Log.e("RPGCombatAssistant", "Can't read database", e);
         }
-        selectedCriticalLevel = CriticalLevel.valueOf(getIntent().getStringExtra("CriticalLevelName"));
+        selectedCriticalLevel = CriticalLevel.valueOf(getIntent().getStringExtra(ARG_CRITICAL_LEVEL));
 
 		// Spinner for critical type
 		Spinner criticalTypeSpinner = (Spinner) findViewById(R.id.critical_type);

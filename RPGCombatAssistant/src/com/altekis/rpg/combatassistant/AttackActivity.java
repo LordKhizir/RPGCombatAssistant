@@ -363,8 +363,8 @@ public class AttackActivity extends BaseActivity {
 		Intent intent = new Intent(this, CriticalActivity.class);
 		// We pass no AttackId as extra, to claim for a new characterAttack
 		// But the CharacterId will be needed, to assign the new characterAttack to its correct parent character
-		intent.putExtra("CriticalId", attackResult.getCritical().getId());
-		intent.putExtra("CriticalLevelName", attackResult.getCritLevel().name());
+		intent.putExtra(CriticalActivity.ARG_CRITICAL_ID, attackResult.getCritical().getId());
+		intent.putExtra(CriticalActivity.ARG_CRITICAL_LEVEL, attackResult.getCritLevel().name());
 		//intent.putExtra("CharacterId", character.getId());
 		startActivityForResult(intent, REQUEST_ROLL_CRITICAL);
 	}

@@ -1,4 +1,4 @@
-#id_atack;minimum;(unarmored(1);softleather(5);hardleather(10);chainmail(15);plate(20)|t1-t20)
+#atack_type_id;minimum;(unarmored(1);softleather(5);hardleather(10);chainmail(15);plate(20)|t1-t20)
 1;46;0;0;0;0;1
 1;51;0;0;0;1;1
 1;56;0;0;0;1;2

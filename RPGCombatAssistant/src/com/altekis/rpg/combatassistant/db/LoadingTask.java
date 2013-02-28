@@ -22,6 +22,7 @@ import java.io.InputStreamReader;
 public class LoadingTask extends AsyncTask<SQLiteDatabase, String, Boolean> {
 
     private static final String ATTACKS_PATH = "tables/attacks";
+    private static final String CRITICALS_PATH = "tables/criticals";
 
     public interface LoadingTaskFinishedListener {
 		void onTaskFinished(boolean success); // If you want to pass something back to the listener add a param to this method
@@ -76,31 +77,35 @@ public class LoadingTask extends AsyncTask<SQLiteDatabase, String, Boolean> {
             // Critical
             // Delete all elements
             db.delete(DatabaseHelper.TABLE_CRITICAL_TABLE, null, null);
-            is = assets.open("tables/critical.txt");
-            r = new BufferedReader(new InputStreamReader(is));
-            values.clear();
-            id = 1;
-            while ((line = r.readLine()) != null) {
-                if (!line.startsWith("#")) {
-                    lineArray = line.split(";");
-                    if (lineArray.length >= 3) {
-                        values.put(DatabaseHelper.FIELD_ID, id++);
-                        values.put(CriticalTable.FIELD_CRITICAL_ID, Long.parseLong(lineArray[0]));
-                        values.put(CriticalTable.FIELD_MINIMUM, Integer.parseInt(lineArray[1]));
-                        values.put(CriticalTable.FIELD_TYPE_A, lineArray[2]);
-                        if (lineArray.length == 7) {
-                            // Rolemaster type B, C, D or E
-                            values.put(CriticalTable.FIELD_TYPE_B, lineArray[3]);
-                            values.put(CriticalTable.FIELD_TYPE_C, lineArray[4]);
-                            values.put(CriticalTable.FIELD_TYPE_D, lineArray[5]);
-                            values.put(CriticalTable.FIELD_TYPE_E, lineArray[6]);
+            // Now load all criticals, the files are located in 'tables/criticals'
+            String[] list = assets.list(CRITICALS_PATH);
+            for (int j = 0 ; j < list.length ; j++) {
+                is = assets.open(CRITICALS_PATH + "/" + list[j]);
+                r = new BufferedReader(new InputStreamReader(is));
+                values.clear();
+                id = 1;
+                while ((line = r.readLine()) != null) {
+                    if (!line.startsWith("#")) {
+                        lineArray = line.split(";");
+                        if (lineArray.length >= 3) {
+                            values.put(DatabaseHelper.FIELD_ID, id++);
+                            values.put(CriticalTable.FIELD_CRITICAL_ID, Long.parseLong(lineArray[0]));
+                            values.put(CriticalTable.FIELD_MINIMUM, Integer.parseInt(lineArray[1]));
+                            values.put(CriticalTable.FIELD_TYPE_A, lineArray[2]);
+                            if (lineArray.length == 7) {
+                                // Rolemaster type B, C, D or E
+                                values.put(CriticalTable.FIELD_TYPE_B, lineArray[3]);
+                                values.put(CriticalTable.FIELD_TYPE_C, lineArray[4]);
+                                values.put(CriticalTable.FIELD_TYPE_D, lineArray[5]);
+                                values.put(CriticalTable.FIELD_TYPE_E, lineArray[6]);
+                            }
+                            db.insert(DatabaseHelper.TABLE_CRITICAL_TABLE, null, values);
+                            publishProgress("Loading critical tables");
                         }
-                        db.insert(DatabaseHelper.TABLE_CRITICAL_TABLE, null, values);
-                        publishProgress("Loading critical tables");
                     }
                 }
+                r.close();
             }
-            r.close();
             // Attack types
             // Delete all elements
             db.delete(DatabaseHelper.TABLE_ATTACK, null, null);
@@ -126,7 +131,7 @@ public class LoadingTask extends AsyncTask<SQLiteDatabase, String, Boolean> {
             // Delete all elements
             db.delete(DatabaseHelper.TABLE_ATTACK_TABLE, null, null);
             // Now load all attacks, the files are located in 'tables/attacks'
-            String[] list = assets.list(ATTACKS_PATH);
+            list = assets.list(ATTACKS_PATH);
             for (int j = 0 ; j < list.length ; j++) {
                 is = assets.open(ATTACKS_PATH + "/" + list[j]);
                 r = new BufferedReader(new InputStreamReader(is));
