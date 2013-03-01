@@ -1,10 +1,11 @@
 package com.altekis.rpg.combatassistant;
 
-import android.app.Activity;
+import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.altekis.rpg.combatassistant.db.DatabaseHelper;
+import com.altekis.rpg.combatassistant.fragments.DBFragmentActivity;
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 
-public class BaseActivity extends Activity {
+public class BaseActivity extends SherlockFragmentActivity implements DBFragmentActivity {
 
     private DatabaseHelper databaseHelper = null;
 
@@ -17,7 +18,8 @@ public class BaseActivity extends Activity {
         }
     }
 
-    protected DatabaseHelper getHelper() {
+    @Override
+    public DatabaseHelper getHelper() {
         if (databaseHelper == null) {
             databaseHelper = OpenHelperManager.getHelper(this, DatabaseHelper.class);
         }

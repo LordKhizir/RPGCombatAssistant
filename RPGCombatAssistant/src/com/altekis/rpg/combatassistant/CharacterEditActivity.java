@@ -1,5 +1,6 @@
 package com.altekis.rpg.combatassistant;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -15,6 +16,8 @@ import com.j256.ormlite.dao.Dao;
 import java.sql.SQLException;
 
 public class CharacterEditActivity extends BaseActivity {
+
+    public static final String ARG_CHARACTER_ID = "CharacterId";
 
 	static final int CREATE_NEW_CHARACTER = 0;
 
@@ -35,7 +38,7 @@ public class CharacterEditActivity extends BaseActivity {
 		setContentView(R.layout.activity_character_edit);
 
 		// Get Extras
-		long characterId = getIntent().getLongExtra(CharacterActivity.ARG_CHARACTER_ID, CREATE_NEW_CHARACTER);
+		long characterId = getIntent().getLongExtra(ARG_CHARACTER_ID, CREATE_NEW_CHARACTER);
 
     	if (characterId==CREATE_NEW_CHARACTER) {
     		// If no CharacterId, we'll create a new one instead of updating
@@ -210,7 +213,9 @@ public class CharacterEditActivity extends BaseActivity {
             try {
                 Dao<RPGCharacter, Long> dao = getHelper().getDaoRPGCharacter();
                 dao.createOrUpdate(character);
-                setResult(RESULT_OK); // Set result as OK == created/updated
+                Intent data = new Intent();
+                data.putExtra(ARG_CHARACTER_ID, character.getId());
+                setResult(RESULT_OK, data); // Set result as OK == created/updated
             } catch (SQLException e) {
                 Log.e("RPGCombatAssistant", "Can't read database", e);
             }

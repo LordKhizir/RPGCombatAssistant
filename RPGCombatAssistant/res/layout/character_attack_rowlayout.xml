@@ -24,4 +24,4 @@
         android:layout_below="@+id/character_attack_name"
         android:id="@+id/character_attack_info"
     />
-</RelativeLayout> 
+</RelativeLayout>

@@ -5,19 +5,19 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.*;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.SeekBar.OnSeekBarChangeListener;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuItem;
+import com.altekis.rpg.combatassistant.attack.Attack;
 import com.altekis.rpg.combatassistant.attack.AttackResult;
 import com.altekis.rpg.combatassistant.character.ArmorType;
-import com.altekis.rpg.combatassistant.attack.Attack;
-import com.altekis.rpg.combatassistant.db.DBUtil;
 import com.altekis.rpg.combatassistant.character.RPGCharacter;
 import com.altekis.rpg.combatassistant.character.RPGCharacterAttack;
+import com.altekis.rpg.combatassistant.db.DBUtil;
 import com.j256.ormlite.dao.Dao;
 
 import java.sql.SQLException;
@@ -47,9 +47,8 @@ public class AttackActivity extends BaseActivity {
 	private Button applyResultButton;
 	private Button goToCriticalButton;
 
-	static final int VOID_CHARACTER_IDENTIFIER = -1;
-	static final int REQUEST_ROLL_CRITICAL = 1;
-	static final int REQUEST_ATTACK_EDIT = 2;
+	private static final int REQUEST_ROLL_CRITICAL = 1;
+	private static final int REQUEST_ATTACK_EDIT = 2;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -104,7 +103,22 @@ public class AttackActivity extends BaseActivity {
 		defenderAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		// Apply the adapter to the spinner
 		defenderSpinner.setAdapter(defenderAdapter);
-		defenderSpinner.setOnItemSelectedListener(new DefenderSelectedListener());
+		defenderSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (position == 0) {
+                    selectedDefender = null;
+                } else {
+                    selectedDefender = characters.get(position - 1);
+                }
+                populateDefenderArmorType();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                selectedDefender = null;
+            }
+        });
 
 
 		// DefenderArmorType Spinner
@@ -219,23 +233,6 @@ public class AttackActivity extends BaseActivity {
 		bonusSeekText.setText(Integer.toString(attackBonus) + " ataque · defensa " + Integer.toString(attackParry));	
 	}
 
-	/** Nested class for spinner value recovery */
-	public class DefenderSelectedListener implements OnItemSelectedListener {
-
-		public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-            if (pos == 0) {
-                selectedDefender = null;
-            } else {
-                selectedDefender = characters.get(pos - 1);
-            }
-			populateDefenderArmorType();
-		}
-
-		public void onNothingSelected(AdapterView<?> parent) {
-			//
-		}
-	}
-
 	/**
 	 * Ignore changes, and go back to caller
 	 */
@@ -300,17 +297,17 @@ public class AttackActivity extends BaseActivity {
 				resultMessage = getResources().getString(R.string.fumble);
 			} else {
 				// TODO Mejorar mensaje
-				if (attackResult.getHitPoints()>0) {
+				if (attackResult.getHitPoints() > 0) {
 					resultMessage = attackResult.getHitPoints() + " puntos de vida.\n";
 					
 					// Some HP to substract... show UI elements for it... but only if we know the defender
-					if (selectedDefender.getId()!=VOID_CHARACTER_IDENTIFIER) {
+					if (selectedDefender != null) {
 						applyResultButton.setEnabled(true);
 						applyResultButton.setVisibility(View.VISIBLE);	
 						applyResultButton.requestFocus();
 					}
 				}
-				if (attackResult.getCritLevel()!=null) {
+				if (attackResult.getCritLevel() != null) {
 					resultMessage+= "Crítico " + attackResult.getCritLevel().toString() + " (" + attackResult.getCritical() + ")";
 
 					// There's a critical result... show UI elements for it
@@ -363,26 +360,25 @@ public class AttackActivity extends BaseActivity {
 		startActivityForResult(intent, REQUEST_ROLL_CRITICAL);
 	}
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.activity_attack, menu);
-		return true;
-	}
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getSupportMenuInflater().inflate(R.menu.activity_attack, menu);
+        return true;
+    }
 
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		// Handle item selection
-		switch (item.getItemId()) {
-		case R.id.menu_attack_edit:
-			doEdit();
-			return true;
-		case R.id.menu_attack_delete:
-			doConfirmDelete();
-			return true;
-		default:
-			return super.onOptionsItemSelected(item);
-		}
-	}
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_attack_edit:
+                doEdit();
+                return true;
+            case R.id.menu_attack_delete:
+                doConfirmDelete();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 
 	/**
 	 * Action for "Edit" command option

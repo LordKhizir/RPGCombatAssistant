@@ -22,6 +22,7 @@
     <string name="character_title">Personaje</string>
     <string name="character_name">%1$s (%2$s)</string>
     <string name="character_name_pnj">%1$s (PNJ)</string>
+    <string name="character_hit_points">%1$d/%2$d</string>
     <string name="character_playerName">Jugador</string>
     <string name="menu_character_edit">Editar</string>
     <string name="menu_character_delete">Eliminar</string>

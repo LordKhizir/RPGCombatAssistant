@@ -18,12 +18,7 @@
         </activity>
         <activity
             android:name=".CharacterListActivity"
-            android:label="@string/mainTitle" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:label="@string/mainTitle" />
         <activity
             android:name=".CharacterActivity"
             android:label="@string/character_title" >
@@ -43,6 +38,12 @@
         <activity
             android:name=".CriticalActivity"
             android:label="@string/critical_title" >
+        </activity>
+        <activity android:name=".MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
     </application>
 

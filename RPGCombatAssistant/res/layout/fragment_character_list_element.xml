@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="horizontal"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:gravity="center_vertical">
+
+    <ImageView
+            android:id="@+id/character_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_launcher"
+            android:layout_margin="10dp"/>
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+
+        <TextView
+                android:id="@+id/character_nameLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Aragorn (Pedro)"
+                style="@android:style/TextAppearance.Large"/>
+
+        <TextView
+                android:id="@+id/character_hitPoints"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="38/45"/>
+
+        <TextView
+                android:id="@+id/character_armor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Chain Mail"/>
+    </LinearLayout>
+
+</LinearLayout>
