@@ -1,5 +1,7 @@
 package com.altekis.rpg.combatassistant.character;
 
+import android.content.Context;
+import com.altekis.rpg.combatassistant.R;
 import com.altekis.rpg.combatassistant.db.DatabaseHelper;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
@@ -85,8 +87,11 @@ public class RPGCharacter {
         this.pnj = pnj;
     }
 
-    @Override
-    public String toString() {
-        return ((name != null ) ? name : "") + ((playerName != null) ? " (" + playerName + ")" : "");
+    public String getStringName(Context ctx) {
+        if (pnj) {
+            return ctx.getString(R.string.character_name_pnj, name);
+        } else {
+            return ctx.getString(R.string.character_name, name, playerName);
+        }
     }
 }

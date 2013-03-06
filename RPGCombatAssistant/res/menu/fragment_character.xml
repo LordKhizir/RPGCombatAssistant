@@ -2,16 +2,9 @@
 
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:id="@+id/menu_add"
-        android:title="Añadir nuevo"
+        android:title="Añadir nuevo jugador"
         android:icon="@drawable/ic_menu_add"
-        android:showAsAction="ifRoom" >
-        <menu>
-            <item android:id="@+id/menu_add_character"
-                  android:title="Jugador" />
-            <item android:id="@+id/menu_add_attack"
-                  android:title="Ataque" />
-        </menu>
-    </item>
+        android:showAsAction="ifRoom" />
     <item android:id="@+id/menu_edit"
           android:title="Editar jugador"
           android:icon="@drawable/ic_menu_edit"

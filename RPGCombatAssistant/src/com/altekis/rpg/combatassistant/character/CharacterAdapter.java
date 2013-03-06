@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 import com.altekis.rpg.combatassistant.R;
+import com.altekis.rpg.combatassistant.db.RuleSystem;
 
 import java.util.List;
 
@@ -20,14 +21,14 @@ public class CharacterAdapter extends BaseAdapter {
 
     private final Context context;
     private final LayoutInflater inflater;
-    private final boolean rolemasterSystem;
+    private final int armorTypeSystem;
     private List<RPGCharacter> characters;
 
-    public CharacterAdapter(Context context, List<RPGCharacter> characters, boolean rolemasterSystem) {
+    public CharacterAdapter(Context context, List<RPGCharacter> characters, int armorTypeSystem) {
         this.context = context;
         this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.characters = characters;
-        this.rolemasterSystem = rolemasterSystem;
+        this.armorTypeSystem = armorTypeSystem;
     }
 
     public void setCharacters(List<RPGCharacter> characters) {
@@ -70,19 +71,14 @@ public class CharacterAdapter extends BaseAdapter {
 
         RPGCharacter c = (RPGCharacter) getItem(position);
 
-        if (c.isPnj()) {
-            characterView.name.setText(context.getString(R.string.character_name_pnj, c.getName()));
-        } else {
-            characterView.name.setText(context.getString(R.string.character_name, c.getName(), c.getPlayerName()));
-        }
-
+        characterView.name.setText(c.getStringName(context));
         characterView.hitPoints.setText(context.getString(R.string.character_name, c.getHitPoints(), c.getMaxHitPoints()));
 
         ArmorType armorType = ArmorType.fromInteger(c.getArmorType());
-        if (rolemasterSystem) {
-            characterView.armor.setText(context.getString(armorType.getRmString()));
-        } else {
+        if (armorTypeSystem == RuleSystem.ARMOR_SIMPLE) {
             characterView.armor.setText(context.getString(armorType.getMerpString()));
+        } else {
+            characterView.armor.setText(context.getString(armorType.getRmString()));
         }
 
 

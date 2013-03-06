@@ -1,6 +1,7 @@
 package com.altekis.rpg.combatassistant.critical;
 
 import com.altekis.rpg.combatassistant.db.DatabaseHelper;
+import com.altekis.rpg.combatassistant.db.RuleSystem;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
@@ -8,11 +9,14 @@ import com.j256.ormlite.table.DatabaseTable;
 public class Critical {
 
     public static final String FIELD_NAME = "name";
+    public static final String FIELD_SYSTEM_ID = "system_id";
 
-    @DatabaseField(id = true, columnName = DatabaseHelper.FIELD_ID)
+    @DatabaseField(generatedId = true, columnName = DatabaseHelper.FIELD_ID)
     private long id;
     @DatabaseField(columnName = FIELD_NAME)
     private String name;
+    @DatabaseField(foreign = true, columnName = FIELD_SYSTEM_ID)
+    private RuleSystem ruleSystem;
 
     public Critical() {
     }
@@ -36,6 +40,14 @@ public class Critical {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public RuleSystem getRuleSystem() {
+        return ruleSystem;
+    }
+
+    public void setRuleSystem(RuleSystem ruleSystem) {
+        this.ruleSystem = ruleSystem;
     }
 
     @Override

@@ -15,6 +15,9 @@
 bin/
 gen/
 
+# Maven
+target/
+
 # Local configuration file (sdk path, etc)
 local.properties
 
@@ -30,3 +33,6 @@ proguard/
 *.ipr
 *.iws
 .idea/
+
+# Table CSV Files
+rolemaster-parser/src/main/resources/csv/*

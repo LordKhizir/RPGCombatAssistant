@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory
+        android:title="Sistema">
+
+        <ListPreference
+            android:key="ruleSystem"
+            android:title="@string/pref_system_title"
+            android:summary="@string/pref_system_summary"
+            android:defaultValue="1"
+            android:dialogTitle="@string/pref_system_dialog" />
+
+        <Preference
+            android:key="manageRuleSystem"
+            android:title="@string/pref_system_manage_title"
+            android:summary="@string/pref_system_manage_summary" />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

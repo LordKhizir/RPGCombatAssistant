@@ -11,7 +11,7 @@ public class AttackTable {
     public static final String FIELD_MINIMUM = "minimum_value";
     public static final String FIELD_ARMOR_TYPE = "armor_type_";
 
-    @DatabaseField(id = true, columnName = DatabaseHelper.FIELD_ID)
+    @DatabaseField(generatedId = true, columnName = DatabaseHelper.FIELD_ID)
     private long id;
     @DatabaseField(foreign = true, columnName = FIELD_ATTACK_ID)
     private Attack attack;

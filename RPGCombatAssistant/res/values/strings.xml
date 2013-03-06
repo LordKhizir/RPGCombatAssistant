@@ -13,7 +13,15 @@
 
     <!-- Splash screen Activity -->
     <string name="splash_main">RPG Combat Assistant</string>
-    
+    <string name="splash_progress_reading">Leyendo ficheros</string>
+    <string name="splash_progress_reading_zip">Leyendo fichero zip</string>
+    <string name="splash_progress_unzip">Descomprimiendo fichero</string>
+    <string name="splash_progress_unzipped">Fichero descomprimido</string>
+    <string name="splash_progress_critical">Leyendo críticos</string>
+    <string name="splash_progress_critical_table">Leyendo tablas de críticos</string>
+    <string name="splash_progress_attack">Leyendo ataques</string>
+    <string name="splash_progress_attack_table">Leyendo tablas de ataque</string>
+
     <!-- RPGCharacter List Activity -->
     <string name="characterList_playerCharactersGroupHeader">Personajes jugadores</string>
     <string name="characterList_nonPlayerCharactersGroupHeader">Personajes no-jugadores</string>
@@ -36,14 +44,16 @@
     <string name="characterEdit_name">Nombre</string>
     <string name="characterEdit_nameHint">Personaje</string>
     <string name="characterEdit_playerName">PJ</string>
+    <string name="characterEdit_playerPnj">PNJ</string>
     <string name="characterEdit_playerNameHint">Jugador</string>
     <string name="characterEdit_maxHitPoints">PV (total)</string>
-    <string name="characterEdit_maxHitPointsHint">Puntos de vida totales</string>
+    <string name="characterEdit_maxHitPointsHint">PVT</string>
     <string name="characterEdit_hitPoints">PV (actual)</string>
-    <string name="characterEdit_hitPointsHint">Puntos de vida actuales</string>
+    <string name="characterEdit_hitPointsHint">PV</string>
     <string name="characterEdit_armorType">Armadura</string>
     <string name="characterEdit_cancelButton">Cancelar</string>
-    <string name="characterEdit_saveButton">Aplicar cambios</string>
+    <string name="characterEdit_saveButton">Guardar</string>
+    <string name="characterEdit_addAttackButton">Añadir</string>
 
     <!-- Attack Activity -->
     <string name="attack_title">Ataque</string>
@@ -56,6 +66,7 @@
     <string name="attack_cancelButton">Cancelar</string>
     <string name="attack_goButton">Atacar</string>
     <string name="attack_applyResultButton">Aplicar</string>
+    <string name="attack_critical">Crítico de %1$s nivel %2$s</string>
     <string name="attack_goToCriticalButton">Lanzar crítico</string>
     <string name="menu_attack_edit">Editar</string>
     <string name="menu_attack_delete">Eliminar</string>
@@ -107,4 +118,9 @@
     <string name="armor_rm_19">Half Plate</string>
     <string name="armor_rm_20">Full Plate</string>
     <string name="characterEdit_humanPlayer">¿Jugador humano?</string>
+    <string name="pref_system_dialog">Seleccione un sistema de juego</string>
+    <string name="pref_system_title">Sistema actual</string>
+    <string name="pref_system_summary">Elije el sistema de juego</string>
+    <string name="pref_system_manage_title">Gestionar sistemas</string>
+    <string name="pref_system_manage_summary">Pulse para editar los sistemas</string>
 </resources>

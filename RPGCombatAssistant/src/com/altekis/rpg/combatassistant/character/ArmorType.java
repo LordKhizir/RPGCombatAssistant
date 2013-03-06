@@ -75,8 +75,8 @@ public enum ArmorType {
 		return null;
     }
 
-    public static ArmorType[] getArmorTypes(boolean rolemaster) {
-        if (rolemaster) {
+    public static ArmorType[] getArmorTypes(boolean complete) {
+        if (complete) {
             return values();
         } else {
             return new ArmorType[]{ArmorType.TP1, ArmorType.TP5, ArmorType.TP10, ArmorType.TP15, ArmorType.TP20};

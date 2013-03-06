@@ -10,8 +10,10 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.altekis.rpg.combatassistant.R;
+import com.altekis.rpg.combatassistant.RPGPreferences;
 import com.altekis.rpg.combatassistant.character.CharacterAdapter;
 import com.altekis.rpg.combatassistant.character.RPGCharacter;
+import com.altekis.rpg.combatassistant.db.RuleSystem;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.QueryBuilder;
 
@@ -49,7 +51,8 @@ public class CharacterListFragment extends SherlockListFragment {
         super.onActivityCreated(savedInstanceState);
         // This fragment has it's own menu
         setHasOptionsMenu(true);
-        mAdapter = new CharacterAdapter(getSherlockActivity(), null, false);
+        RuleSystem system = RPGPreferences.getSystem(getSherlockActivity(), mCallBack.getHelper());
+        mAdapter = new CharacterAdapter(getSherlockActivity(), null, system.getArmorType());
         setListAdapter(mAdapter);
         loadCharacters();
     }

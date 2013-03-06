@@ -1,0 +1,7 @@
+#id;name;fumble;critical;icon
+1;Filo;8;2;weapon_sword
+2;Contundentes;8;1;weapon_mace
+3;Dos Manos;8;1;weapon_axe
+4;Proyectiles;8;3;weapon_bow
+5;Agarrar y Desequilibrar;8;5;weapon_fist
+6;Garras y dientes;8;3;weapon_claw

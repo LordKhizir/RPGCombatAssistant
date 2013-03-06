@@ -15,7 +15,7 @@ public class CriticalTable {
     public static final String FIELD_TYPE_D = "typeD";
     public static final String FIELD_TYPE_E = "typeE";
 
-    @DatabaseField(id = true, columnName = DatabaseHelper.FIELD_ID)
+    @DatabaseField(generatedId = true, columnName = DatabaseHelper.FIELD_ID)
     private long id;
     @DatabaseField(foreign = true, columnName = FIELD_CRITICAL_ID)
     private Critical critical;

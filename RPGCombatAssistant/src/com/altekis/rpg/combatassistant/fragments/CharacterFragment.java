@@ -15,14 +15,17 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.altekis.rpg.combatassistant.R;
-import com.altekis.rpg.combatassistant.attack.Attack;
+import com.altekis.rpg.combatassistant.RPGPreferences;
+import com.altekis.rpg.combatassistant.attack.AttackComparator;
 import com.altekis.rpg.combatassistant.character.ArmorType;
 import com.altekis.rpg.combatassistant.character.CharacterAttackAdapter;
 import com.altekis.rpg.combatassistant.character.RPGCharacter;
 import com.altekis.rpg.combatassistant.character.RPGCharacterAttack;
+import com.altekis.rpg.combatassistant.db.RuleSystem;
 import com.j256.ormlite.dao.Dao;
 
 import java.sql.SQLException;
+import java.util.Collections;
 import java.util.List;
 
 public class CharacterFragment extends SherlockListFragment {
@@ -32,7 +35,6 @@ public class CharacterFragment extends SherlockListFragment {
         void addCharacter();
         void editCharacter(long characterId);
         void deleteCharacter(long characterId);
-        void addCharacterAttack(long characterId);
     }
 
     private static final String ARG_CHARACTER_ID = "characterId";
@@ -53,6 +55,7 @@ public class CharacterFragment extends SherlockListFragment {
     private TextView textViewName;
     private TextView textViewHitPoints;
     private TextView textViewArmor;
+    private CharacterAttackAdapter mAdapter;
 
     @Override
     public void onAttach(Activity activity) {
@@ -72,8 +75,8 @@ public class CharacterFragment extends SherlockListFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_character, container, false);
-        textViewName = (TextView) view.findViewById(R.id.character_nameLabel);
+        View view = inflater.inflate(R.layout.fragment_character, null);
+        textViewName = (TextView) view.findViewById(R.id.character_name);
         textViewHitPoints = (TextView) view.findViewById(R.id.character_hitPoints);
         textViewArmor = (TextView) view.findViewById(R.id.character_armor);
         return view;
@@ -92,7 +95,16 @@ public class CharacterFragment extends SherlockListFragment {
         if (characterId == 0) {
             characterId = getArguments().getLong(ARG_CHARACTER_ID);
         }
-        loadData(characterId, true, true);
+        loadData(characterId);
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if (mCharacter != null) {
+            // Save characted id
+            outState.putLong(ARG_CHARACTER_ID, mCharacter.getId());
+        }
     }
 
     @Override
@@ -102,10 +114,8 @@ public class CharacterFragment extends SherlockListFragment {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.menu_add_character) {
+        if (item.getItemId() == R.id.menu_add) {
             mCallBack.addCharacter();
-        } else if (item.getItemId() == R.id.menu_add_attack) {
-            mCallBack.addCharacterAttack(mCharacter.getId());
         } else if (item.getItemId() == R.id.menu_edit) {
             mCallBack.editCharacter(mCharacter.getId());
         } else if (item.getItemId() == R.id.menu_delete) {
@@ -121,12 +131,7 @@ public class CharacterFragment extends SherlockListFragment {
                     mCallBack.deleteCharacter(mCharacter.getId());
                 }
             });
-            builder.setNegativeButton(R.string.character_deleteDialog_cancel, new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int id) {
-                    // User cancelled the dialog
-                    // Nothing else to do here
-                }
-            });
+            builder.setNegativeButton(R.string.character_deleteDialog_cancel, null);
             AlertDialog deleteDialog = builder.create();
             deleteDialog.show();
         }
@@ -140,51 +145,36 @@ public class CharacterFragment extends SherlockListFragment {
         }
     }
 
-    public void loadData(long characterId, boolean character, boolean attacks) {
+    public void loadData(long characterId) {
         try {
-            if (character) {
-                Dao<RPGCharacter, Long> dao = mCallBack.getHelper().getDaoRPGCharacter();
-                mCharacter = dao.queryForId(characterId);
-            }
-            if (attacks) {
-                Dao<RPGCharacterAttack, Long> daoA = mCallBack.getHelper().getDaoRPGCharacterAttack();
-                Dao<Attack, Long> daoAttack = mCallBack.getHelper().getDaoAttack();
-                mAttackList = daoA.queryForEq(RPGCharacterAttack.FIELD_CHARACTER_ID, characterId);
-                if (mAttackList != null) {
-                    for (RPGCharacterAttack a : mAttackList) {
-                        daoAttack.refresh(a.getAttack());
-                    }
-                }
-            }
-            pupulateData(character, attacks);
+            Dao<RPGCharacter, Long> dao = mCallBack.getHelper().getDaoRPGCharacter();
+            mCharacter = dao.queryForId(characterId);
+            Dao<RPGCharacterAttack, Long> daoA = mCallBack.getHelper().getDaoRPGCharacterAttack();
+            mAttackList = daoA.queryForEq(RPGCharacterAttack.FIELD_CHARACTER_ID, characterId);
+            RuleSystem system = RPGPreferences.getSystem(getSherlockActivity(), mCallBack.getHelper());
+            Collections.sort(mAttackList, new AttackComparator(system.getId()));
         } catch (SQLException e) {
             Log.e("RPGCombatAssistant", "Can't read database", e);
         }
+
+        populateData();
     }
 
-    private void pupulateData(boolean character, boolean attacks) {
-        if (character && mCharacter != null) {
-            if (mCharacter.isPnj()) {
-                textViewName.setText(getString(R.string.character_name_pnj, mCharacter.getName()));
-            } else {
-                textViewName.setText(getString(R.string.character_name, mCharacter.getName(), mCharacter.getPlayerName()));
-            }
-
+    private void populateData() {
+        RuleSystem system = RPGPreferences.getSystem(getSherlockActivity(), mCallBack.getHelper());
+        if (mCharacter != null) {
+            textViewName.setText(mCharacter.getStringName(getSherlockActivity()));
             textViewHitPoints.setText(getString(R.string.character_name, mCharacter.getHitPoints(), mCharacter.getMaxHitPoints()));
 
-            // TODO Rolemaster system
-            boolean rolemasterSystem = false;
             ArmorType armorType = ArmorType.fromInteger(mCharacter.getArmorType());
-            if (rolemasterSystem) {
-                textViewArmor.setText(getString(armorType.getRmString()));
-            } else {
+            if (system.getArmorType() == RuleSystem.ARMOR_SIMPLE) {
                 textViewArmor.setText(getString(armorType.getMerpString()));
+            } else {
+                textViewArmor.setText(getString(armorType.getRmString()));
             }
         }
 
-        if (attacks) {
-            CharacterAttackAdapter adapter = new CharacterAttackAdapter(getSherlockActivity(), mAttackList);
-            setListAdapter(adapter);
-        }
+        mAdapter = new CharacterAttackAdapter(getSherlockActivity(), system, mAttackList);
+        setListAdapter(mAdapter);
     }
 }

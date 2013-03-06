@@ -19,7 +19,7 @@ public class RPGCharacterAttack {
     private String name;
     @DatabaseField(foreign = true, columnName = FIELD_CHARACTER_ID)
     private RPGCharacter RPGCharacter;
-    @DatabaseField(foreign = true, columnName = FIELD_ATTACK_ID)
+    @DatabaseField(foreign = true, foreignAutoRefresh = true,  columnName = FIELD_ATTACK_ID)
     private Attack attack;
     @DatabaseField(columnName = FIELD_BONUS)
     private int bonus;
@@ -62,5 +62,14 @@ public class RPGCharacterAttack {
 
     public void setBonus(int bonus) {
         this.bonus = bonus;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        boolean equals = false;
+        if (o instanceof RPGCharacterAttack) {
+            equals = (id == ((RPGCharacterAttack) o).getId());
+        }
+        return equals;
     }
 }

@@ -30,6 +30,7 @@ public final class DBUtil {
 			// Not fumbled... check for results
             // Get the first attack with id = attack.getId and total >= minimum
             try {
+                Dao<Critical, Long> daoC = dbHelper.getDaoCritical();
                 Dao<AttackTable, Long> dao = dbHelper.getDaoAttackTable();
                 QueryBuilder<AttackTable, Long> qb = dao.queryBuilder();
                 qb.setWhere(qb.where()
@@ -44,20 +45,20 @@ public final class DBUtil {
                     String[] parts = wholeResult.split("-");
                     attackResult.setHitPoints(Integer.parseInt(parts[0]));
                     if (parts.length > 1) {
-                        attackResult.setCritLevel(CriticalLevel.valueOf(parts[1]));
+                        attackResult.setCriticalLevel(CriticalLevel.valueOf(parts[1]));
+                        Critical c = null;
                         if (parts.length == 3) {
-                            // We have the critical setted in attack table
-                            Critical c = parseCritical(parts[2]);
-                            if (c == null) {
-                                // Get the default attack critical
-                                attackResult.setCritical(attack.getCritical());
-                            } else {
-                                attackResult.setCritical(c);
-                            }
-                        } else {
-                            attackResult.setCritical(attack.getCritical());
+                            // We have the critical id
+                            c = daoC.queryForId(Long.parseLong(parts[2]));
                         }
-                        dbHelper.getDaoCritical().refresh(attackResult.getCritical());
+
+                        if (c == null) {
+                            // Get the default attack critical
+                            attackResult.setCritical(attack.getCritical());
+                            daoC.refresh(attackResult.getCritical());
+                        } else {
+                            attackResult.setCritical(c);
+                        }
                     }
                 }
             } catch (SQLException e) {
@@ -70,23 +71,12 @@ public final class DBUtil {
     public static String getCritical(DatabaseHelper dbHelper, Critical critical, CriticalLevel criticalLevel, int result) {
         String criticalResult = "";
         int total = result;
-        // TODO only on merp
-        // TODO mejorar esto! necesitamos modificadores por nivel de crítico, topes, etc.
-        if (criticalLevel == CriticalLevel.T) {
-            total -= 50;
-        } else if (criticalLevel == CriticalLevel.A) {
-            total -= 20;
-        } else if (criticalLevel == CriticalLevel.B) {
-            total -= 10;
-        } else if (criticalLevel == CriticalLevel.C) {
-            // it's ok
-        } else if (criticalLevel == CriticalLevel.D) {
-            total += 10;
-        } else if (criticalLevel == CriticalLevel.E) {
-            total += 20;
-        }
         // Get the first critical with total >= minumum and id_critical = critical.getId
         try {
+            dbHelper.getDaoSystem().refresh(critical.getRuleSystem());
+            if (critical.getRuleSystem().getCriticalType() == RuleSystem.CRITICAL_SIMPLE) {
+                total = applySimpleCritical(total, criticalLevel);
+            }
             Dao<CriticalTable, Long> dao = dbHelper.getDaoCriticalTable();
             QueryBuilder<CriticalTable, Long> qb = dao.queryBuilder();
             qb.setWhere(qb.where()
@@ -96,8 +86,7 @@ public final class DBUtil {
             qb.orderBy(CriticalTable.FIELD_MINIMUM, false);
             CriticalTable criticalTable = dao.queryForFirst(qb.prepare());
             if (criticalTable != null) {
-                // TODO In rolemaster check the valid column (criticalTable.getTypeA()...)
-                criticalResult = criticalTable.getTypeA();
+                criticalResult = readCritical(critical.getRuleSystem().getCriticalType(), criticalLevel, criticalTable);
             }
         } catch (SQLException e) {
             Log.e("RPGCombatAssistant", "Can't read database", e);
@@ -105,22 +94,42 @@ public final class DBUtil {
         return criticalResult;
     }
 
-    private static Critical parseCritical(String value) {
-        Critical c = new Critical();
-        if ("K".equals(value)) {
-            c.setId(1);
-        } else if ("S".equals(value)) {
-            c.setId(2);
-        } else if ("P".equals(value)) {
-            c.setId(3);
-        } else if ("U".equals(value)) {
-            c.setId(4);
-        } else if ("G".equals(value)) {
-            c.setId(5);
-        } else {
-            c = null;
+    private static int applySimpleCritical(int total, CriticalLevel criticalLevel) {
+        int result = total;
+        if (criticalLevel == CriticalLevel.T) {
+            result -= 50;
+        } else if (criticalLevel == CriticalLevel.A) {
+            result -= 20;
+        } else if (criticalLevel == CriticalLevel.B) {
+            result -= 10;
+        } else if (criticalLevel == CriticalLevel.C) {
+            // it's ok
+        } else if (criticalLevel == CriticalLevel.D) {
+            result += 10;
+        } else if (criticalLevel == CriticalLevel.E) {
+            result += 20;
         }
-        return c;
+        return result;
+    }
+
+    private static String readCritical(int criticalType, CriticalLevel criticalLevel, CriticalTable criticalTable) {
+        String result;
+        if (criticalType == RuleSystem.CRITICAL_SIMPLE) {
+            result = criticalTable.getTypeA();
+        } else {
+            if (criticalLevel == CriticalLevel.A) {
+                result = criticalTable.getTypeA();
+            } else if (criticalLevel == CriticalLevel.B) {
+                result = criticalTable.getTypeB();
+            } else if (criticalLevel == CriticalLevel.C) {
+                result = criticalTable.getTypeC();
+            } else if (criticalLevel == CriticalLevel.D) {
+                result = criticalTable.getTypeD();
+            } else {
+                result = criticalTable.getTypeE();
+            }
+        }
+        return result;
     }
 
     private static String chooseAttack(AttackTable attackTable, ArmorType armorType) {

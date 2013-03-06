@@ -2,224 +2,228 @@ package com.altekis.rpg.combatassistant;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextUtils;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.util.Log;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.*;
-import android.widget.AdapterView.OnItemSelectedListener;
-
+import com.altekis.rpg.combatassistant.attack.Attack;
+import com.altekis.rpg.combatassistant.attack.AttackComparator;
 import com.altekis.rpg.combatassistant.character.ArmorType;
 import com.altekis.rpg.combatassistant.character.RPGCharacter;
+import com.altekis.rpg.combatassistant.character.RPGCharacterAttack;
+import com.altekis.rpg.combatassistant.db.RuleSystem;
+import com.altekis.rpg.combatassistant.fragments.AttackEditFragment;
+import com.altekis.rpg.combatassistant.fragments.CharacterEditFragment;
 import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.stmt.QueryBuilder;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
-public class CharacterEditActivity extends BaseActivity {
+public class CharacterEditActivity extends BaseActivity implements CharacterEditFragment.CallBack, AttackEditFragment.CallBack {
 
     public static final String ARG_CHARACTER_ID = "CharacterId";
+    public static final String ARG_ATTACK_ID = "AttackId";
 
-	static final int CREATE_NEW_CHARACTER = 0;
-
-    private RPGCharacter character;
-	private ArmorType[] armorTypes;
-
-	// view references used everywhere
-	private EditText nameText;
-    private CheckBox playerCheck;
-	private EditText playerNameText;
-	private EditText maxHitPointsText;
-	private EditText hitPointsText;
-	private Spinner armorTypeSpinner;
+    private RPGCharacter mCharacter;
+	private List<RPGCharacterAttack> mCharacterAttackList;
+    private RPGCharacterAttack mCharacterAttack;
+    private List<Attack> mAttackList;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_character_edit);
+        setContentView(R.layout.activity_content);
+
+        long characterId = 0;
+        long attackId = -1;
+        if (savedInstanceState != null) {
+            characterId = savedInstanceState.getLong(ARG_CHARACTER_ID, 0);
+            attackId = savedInstanceState.getLong(ARG_ATTACK_ID, -1);
+        }
 
 		// Get Extras
-		long characterId = getIntent().getLongExtra(ARG_CHARACTER_ID, CREATE_NEW_CHARACTER);
+        if (characterId == 0) {
+		    characterId = getIntent().getLongExtra(ARG_CHARACTER_ID, 0);
+        }
 
-    	if (characterId==CREATE_NEW_CHARACTER) {
-    		// If no CharacterId, we'll create a new one instead of updating
-    		character = new RPGCharacter();
-            character.setArmorType(ArmorType.TP1.getArmor());
-    		character.setId(CREATE_NEW_CHARACTER);
-    	} else {
-    		// Retrieve the desired character
-            try {
-                Dao<RPGCharacter, Long> dao = getHelper().getDaoRPGCharacter();
-                character = dao.queryForId(characterId);
-            } catch (SQLException e) {
-                Log.e("RPGCombatAssistant", "Can't read database", e);
-            }
-    	}
+    	loadData(characterId, attackId);
 
-        if (character == null) {
+        if (mCharacter == null) {
             // Database not accesible, we need to finish
             finish();
         } else {
-            // Set view references to UI elements used everywhere...
-            nameText = (EditText) findViewById(R.id.characterEdit_name);
-            playerNameText = (EditText) findViewById(R.id.characterEdit_playerName);
-            maxHitPointsText = (EditText) findViewById(R.id.characterEdit_maxHitPoints);
-            hitPointsText = (EditText) findViewById(R.id.characterEdit_hitPoints);
-            armorTypeSpinner = (Spinner) findViewById(R.id.characterEdit_armorType);
-
-            // If check is active, the user must fill the name, if not is active the character is an NPC and no
-            // playername is required
-            playerCheck = (CheckBox) findViewById(R.id.characterEdit_playerNameLabel);
-            playerCheck.setChecked(!character.isPnj());
-            playerCheck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    if (!isChecked) {
-                        playerNameText.setText(null);
-                    }
-                    playerNameText.setEnabled(isChecked);
-                }
-            });
-
-            // TODO - Change when rolemaster setting will available
-            armorTypes = ArmorType.getArmorTypes(false);
-            final String[] titles = new String[armorTypes.length];
-            for (int i = 0 ; i < armorTypes.length ; i++) {
-                titles[i] = getString(armorTypes[i].getMerpString());
+            FragmentManager fm = getSupportFragmentManager();
+            Fragment frg = fm.findFragmentById(R.id.main_content);
+            if (frg == null) {
+                frg = new CharacterEditFragment();
+                fm.beginTransaction().add(R.id.main_content, frg).commit();
             }
-            // Create an ArrayAdapter using the string array and a default spinner layout
-            ArrayAdapter<String> armorTypeAdapter = new ArrayAdapter<String>(this,
-                    android.R.layout.simple_spinner_item,
-                    titles);
-            // Specify the layout to use when the list of choices appears
-            armorTypeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            // Apply the adapter to the spinner
-            armorTypeSpinner.setAdapter(armorTypeAdapter);
-            armorTypeSpinner.setOnItemSelectedListener(new ArmorTypeSelectedListener());
-
-            // Add listeners for buttons
-            Button btnCancel = (Button) findViewById(R.id.characterEdit_cancelButton);
-            btnCancel.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    doCancel();
-                }
-            });
-
-            Button btnSave = (Button) findViewById(R.id.characterEdit_saveButton);
-            btnSave.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    doSave();
-                }
-            });
-
-            // Complete UI
-            populateUI();
         }
 	}
-	
-	/**
-	 * Display data
-	 * Used on activity creation
-	 */
-	private void populateUI() {
-		nameText.setText(character.getName());
-		playerNameText.setText(character.getPlayerName());
-		maxHitPointsText.setText(Integer.toString(character.getMaxHitPoints()));
-		hitPointsText.setText(Integer.toString(character.getHitPoints()));
-		
-		// Select spinner position - Armor type
-		int position = 0;
-		for (ArmorType type : armorTypes) {
-			if (type.getArmor() == character.getArmorType()) {
-				armorTypeSpinner.setSelection(position);
-				break;
-			}
-			position++;
-		}
-	}
 
-	/** Nested class for spinner value recovery */
-	public class ArmorTypeSelectedListener implements OnItemSelectedListener {
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if (mCharacter != null) {
+            outState.putLong(ARG_CHARACTER_ID, mCharacter.getId());
+        }
+        if (mCharacterAttack != null) {
+            outState.putLong(ARG_ATTACK_ID, mCharacterAttack.getId());
+        }
+    }
 
-		public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-			character.setArmorType(armorTypes[pos].getArmor());
-		}
-
-		public void onNothingSelected(AdapterView<?> parent) {
-			//
-		}
-	}
-	
-	/**
-	 * Ignore changes, and go back to caller
-	 */
-	private void doCancel() {
-		// Set result as CANCELED
-		setResult(RESULT_CANCELED);
-		finish();
-	}
-	
-	/**
-	 * Apply changes and go back to caller
-	 */
-	private void doSave() {
-		// Update character with the info provided by the user
-		character.setName(nameText.getText().toString().trim());
-		character.setPlayerName(playerNameText.getText().toString().trim());
-        character.setPnj(!playerCheck.isChecked());
-		
-		// Before saving, check for errors
-		String maxHitPointsRaw = maxHitPointsText.getText().toString().trim();
-		String hitPointsRaw = hitPointsText.getText().toString().trim();
- 
-		boolean errorFound = false;
-		if (TextUtils.isEmpty(character.getName())) {
-			nameText.setError(getResources().getText(R.string.errorMandatory));
-			errorFound = true;
-		}
-		if (TextUtils.isEmpty(character.getPlayerName()) && !character.isPnj()) {
-			playerNameText.setError(getResources().getText(R.string.errorMandatory));
-			errorFound = true;
-		}
-		if (maxHitPointsRaw.length()==0) {
-			errorFound = true; // 0 is allowed... but we'll require it to be explicitly typed, to avoid usual errors
-			maxHitPointsText.setError(getResources().getText(R.string.errorMandatory));
-		} else {
-			try {
-				character.setMaxHitPoints(Integer.parseInt(maxHitPointsRaw));
-			} catch (NumberFormatException e) {
-				errorFound = true;
-				maxHitPointsText.setError(getResources().getText(R.string.errorMustBeANumber));
-			}
-		}
-		if (hitPointsRaw.length()==0) {
-			errorFound = true; // 0 is allowed... but we'll require it to be explicitly typed, to avoid usual errors
-			hitPointsText.setError(getResources().getText(R.string.errorMandatory));
-		} else {
-			try {
-				character.setHitPoints(Integer.parseInt(hitPointsRaw));
-			} catch (NumberFormatException e) {
-				errorFound = true;
-				hitPointsText.setError(getResources().getText(R.string.errorMustBeANumber));
-			}
-		}
-		// armor type is a spinner, it's always correct
-        // Armor is setted on spinner change
-		//character.setArmorType(selectedArmorType);
-
-		if (!errorFound) {
-			// Everything is correct... go create/update the character
-            try {
+    /**
+     * Load character info for edit
+     * @param characterId or 0 if is new character
+     * @param attackId for edit specific character attack, 0 for new character attack or -1 for no edit attack
+     */
+    private void loadData(long characterId, long attackId) {
+        try {
+            if (characterId > 0) {
                 Dao<RPGCharacter, Long> dao = getHelper().getDaoRPGCharacter();
-                dao.createOrUpdate(character);
-                Intent data = new Intent();
-                data.putExtra(ARG_CHARACTER_ID, character.getId());
-                setResult(RESULT_OK, data); // Set result as OK == created/updated
+                mCharacter = dao.queryForId(characterId);
+                Dao<RPGCharacterAttack, Long> daoA = getHelper().getDaoRPGCharacterAttack();
+                mCharacterAttackList = daoA.queryForEq(RPGCharacterAttack.FIELD_CHARACTER_ID, characterId);
+                RuleSystem system = RPGPreferences.getSystem(this, getHelper());
+                Collections.sort(mCharacterAttackList, new AttackComparator(system.getId()));
+            } else {
+                // If no CharacterId, we'll create a new one instead of updating
+                mCharacter = new RPGCharacter();
+                mCharacter.setArmorType(ArmorType.TP1.getArmor());
+            }
+        } catch (SQLException e) {
+            Log.e("RPGCombatAssistant", "Can't read database", e);
+        }
+
+        if (attackId < 0) {
+            // No attack to edit
+        } else if (attackId == 0) {
+            // Creating new character attack
+            mCharacterAttack = new RPGCharacterAttack();
+        } else if (mCharacterAttackList != null) {
+            // Editing an existing character attack
+            for (RPGCharacterAttack a : mCharacterAttackList) {
+                if (attackId == a.getId()) {
+                    mCharacterAttack = a;
+                    break;
+                }
+            }
+        }
+    }
+
+    @Override
+    public void characterAttackClick(int position) {
+        if (position < 0 || position >= mCharacterAttackList.size()) {
+            mCharacterAttack = new RPGCharacterAttack();
+        } else {
+            mCharacterAttack = mCharacterAttackList.get(position);
+        }
+        FragmentManager fm = getSupportFragmentManager();
+        fm.beginTransaction().replace(R.id.main_content, new AttackEditFragment()).addToBackStack("edit_attack").commit();
+    }
+
+    @Override
+    public RPGCharacterAttack getCharacterAttack() {
+        return mCharacterAttack;
+    }
+
+    @Override
+    public List<Attack> getAttacks() {
+        if (mAttackList == null) {
+            Dao<Attack, Long> daoAttack;
+            try {
+                daoAttack = getHelper().getDaoAttack();
+                QueryBuilder<Attack, Long> qb = daoAttack.queryBuilder();
+                RuleSystem system = RPGPreferences.getSystem(this, getHelper());
+                qb.setWhere(qb.where().eq(Attack.FIELD_SYSTEM_ID, system.getId()));
+                qb.orderBy(Attack.FIELD_NAME, true);
+                mAttackList = daoAttack.query(qb.prepare());
             } catch (SQLException e) {
                 Log.e("RPGCombatAssistant", "Can't read database", e);
+                mAttackList = new ArrayList<Attack>();
             }
-	    	finish();
-		}
-	}
+        }
+        return mAttackList;
+    }
+
+    @Override
+    public void saveAttack() {
+        if (mCharacterAttackList == null) {
+            mCharacterAttackList = new ArrayList<RPGCharacterAttack>();
+        }
+        if (mCharacterAttack.getId() == 0) {
+            mCharacterAttackList.add(mCharacterAttack);
+        }
+        mCharacterAttack = null;
+        RuleSystem system = RPGPreferences.getSystem(this, getHelper());
+        Collections.sort(mCharacterAttackList, new AttackComparator(system.getId()));
+        cancelAttack();
+    }
+
+    @Override
+    public void deleteAttack() {
+        if (mCharacterAttack.getId() > 0) {
+            mCharacterAttackList.remove(mCharacterAttack);
+            try {
+                Dao<RPGCharacterAttack, Long> daoAttack = getHelper().getDaoRPGCharacterAttack();
+                daoAttack.delete(mCharacterAttack);
+            } catch (SQLException e) {
+                Log.e("RPGCombatAssistant", "Can't read database", e);
+                mAttackList = new ArrayList<Attack>();
+            }
+        }
+        cancelAttack();
+    }
+
+    @Override
+    public void cancelAttack() {
+        mCharacterAttack = null;
+        FragmentManager fm = getSupportFragmentManager();
+        fm.popBackStack();
+    }
+
+    @Override
+    public void cancelCharacter() {
+        // Set result as CANCELED
+        setResult(RESULT_CANCELED);
+        finish();
+    }
+
+    @Override
+    public void doneCharacter() {
+        try {
+            Dao<RPGCharacter, Long> dao = getHelper().getDaoRPGCharacter();
+            Dao<RPGCharacterAttack, Long> daoA = getHelper().getDaoRPGCharacterAttack();
+            dao.createOrUpdate(mCharacter);
+            if (mCharacterAttackList != null) {
+                for (RPGCharacterAttack attack : mCharacterAttackList) {
+                    attack.setRPGCharacter(mCharacter);
+                    daoA.createOrUpdate(attack);
+                }
+            }
+            Intent data = new Intent();
+            data.putExtra(ARG_CHARACTER_ID, mCharacter.getId());
+            setResult(RESULT_OK, data); // Set result as OK == created/updated
+        } catch (SQLException e) {
+            Log.e("RPGCombatAssistant", "Can't read database", e);
+        }
+        finish();
+    }
+
+    @Override
+    public void addAttack() {
+        characterAttackClick(-1);
+    }
+
+    @Override
+    public RPGCharacter getCharacter() {
+        return mCharacter;
+    }
+
+    @Override
+    public List<RPGCharacterAttack> getCharacterAttacks() {
+        return mCharacterAttackList;
+    }
 }

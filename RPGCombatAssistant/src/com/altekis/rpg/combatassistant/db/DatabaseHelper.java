@@ -27,6 +27,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     private static final String DATABASE_NAME = "rpg-combat-assistant-v11.db";
     private static final int DATABASE_VERSION = 2;
 
+    public static final String TABLE_SYSTEM = "db_system";
     public static final String TABLE_ATTACK = "db_attack";
     public static final String TABLE_ATTACK_TABLE = "db_attack_table";
     public static final String TABLE_CHARACTER = "db_character";
@@ -36,6 +37,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     public static final String FIELD_ID = "_id";
 
     private Context context;
+    private Dao<RuleSystem, Long> daoSystem;
     private Dao<Attack, Long> daoAttack;
     private Dao<AttackTable, Long> daoAttackTable;
     private Dao<RPGCharacter, Long> daoCharacter;
@@ -51,6 +53,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase, ConnectionSource connectionSource) {
         try {
+            TableUtils.createTable(connectionSource, RuleSystem.class);
             TableUtils.createTable(connectionSource, Critical.class);
             TableUtils.createTable(connectionSource, CriticalTable.class);
             TableUtils.createTable(connectionSource, Attack.class);
@@ -149,6 +152,13 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
                 newValue = 20;
         }
         return newValue;
+    }
+
+    public Dao<RuleSystem, Long> getDaoSystem() throws SQLException {
+        if (daoSystem == null) {
+            daoSystem = getDao(RuleSystem.class);
+        }
+        return daoSystem;
     }
 
     public Dao<Attack, Long> getDaoAttack() throws SQLException {

@@ -1,134 +1,46 @@
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/attack_scrollView">
+    android:orientation="vertical">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
-
-        <!-- Attack name + attack type -->
-
-        <TextView
-            android:id="@+id/attack_nameLabel"
-            style="@style/common_form_fullRow"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true" />
-        <!-- Attack/defense slider -->
-
-        <TextView
-            android:id="@+id/attack_bonusSeekLabel"
-            style="@style/common_form_fullRow"
-            android:layout_below="@+id/attack_nameLabel"
-            android:gravity="center" />
-
-        <SeekBar
-            android:id="@+id/attack_bonusSeek"
-            style="@style/common_form_fullRow"
-            android:layout_below="@+id/attack_bonusSeekLabel" />
-        <!-- Extra -->
-
-        <TextView
-            android:id="@+id/attack_extraLabel"
-            style="@style/common_form_label"
-            android:layout_below="@+id/attack_bonusSeek"
-            android:text="@string/attack_extra" />
-
-        <EditText
-            android:id="@+id/attack_extra"
-            style="@style/common_form_input"
-            android:layout_alignBaseline="@+id/attack_extraLabel"
-            android:layout_toRightOf="@+id/attack_extraLabel"
-            android:inputType="numberSigned" />
-
-        <!-- Select defender -->
-
-        <TextView
-            android:id="@+id/attack_defenderLabel"
-            style="@style/common_form_label"
-            android:layout_below="@+id/attack_extraLabel"
-            android:text="@string/attack_defender" />
-
-        <Spinner
-            android:id="@+id/attack_defender"
-            style="@style/common_form_input"
-            android:layout_alignBaseline="@+id/attack_defenderLabel"
-            android:layout_toRightOf="@+id/attack_defenderLabel"
-            android:inputType="textPersonName" />
-
-        <!-- Defender armor type -->
-
-        <TextView
-            android:id="@+id/attack_defenderArmorTypeLabel"
-            style="@style/common_form_label"
-            android:layout_below="@+id/attack_defenderLabel"
-            android:text="@string/attack_defenderArmorType" />
-
-        <Spinner
-            android:id="@+id/attack_defenderArmorType"
-            style="@style/common_form_input"
-            android:layout_alignBaseline="@+id/attack_defenderArmorTypeLabel"
-            android:layout_toRightOf="@+id/attack_defenderArmorTypeLabel"
-            android:inputType="textPersonName" />
-        <!-- Roll -->
-
-        <TextView
-            android:id="@+id/attack_rollLabel"
-            style="@style/common_form_label"
-            android:layout_below="@+id/attack_defenderArmorTypeLabel"
-            android:text="@string/attack_roll" />
-
-        <EditText
-            android:id="@+id/attack_roll"
-            style="@style/common_form_input"
-            android:layout_alignBaseline="@+id/attack_rollLabel"
-            android:layout_toRightOf="@+id/attack_rollLabel"
-            android:inputType="numberSigned" />
-
-        <!-- Buttons -->
-
-        <Button
-            android:id="@+id/attack_cancelButton"
-            style="@style/common_form_label"
-            android:layout_below="@+id/attack_rollLabel"
-            android:text="@string/attack_cancelButton" />
-
-        <Button
-            android:id="@+id/attack_goButton"
-            style="@style/common_form_input"
-            android:layout_alignBaseline="@+id/attack_cancelButton"
-            android:layout_toRightOf="@+id/attack_cancelButton"
-            android:text="@string/attack_goButton" />
-
-        <!-- Result area -->
-
-        <TextView
+    <LinearLayout
             android:id="@+id/attack_result"
-            style="@style/common_form_fullRow"
-            android:layout_below="@+id/attack_cancelButton" />
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/attack_resultCharacter"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/attack_resultCritical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/attack_resultHitPoints"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
 
         <Button
-            android:id="@+id/attack_applyResultButton"
-            style="@style/common_form_fullRow"
-            android:layout_below="@+id/attack_result"
-            android:text="@string/attack_applyResultButton"
-            android:visibility="gone" />
-
-        <!-- Go to critical -->
+            android:id="@+id/attack_applyHitPoints"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Aplicar"/>
 
         <Button
-            android:id="@+id/attack_goToCriticalButton"
-            style="@style/common_form_fullRow"
-            android:layout_below="@+id/attack_applyResultButton"
-            android:text="@string/attack_goToCriticalButton"
-            android:visibility="gone" />
+            android:id="@+id/attack_critical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Crítico"/>
 
-        <TextView android:id="@+id/attack_lastElement"
-            style="@style/common_form_fullRow"
-            android:layout_below="@+id/attack_goToCriticalButton"
-            android:layout_marginTop="30dp"
-            />
-    </RelativeLayout>
+    </LinearLayout>
 
-</ScrollView>
+    <FrameLayout
+        android:id="@+id/main_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+</LinearLayout>

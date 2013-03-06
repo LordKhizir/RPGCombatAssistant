@@ -8,6 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.altekis.rpg.combatassistant.R;
+import com.altekis.rpg.combatassistant.db.RuleSystem;
 
 import java.util.List;
 
@@ -20,10 +21,12 @@ public class CharacterAttackAdapter extends BaseAdapter {
     }
 
     private final LayoutInflater inflater;
+    private final long idRuleSystem;
     private final List<RPGCharacterAttack> attacks;
 
-    public CharacterAttackAdapter(Context context, List<RPGCharacterAttack> attacks) {
+    public CharacterAttackAdapter(Context context, RuleSystem ruleSystem, List<RPGCharacterAttack> attacks) {
         this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        idRuleSystem = ruleSystem.getId();
         this.attacks = attacks;
     }
 
@@ -65,11 +68,20 @@ public class CharacterAttackAdapter extends BaseAdapter {
         // Fill UI elements with current attack values
         attackView.name.setText(attack.getName());
         attackView.info.setText(attack.getAttack().getName());
-
-        // Change the icon for that of the weapon
-        // TODO link to real images
-        attackView.icon.setImageResource(R.drawable.ic_launcher);
+        attackView.icon.setImageResource(attack.getAttack().getWeaponIcon());
 
         return view;
     }
-} 
+
+    @Override
+    public boolean areAllItemsEnabled() {
+        return false;
+    }
+
+    @Override
+    public boolean isEnabled(int position) {
+        RPGCharacterAttack attack = (RPGCharacterAttack) getItem(position);
+        return attack.getAttack().getRuleSystem().getId() == idRuleSystem;
+    }
+
+}
