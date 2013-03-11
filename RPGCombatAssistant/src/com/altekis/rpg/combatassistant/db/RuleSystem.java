@@ -10,10 +10,13 @@ public class RuleSystem {
     public static final int ARMOR_COMPLETE = 1;
     public static final int CRITICAL_SIMPLE = 0;
     public static final int CRITICAL_COMPLETE = 1;
+    public static final int MOVING_FUMBLE = 0;
+    public static final int MOVING_NO_FUMBLE = 1;
 
     public static final String FIELD_NAME = "name";
     public static final String FIELD_ARMOR_TYPE = "armor";
     public static final String FIELD_CRITICAL_TYPE = "critical";
+    public static final String FIELD_MOVING_TYPE = "moving";
 
     @DatabaseField(generatedId = true, columnName = DatabaseHelper.FIELD_ID)
     private long id;
@@ -23,6 +26,8 @@ public class RuleSystem {
     private int armorType;
     @DatabaseField(columnName = FIELD_CRITICAL_TYPE)
     private int criticalType;
+    @DatabaseField(columnName = FIELD_MOVING_TYPE)
+    private int movingType;
 
     public long getId() {
         return id;
@@ -54,6 +59,14 @@ public class RuleSystem {
 
     public void setCriticalType(int criticalType) {
         this.criticalType = criticalType;
+    }
+
+    public int getMovingType() {
+        return movingType;
+    }
+
+    public void setMovingType(int movingType) {
+        this.movingType = movingType;
     }
 
     @Override

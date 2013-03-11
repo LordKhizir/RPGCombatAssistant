@@ -21,6 +21,7 @@
     <string name="splash_progress_critical_table">Leyendo tablas de críticos</string>
     <string name="splash_progress_attack">Leyendo ataques</string>
     <string name="splash_progress_attack_table">Leyendo tablas de ataque</string>
+    <string name="splash_progress_moving_maneuver">Leyendo MM</string>
 
     <!-- RPGCharacter List Activity -->
     <string name="characterList_playerCharactersGroupHeader">Personajes jugadores</string>
@@ -117,6 +118,21 @@
     <string name="armor_rm_18">Metal Breastplate and Greaves</string>
     <string name="armor_rm_19">Half Plate</string>
     <string name="armor_rm_20">Full Plate</string>
+
+    <string name="maneuver_diff_routine">Rutina</string>
+    <string name="maneuver_diff_easy">Fácil</string>
+    <string name="maneuver_diff_light">Escasa dificultad</string>
+    <string name="maneuver_diff_medium">Dificultad media</string>
+    <string name="maneuver_diff_very_hard">Difícil</string>
+    <string name="maneuver_diff_extremely_hard">Muy difícil</string>
+    <string name="maneuver_diff_sheer_hard">Extremadamente difícil</string>
+    <string name="maneuver_diff_folly">Locura completa</string>
+    <string name="maneuver_diff_absurd">Absurdo</string>
+    <string name="moving_difficultyLabel">Dificultad</string>
+    <string name="moving_rollHint">Tirada</string>
+    <string name="moving_bonusHint">Bonus</string>
+
+
     <string name="characterEdit_humanPlayer">¿Jugador humano?</string>
     <string name="pref_system_dialog">Seleccione un sistema de juego</string>
     <string name="pref_system_title">Sistema actual</string>

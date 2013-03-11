@@ -1,0 +1,20 @@
+#minimum;result
+-49;Dudas y no aciertas a actuar
+6;Tienes segundas intenciones y decides esperar un asalto
+21;Resbalas. 30% de probabilidad de que caigas. -20 a cualquier maniobra durante 2 asaltos.
+36;Tropiezas. 45% de probabilidad de que caigas. -30 a cualquier maniobra durante 2 asaltos.
+51;Tropiezas con tu dedo gordo. 50% de probabilidad de que caigas. -3pv. -10 a la actividad.
+66;Resbalas. 75% de probabilidad de que caigas. Aturdido 2 asaltos.
+80;Te tuerces el tobillo. -5pv. -10 a la actividad.
+81;Te caes. -3pv. -20 a la actividad durante 3 asaltos.
+87;Te tuerces el tobillo, desgarrándote algunos tendones. -7 pv. -20 a la actividad. Aturdido durante 1 asalto.
+90;Te rompes una pierna al caer. -8pv. -30 a la actividad. Aturdido durante 3 asaltos.
+91;Te rompes la muñeca al caer. -12pv. -20 a la actividad. Aturdido durante 2 asaltos.
+97;Tu brazo se rompe al aterrizar sobre él con todo tu peso. -14 pv. -30 a la actividad. Aturdido durante 4 asaltos.
+100;En un intento de frenar tu caída, te rompes ambos brazos; quedan inútiles. -30pv. Aturdido durante 6 asaltos.
+101;Al caer, la pierna se te tuerce y se rompe. -15pv. -50 a la actividad. Aturdido durante 3 asaltos.
+107;Tu rodilla, al caer choca con un objeto duro y se hace añicos. -10pv. -80 a la actividad. Aturdido durante 4 asaltos.
+110;Caes y la conmoción resultante te produce un estado de coma que durará un año.
+111;Caes y aterrizas sobre la parte baja de tu espina dorsal. Quedas paralizado de cintura para abajo. -30pv.
+117;Caes y quedas paralizado de cuerpo para abajo. -20pv.
+120;Tu caída se convierte en un picado. Te abres el cráneo y mueres.

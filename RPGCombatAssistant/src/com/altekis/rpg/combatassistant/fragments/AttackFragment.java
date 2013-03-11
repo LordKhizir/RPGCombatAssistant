@@ -197,57 +197,61 @@ public class AttackFragment extends SherlockFragment implements AdapterView.OnIt
         if (v.getId() == R.id.attack_cancelButton) {
             mCallBack.cancelAttack();
         } else if (v.getId() == R.id.attack_goButton) {
-            boolean errorFound = false;
-            int extra = 0;
-            int roll = 0;
-            String extraRaw = vEditExtra.getText().toString().trim();
-            if (extraRaw.length() == 0) {
-                extra = 0; // 0 allowed
-            } else {
-                try {
-                    extra = Integer.parseInt(extraRaw);
-                } catch (NumberFormatException e) {
-                    errorFound = true;
-                    vEditExtra.setError(getResources().getText(R.string.errorMustBeANumber));
-                }
-            }
+            processAttack();
+        }
+    }
 
-            String rollRaw = vEditRoll.getText().toString().trim();
-            if (rollRaw.length() == 0) {
-                // 0 is allowed, just in case of fumble (example, 02 - (02))... but we'll require it to be explicitly typed, to avoid usual errors
+    private void processAttack() {
+        boolean errorFound = false;
+        int extra = 0;
+        int roll = 0;
+        String extraRaw = vEditExtra.getText().toString().trim();
+        if (extraRaw.length() == 0) {
+            extra = 0; // 0 allowed
+        } else {
+            try {
+                extra = Integer.parseInt(extraRaw);
+            } catch (NumberFormatException e) {
                 errorFound = true;
-                vEditRoll.setError(getResources().getText(R.string.errorMandatory));
+                vEditExtra.setError(getResources().getText(R.string.errorMustBeANumber));
+            }
+        }
+
+        String rollRaw = vEditRoll.getText().toString().trim();
+        if (rollRaw.length() == 0) {
+            // 0 is allowed, just in case of fumble (example, 02 - (02))... but we'll require it to be explicitly typed, to avoid usual errors
+            errorFound = true;
+            vEditRoll.setError(getResources().getText(R.string.errorMandatory));
+        } else {
+            try {
+                roll = Integer.parseInt(rollRaw);
+            } catch (NumberFormatException e) {
+                errorFound = true;
+                vEditRoll.setError(getResources().getText(R.string.errorMustBeANumber));
+            }
+        }
+
+        if (!errorFound) {
+            int total = vSeekBonus.getProgress() + extra + roll;
+            // Get character attack
+            RPGCharacterAttack attack = (RPGCharacterAttack) vSpinnerAttackerAttack.getSelectedItem();
+            // Get character defender
+            RPGCharacter defender;
+            if (vSpinnerDefender.getSelectedItemId() == 0) {
+                defender = null;
             } else {
-                try {
-                    roll = Integer.parseInt(rollRaw);
-                } catch (NumberFormatException e) {
-                    errorFound = true;
-                    vEditRoll.setError(getResources().getText(R.string.errorMustBeANumber));
-                }
+                defender = (RPGCharacter) vSpinnerDefender.getSelectedItem();
+            }
+            // Get user selected armor
+            int selected = vSpinnerDefenderArmor.getSelectedItemPosition();
+            ArmorType armorType;
+            if (selected < 0 || selected >= mArmorTypes.length) {
+                armorType = ArmorType.TP1;
+            } else {
+                armorType = mArmorTypes[selected];
             }
 
-            if (!errorFound) {
-                int total = vSeekBonus.getProgress() + extra + roll;
-                // Get character attack
-                RPGCharacterAttack attack = (RPGCharacterAttack) vSpinnerAttackerAttack.getSelectedItem();
-                // Get character defender
-                RPGCharacter defender;
-                if (vSpinnerDefender.getSelectedItemId() == 0) {
-                    defender = null;
-                } else {
-                    defender = (RPGCharacter) vSpinnerDefender.getSelectedItem();
-                }
-                // Get user selected armor
-                int selected = vSpinnerDefenderArmor.getSelectedItemPosition();
-                ArmorType armorType;
-                if (selected < 0 || selected >= mArmorTypes.length) {
-                    armorType = ArmorType.TP1;
-                } else {
-                    armorType = mArmorTypes[selected];
-                }
-
-                mCallBack.saveAttack(attack, roll, total, defender, armorType);
-            }
+            mCallBack.saveAttack(attack, roll, total, defender, armorType);
         }
     }
 

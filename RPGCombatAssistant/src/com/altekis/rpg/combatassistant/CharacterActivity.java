@@ -1,16 +1,13 @@
 package com.altekis.rpg.combatassistant;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.altekis.rpg.combatassistant.character.RPGCharacter;
-import com.altekis.rpg.combatassistant.db.DatabaseHelper;
 import com.altekis.rpg.combatassistant.fragments.CharacterFragment;
 import com.altekis.rpg.combatassistant.fragments.CharacterListFragment;
 import com.j256.ormlite.dao.Dao;
@@ -22,7 +19,6 @@ import java.sql.SQLException;
  */
 public class CharacterActivity extends BaseActivity implements CharacterListFragment.CallBack, CharacterFragment.CallBack {
 
-    private static final int REQUEST_INIT_DB = 1;
     private static final int REQUEST_EDIT_CHARACTER = 2;
 
     private MenuItem menuPreferences;
@@ -30,15 +26,8 @@ public class CharacterActivity extends BaseActivity implements CharacterListFrag
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_content);
-        // Check if database is initialised
-        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
-        if (sp.getBoolean(DatabaseHelper.DB_INITIALISED, false)) {
-            if (savedInstanceState == null) {
-                loadCharacterListFragment(false);
-            }
-        } else {
-            // Not initialised, launch splash
-            startActivityForResult(new Intent(this, SplashScreenActivity.class), REQUEST_INIT_DB);
+        if (savedInstanceState == null) {
+            loadCharacterListFragment(false);
         }
     }
 
@@ -56,16 +45,7 @@ public class CharacterActivity extends BaseActivity implements CharacterListFrag
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_INIT_DB) {
-            if (resultCode == RESULT_OK) {
-                SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
-                sp.edit().putBoolean(DatabaseHelper.DB_INITIALISED, true).commit();
-                loadCharacterListFragment(true);
-            } else {
-                // TODO Advice user
-                finish();
-            }
-        } else if (requestCode == REQUEST_EDIT_CHARACTER) {
+        if (requestCode == REQUEST_EDIT_CHARACTER) {
             if (resultCode == RESULT_OK) {
                 long idCharacter = data.getLongExtra(CharacterEditActivity.ARG_CHARACTER_ID, 0);
                 FragmentManager fm = getSupportFragmentManager();

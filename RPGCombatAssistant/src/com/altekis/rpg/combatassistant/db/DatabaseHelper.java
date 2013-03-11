@@ -13,6 +13,8 @@ import com.altekis.rpg.combatassistant.character.RPGCharacter;
 import com.altekis.rpg.combatassistant.character.RPGCharacterAttack;
 import com.altekis.rpg.combatassistant.critical.Critical;
 import com.altekis.rpg.combatassistant.critical.CriticalTable;
+import com.altekis.rpg.combatassistant.maneuver.MovingFumble;
+import com.altekis.rpg.combatassistant.maneuver.MovingTable;
 import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.support.ConnectionSource;
@@ -34,6 +36,8 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     public static final String TABLE_CHARACTER_ATTACKS = "db_character_attacks";
     public static final String TABLE_CRITICAL = "db_critical";
     public static final String TABLE_CRITICAL_TABLE = "db_critical_table";
+    public static final String TABLE_MOVING_TABLE = "db_moving_table";
+    public static final String TABLE_MOVING_FUMBLE = "db_moving_fumble";
     public static final String FIELD_ID = "_id";
 
     private Context context;
@@ -44,6 +48,8 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     private Dao<RPGCharacterAttack, Long> daoCharacterAttack;
     private Dao<Critical, Long> daoCritical;
     private Dao<CriticalTable, Long> daoCriticalTable;
+    private Dao<MovingTable, Long> daoMovingManeuverTable;
+    private Dao<MovingFumble, Long> daoMovingManeuverFumble;
 
 	public DatabaseHelper(Context context) {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -60,6 +66,8 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             TableUtils.createTable(connectionSource, AttackTable.class);
             TableUtils.createTable(connectionSource, RPGCharacter.class);
             TableUtils.createTable(connectionSource, RPGCharacterAttack.class);
+            TableUtils.createTable(connectionSource, MovingTable.class);
+            TableUtils.createTable(connectionSource, MovingFumble.class);
             // Set initialised to false
             SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
             sp.edit().putBoolean(DB_INITIALISED, false).commit();
@@ -201,5 +209,19 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             daoCriticalTable = getDao(CriticalTable.class);
         }
         return daoCriticalTable;
+    }
+
+    public Dao<MovingTable, Long> getDaoMovingTable() throws SQLException {
+        if (daoMovingManeuverTable == null) {
+            daoMovingManeuverTable = getDao(MovingTable.class);
+        }
+        return daoMovingManeuverTable;
+    }
+
+    public Dao<MovingFumble, Long> getDaoMovingFumble() throws SQLException {
+        if (daoMovingManeuverFumble == null) {
+            daoMovingManeuverFumble = getDao(MovingFumble.class);
+        }
+        return daoMovingManeuverFumble;
     }
 }

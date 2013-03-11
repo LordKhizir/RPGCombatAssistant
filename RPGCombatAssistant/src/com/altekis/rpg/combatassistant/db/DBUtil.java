@@ -8,6 +8,10 @@ import com.altekis.rpg.combatassistant.character.ArmorType;
 import com.altekis.rpg.combatassistant.critical.Critical;
 import com.altekis.rpg.combatassistant.critical.CriticalLevel;
 import com.altekis.rpg.combatassistant.critical.CriticalTable;
+import com.altekis.rpg.combatassistant.maneuver.DifficultyType;
+import com.altekis.rpg.combatassistant.maneuver.MovingFumble;
+import com.altekis.rpg.combatassistant.maneuver.MovingResult;
+import com.altekis.rpg.combatassistant.maneuver.MovingTable;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.PreparedQuery;
 import com.j256.ormlite.stmt.QueryBuilder;
@@ -94,6 +98,74 @@ public final class DBUtil {
         return criticalResult;
     }
 
+    public static MovingResult getMoving(DatabaseHelper dbHelper, RuleSystem system, DifficultyType difficultyType, int total) {
+        MovingResult movingResult = null;
+        try {
+            Dao<MovingTable, Long> dao = dbHelper.getDaoMovingTable();
+            QueryBuilder<MovingTable, Long> qb = dao.queryBuilder();
+            qb.setWhere(qb.where()
+                    .eq(MovingTable.FIELD_SYSTEM_ID, system.getId())
+                    .and()
+                    .le(MovingTable.FIELD_MINIMUM, total));
+            qb.orderBy(MovingTable.FIELD_MINIMUM, false);
+            MovingTable movingTable = dao.queryForFirst(qb.prepare());
+            if (movingTable != null) {
+                movingResult = new MovingResult(readMoving(difficultyType, movingTable));
+            }
+        } catch (SQLException e) {
+            Log.e("RPGCombatAssistant", "Can't read database", e);
+        }
+        if (movingResult == null) {
+            movingResult = new MovingResult(MovingResult.FUMBLE);
+        }
+        return movingResult;
+    }
+
+    public static String getMovingFumble(DatabaseHelper dbHelper, RuleSystem system, DifficultyType difficultyType, int total) {
+        String fumbleResult = null;
+        int result = applyMovingFumble(total, difficultyType);
+        try {
+            Dao<MovingFumble, Long> dao = dbHelper.getDaoMovingFumble();
+            QueryBuilder<MovingFumble, Long> qb = dao.queryBuilder();
+            qb.setWhere(qb.where()
+                    .eq(MovingFumble.FIELD_SYSTEM_ID, system.getId())
+                    .and()
+                    .le(MovingFumble.FIELD_MINIMUM, result));
+            qb.orderBy(MovingFumble.FIELD_MINIMUM, false);
+            MovingFumble movingFumble = dao.queryForFirst(qb.prepare());
+            if (movingFumble != null) {
+                fumbleResult = movingFumble.getResult();
+            }
+        } catch (SQLException e) {
+            Log.e("RPGCombatAssistant", "Can't read database", e);
+        }
+        return fumbleResult;
+    }
+
+    private static String readMoving(DifficultyType difficultyType, MovingTable movingTable) {
+        String result = "";
+        if (difficultyType == DifficultyType.ROUTINE) {
+            result = movingTable.getValueRoutine();
+        } else if (difficultyType == DifficultyType.EASY) {
+            result = movingTable.getValueEasy();
+        } else if (difficultyType == DifficultyType.LIGHT) {
+            result = movingTable.getValueLight();
+        } else if (difficultyType == DifficultyType.MEDIUM) {
+            result = movingTable.getValueMedium();
+        } else if (difficultyType == DifficultyType.VERY_HARD) {
+            result = movingTable.getValueVeryHard();
+        } else if (difficultyType == DifficultyType.EXTREMELY_HARD) {
+            result = movingTable.getValueExtremelyHard();
+        } else if (difficultyType == DifficultyType.SHEER_HARD) {
+            result = movingTable.getValueSheerHard();
+        } else if (difficultyType == DifficultyType.FOLLY) {
+            result = movingTable.getValueFolly();
+        } else if (difficultyType == DifficultyType.ABSURD) {
+            result = movingTable.getValueAbsurd();
+        }
+        return result;
+    }
+
     private static int applySimpleCritical(int total, CriticalLevel criticalLevel) {
         int result = total;
         if (criticalLevel == CriticalLevel.T) {
@@ -107,6 +179,30 @@ public final class DBUtil {
         } else if (criticalLevel == CriticalLevel.D) {
             result += 10;
         } else if (criticalLevel == CriticalLevel.E) {
+            result += 20;
+        }
+        return result;
+    }
+
+    private static int applyMovingFumble(int total, DifficultyType difficultyType) {
+        int result = total;
+        if (difficultyType == DifficultyType.ROUTINE) {
+            result += -50;
+        } else if (difficultyType == DifficultyType.EASY) {
+            result += -35;
+        } else if (difficultyType == DifficultyType.LIGHT) {
+            result += -20;
+        } else if (difficultyType == DifficultyType.MEDIUM) {
+            result += -10;
+        } else if (difficultyType == DifficultyType.VERY_HARD) {
+            // Igual
+        } else if (difficultyType == DifficultyType.EXTREMELY_HARD) {
+            result += 5;
+        } else if (difficultyType == DifficultyType.SHEER_HARD) {
+            result += 10;
+        } else if (difficultyType == DifficultyType.FOLLY) {
+            result += 15;
+        } else if (difficultyType == DifficultyType.ABSURD) {
             result += 20;
         }
         return result;

@@ -15,6 +15,8 @@ import com.altekis.rpg.combatassistant.attack.Attack;
 import com.altekis.rpg.combatassistant.attack.AttackTable;
 import com.altekis.rpg.combatassistant.critical.Critical;
 import com.altekis.rpg.combatassistant.critical.CriticalTable;
+import com.altekis.rpg.combatassistant.maneuver.MovingFumble;
+import com.altekis.rpg.combatassistant.maneuver.MovingTable;
 
 import java.io.*;
 import java.net.URI;
@@ -29,6 +31,9 @@ public class LoadingTask extends AsyncTask<SQLiteDatabase, Integer, Boolean> {
 
     private static final String ATTACKS_PATH = "tables/attacks";
     private static final String CRITICALS_PATH = "tables/criticals";
+    private static final String MOVING_PATH = "tables/moving";
+    public static final String MOVING_FUMBLE_FILE = "moving_fumble";
+    public static final String MOVING_TABLE_FILE = "moving_table";
     private static final int MAX = 100;
 
     public interface CallBack {
@@ -95,6 +100,17 @@ public class LoadingTask extends AsyncTask<SQLiteDatabase, Integer, Boolean> {
                         importAttacks(db, idSystem, criticalIds, is, dir.list(), null, dir);
                         tmpFile.delete();
                         dir.delete();
+
+                        // Moving maneuver
+                        dir = new File(tempDir, "moving");
+                        File movingFile = new File(dir, MOVING_TABLE_FILE);
+                        InputStream movingIs = loadFile(MOVING_TABLE_FILE, null, MOVING_PATH, movingFile);
+                        File fumbleFile = new File(dir, MOVING_FUMBLE_FILE);
+                        InputStream fumbleIs = loadFile(MOVING_FUMBLE_FILE, null, MOVING_PATH, fumbleFile);
+                        importMovingManeuver(db, idSystem, false, movingIs, fumbleIs);
+                        movingFile.delete();
+                        fumbleFile.delete();
+                        dir.delete();
                     }
                 }
             } else {
@@ -111,6 +127,11 @@ public class LoadingTask extends AsyncTask<SQLiteDatabase, Integer, Boolean> {
                 is = assets.open("tables/attack_types");
                 list = assets.list(ATTACKS_PATH);
                 importAttacks(db, RPGPreferences.SYSTEM_MERP, criticalIds, is, list, assets, null);
+
+                // Moving maneuver
+                InputStream movingIs = loadFile(MOVING_TABLE_FILE, assets, MOVING_PATH, null);
+                InputStream fumbleIs = loadFile(MOVING_FUMBLE_FILE, assets, MOVING_PATH, null);
+                importMovingManeuver(db, RPGPreferences.SYSTEM_MERP, true, movingIs, fumbleIs);
             }
             db.setTransactionSuccessful();
             result = true;
@@ -306,6 +327,67 @@ public class LoadingTask extends AsyncTask<SQLiteDatabase, Integer, Boolean> {
         }
     }
 
+    private void importMovingManeuver(SQLiteDatabase db, long idSystem, boolean internal, InputStream movingIs, InputStream fumbleIs) throws IOException {
+        if (movingIs != null) {
+            ContentValues values = new ContentValues();
+            int fumbleSystem = fumbleIs == null ? RuleSystem.MOVING_NO_FUMBLE : RuleSystem.MOVING_FUMBLE;
+            values.put(RuleSystem.FIELD_MOVING_TYPE, fumbleSystem);
+            db.update(DatabaseHelper.TABLE_SYSTEM, values,
+                    DatabaseHelper.FIELD_ID + " = ?",
+                    new String[] {Long.toString(idSystem)});
+            String line;
+            String[] lineArray;
+            if (internal) {
+                db.delete(DatabaseHelper.TABLE_MOVING_TABLE, null, null);
+            }
+            BufferedReader r = new BufferedReader(new InputStreamReader(movingIs));
+            values.clear();
+            values.put(MovingTable.FIELD_SYSTEM_ID, idSystem);
+            while ((line = r.readLine()) != null) {
+                if (!line.startsWith("#")) {
+                    lineArray = line.split(";");
+                    if (lineArray.length == 10) {
+                        values.put(MovingTable.FIELD_MINIMUM, lineArray[0]);
+                        values.put(MovingTable.FIELD_DIFF_ROUTINE, lineArray[1]);
+                        values.put(MovingTable.FIELD_DIFF_EASY, lineArray[2]);
+                        values.put(MovingTable.FIELD_DIFF_LIGHT, lineArray[3]);
+                        values.put(MovingTable.FIELD_DIFF_MEDIUM, lineArray[4]);
+                        values.put(MovingTable.FIELD_DIFF_VERY_HARD, lineArray[5]);
+                        values.put(MovingTable.FIELD_DIFF_EXTREMELY_HARD, lineArray[6]);
+                        values.put(MovingTable.FIELD_DIFF_SHEER_HARD, lineArray[7]);
+                        values.put(MovingTable.FIELD_DIFF_FOLLY, lineArray[8]);
+                        values.put(MovingTable.FIELD_DIFF_ABSURD, lineArray[9]);
+                        db.insert(DatabaseHelper.TABLE_MOVING_TABLE, null, values);
+                        publishProgress(R.string.splash_progress_moving_maneuver);
+                    }
+                }
+            }
+            r.close();
+
+            // Fumble?
+            if (fumbleIs != null) {
+                if (internal) {
+                    db.delete(DatabaseHelper.TABLE_MOVING_FUMBLE, null, null);
+                }
+                r = new BufferedReader(new InputStreamReader(fumbleIs));
+                values.clear();
+                values.put(MovingFumble.FIELD_SYSTEM_ID, idSystem);
+                while ((line = r.readLine()) != null) {
+                    if (!line.startsWith("#")) {
+                        lineArray = line.split(";");
+                        if (lineArray.length == 2) {
+                            values.put(MovingFumble.FIELD_MINIMUM, lineArray[0]);
+                            values.put(MovingFumble.FIELD_RESULT, lineArray[1]);
+                            db.insert(DatabaseHelper.TABLE_MOVING_FUMBLE, null, values);
+                            publishProgress(R.string.splash_progress_moving_maneuver);
+                        }
+                    }
+                }
+                r.close();
+            }
+        }
+    }
+
     private File unzipFile(InputStream zipFileStream) {
         File cacheDir = callBack.getContext().getCacheDir();
         File tempDir = checkDir(cacheDir, "tmp");
@@ -363,6 +445,20 @@ public class LoadingTask extends AsyncTask<SQLiteDatabase, Integer, Boolean> {
             f.mkdirs();
         }
         return f;
+    }
+
+    private InputStream loadFile(String fileName, AssetManager assets, String assetsPath, File file) {
+        InputStream is = null;
+        try {
+            if (assets == null) {
+                is = new FileInputStream(file);
+            } else {
+                is = assets.open(assetsPath + "/" + fileName);
+            }
+        } catch (IOException e) {
+            // Don't exists
+        }
+        return is;
     }
 
 	@Override

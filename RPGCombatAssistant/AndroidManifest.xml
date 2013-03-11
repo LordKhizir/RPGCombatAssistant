@@ -26,6 +26,7 @@
         <activity
             android:name=".RPGPreferences"
             android:label="Ajustes"/>
+        <activity android:name=".MovingActivity"/>
     </application>
 
 </manifest>
