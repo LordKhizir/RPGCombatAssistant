@@ -1,46 +1,4 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/main_content"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
-
-    <LinearLayout
-            android:id="@+id/attack_result"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/attack_resultCharacter"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
-        <TextView
-            android:id="@+id/attack_resultCritical"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
-        <TextView
-            android:id="@+id/attack_resultHitPoints"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
-        <Button
-            android:id="@+id/attack_applyHitPoints"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Aplicar"/>
-
-        <Button
-            android:id="@+id/attack_critical"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Crítico"/>
-
-    </LinearLayout>
-
-    <FrameLayout
-        android:id="@+id/main_content"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
-
-</LinearLayout>
+    android:layout_height="match_parent"/>

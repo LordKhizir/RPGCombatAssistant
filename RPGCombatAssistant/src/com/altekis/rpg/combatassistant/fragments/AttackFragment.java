@@ -1,7 +1,9 @@
 package com.altekis.rpg.combatassistant.fragments;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,7 +14,11 @@ import com.altekis.rpg.combatassistant.AttackActivity;
 import com.altekis.rpg.combatassistant.R;
 import com.altekis.rpg.combatassistant.RPGPreferences;
 import com.altekis.rpg.combatassistant.attack.Attack;
+import com.altekis.rpg.combatassistant.attack.AttackResult;
 import com.altekis.rpg.combatassistant.character.*;
+import com.altekis.rpg.combatassistant.critical.Critical;
+import com.altekis.rpg.combatassistant.critical.CriticalLevel;
+import com.altekis.rpg.combatassistant.db.DBUtil;
 import com.altekis.rpg.combatassistant.db.RuleSystem;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.stmt.QueryBuilder;
@@ -37,11 +43,13 @@ public class AttackFragment extends SherlockFragment implements AdapterView.OnIt
     public static interface CallBack extends DBFragmentActivity {
         List<RPGCharacter> getCharacters();
         void cancelAttack();
-        void saveAttack(RPGCharacterAttack attack, int roll, int total, RPGCharacter defender, ArmorType armorType);
+        void resultAttack(AttackResult attackResult);
     }
 
     private CallBack mCallBack;
     private ArmorType[] mArmorTypes;
+    private long idAttacker;
+    private long idDefender;
 
     private Spinner vSpinnerAttacker;
     private Spinner vSpinnerAttackerAttack;
@@ -69,6 +77,12 @@ public class AttackFragment extends SherlockFragment implements AdapterView.OnIt
     }
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setRetainInstance(true);
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_attack, container, false);
         vSpinnerAttacker = (Spinner) v.findViewById(R.id.attack_attacker);
@@ -91,13 +105,8 @@ public class AttackFragment extends SherlockFragment implements AdapterView.OnIt
         RuleSystem system = RPGPreferences.getSystem(getSherlockActivity(), mCallBack.getHelper());
         mArmorTypes = ArmorType.getArmorTypes(system.getArmorType() == RuleSystem.ARMOR_COMPLETE);
 
-        long idAttacker;
-        long idDefender;
-        // First we will search in instance
-        if (savedInstanceState != null) {
-            idAttacker = savedInstanceState.getLong(AttackActivity.ARG_ID_ATTACKER);
-            idDefender = savedInstanceState.getLong(ARG_ID_DEFENDER);
-        } else {
+        // First no saved instance
+        if (savedInstanceState == null) {
             idAttacker = getArguments().getLong(AttackActivity.ARG_ID_ATTACKER, 0);
             idDefender = getArguments().getLong(ARG_ID_DEFENDER, 0);
         }
@@ -159,18 +168,6 @@ public class AttackFragment extends SherlockFragment implements AdapterView.OnIt
             armorAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             vSpinnerDefenderArmor.setAdapter(armorAdapter);
             setDefenderArmor(lstDef.get(selected));
-        }
-
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        RPGCharacter character = (RPGCharacter) vSpinnerAttacker.getSelectedItem();
-        outState.putLong(AttackActivity.ARG_ID_ATTACKER, character.getId());
-        if (vSpinnerDefender.getSelectedItemId() > 0) {
-            character = (RPGCharacter) vSpinnerDefender.getSelectedItem();
-            outState.putLong(ARG_ID_DEFENDER, character.getId());
         }
 
     }
@@ -251,7 +248,10 @@ public class AttackFragment extends SherlockFragment implements AdapterView.OnIt
                 armorType = mArmorTypes[selected];
             }
 
-            mCallBack.saveAttack(attack, roll, total, defender, armorType);
+            AttackResult mAttackResult = DBUtil.getValue(mCallBack.getHelper(), attack.getAttack(), roll, total, armorType);
+            mAttackResult.setCharacterAttack(attack);
+            mAttackResult.setCharacterDefender(defender);
+            mCallBack.resultAttack(mAttackResult);
         }
     }
 
@@ -322,7 +322,9 @@ public class AttackFragment extends SherlockFragment implements AdapterView.OnIt
                 lst);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         vSpinnerAttackerAttack.setAdapter(adapter);
-        vSpinnerAttackerAttack.setSelection(selected);
+        if (lst.size() > 0) {
+            vSpinnerAttackerAttack.setSelection(selected);
+        }
         vSpinnerAttackerAttack.setOnItemSelectedListener(this);
     }
 

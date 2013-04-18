@@ -62,7 +62,7 @@
                 android:layout_weight="1"
                 android:layout_margin="10dp"
                 android:padding="10dp"
-                android:text="Cancel"/>
+                android:text="@string/moving_cancelButton"/>
 
         <Button
                 android:id="@+id/moving_fumble"
@@ -71,7 +71,7 @@
                 android:layout_weight="1"
                 android:layout_margin="10dp"
                 android:padding="10dp"
-                android:text="Fumble"/>
+                android:text="@string/moving_fumble"/>
 
         <Button
                 android:id="@+id/moving_ok"
@@ -80,7 +80,7 @@
                 android:layout_weight="1"
                 android:layout_margin="10dp"
                 android:padding="10dp"
-                android:text="Roll"/>
+                android:text="@string/moving_roll"/>
 
     </LinearLayout>
 

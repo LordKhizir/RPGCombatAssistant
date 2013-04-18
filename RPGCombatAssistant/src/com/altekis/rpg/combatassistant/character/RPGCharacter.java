@@ -14,7 +14,7 @@ public class RPGCharacter {
     public static final String FIELD_MAX_HIT_POINTS = "max_hit_points";
     public static final String FIELD_HIT_POINTS = "hit_points";
     public static final String FIELD_ARMOR_TYPE = "armor_type";
-    public static final String FIELD_PNJ = "pnj";
+    public static final String FIELD_NPC = "npc";
 
     @DatabaseField(generatedId = true, columnName = DatabaseHelper.FIELD_ID)
     private long id;
@@ -28,7 +28,7 @@ public class RPGCharacter {
     private int hitPoints;
     @DatabaseField(columnName = FIELD_ARMOR_TYPE)
     private int armorType;
-    @DatabaseField(columnName = FIELD_PNJ)
+    @DatabaseField(columnName = FIELD_NPC)
     private boolean pnj;
 
     public long getId() {
@@ -89,7 +89,7 @@ public class RPGCharacter {
 
     public String getStringName(Context ctx) {
         if (pnj) {
-            return ctx.getString(R.string.character_name_pnj, name);
+            return ctx.getString(R.string.character_name_npc, name);
         } else {
             return ctx.getString(R.string.character_name, name, playerName);
         }

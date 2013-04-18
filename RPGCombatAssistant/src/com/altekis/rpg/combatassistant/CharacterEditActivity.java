@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
+import com.actionbarsherlock.view.MenuItem;
 import com.altekis.rpg.combatassistant.attack.Attack;
 import com.altekis.rpg.combatassistant.attack.AttackComparator;
 import com.altekis.rpg.combatassistant.character.ArmorType;
@@ -35,6 +36,7 @@ public class CharacterEditActivity extends BaseActivity implements CharacterEdit
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_content);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         long characterId = 0;
         long attackId = -1;
@@ -62,6 +64,17 @@ public class CharacterEditActivity extends BaseActivity implements CharacterEdit
             }
         }
 	}
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            Intent intent = new Intent(this, MainActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
@@ -140,6 +153,9 @@ public class CharacterEditActivity extends BaseActivity implements CharacterEdit
                 qb.setWhere(qb.where().eq(Attack.FIELD_SYSTEM_ID, system.getId()));
                 qb.orderBy(Attack.FIELD_NAME, true);
                 mAttackList = daoAttack.query(qb.prepare());
+                for (Attack a : mAttackList) {
+                    a.setRuleSystem(system);
+                }
             } catch (SQLException e) {
                 Log.e("RPGCombatAssistant", "Can't read database", e);
                 mAttackList = new ArrayList<Attack>();

@@ -1,0 +1,160 @@
+<resources>
+
+    <string name="app_name">"RPG Combat Assistant"</string>
+    <string name="loading">"Inicializando"</string>
+    <string name="menu_settings">"Preferencias"</string>
+
+    <string name="mainTitle">"RPG Combat Assistant"</string>
+    <!-- Common elements -->
+    <string name="errorMustBeANumber">"Debe Ser Numérico"</string>
+    <string name="errorMandatory">"Obligatorio"</string>
+    <string name="fumble">"¡Pifia!"</string>
+    <string name="noEffect">"Sin efecto"</string>
+    <string name="system">"Sistema: %s"</string>
+
+    <!-- MainActivity -->
+    <string name="menu_players_title">"Jugadores"</string>
+    <string name="menu_players_pc">"Personajes Jugadores"</string>
+    <string name="menu_players_npc">"Personajes no jugadores"</string>
+    <string name="menu_players_all">"Todos los jugadores"</string>
+    <string name="menu_attack_title">"Ataque"</string>
+    <string name="menu_attack_start">"Lanzar Ataque"</string>
+    <string name="menu_attack_critical">"Lanzar Crítico"</string>
+    <string name="menu_other_title">"Otros"</string>
+    <string name="menu_other_mm">"Maniobra Movimiento"</string>
+
+    <!-- Splash screen Activity -->
+    <string name="splash_main">"RPG Combat Assistant"</string>
+    <string name="splash_progress_reading">"Leyendo Ficheros"</string>
+    <string name="splash_progress_reading_zip">"Leyendo Fichero zip"</string>
+    <string name="splash_progress_unzip">"Descomprimiendo Fichero"</string>
+    <string name="splash_progress_unzipped">"Fichero descomprimido"</string>
+    <string name="splash_progress_critical">"Leyendo Críticos"</string>
+    <string name="splash_progress_critical_table">"Leyendo tablas de Críticos"</string>
+    <string name="splash_progress_attack">"Leyendo Ataques"</string>
+    <string name="splash_progress_attack_table">"Leyendo tablas de Ataque"</string>
+    <string name="splash_progress_moving_maneuver">"Leyendo MM"</string>
+
+    <!-- RPGCharacter List Activity -->
+    <string name="characterList_playerCharactersGroupHeader">"Personajes JUGADORES"</string>
+    <string name="characterList_nonPlayerCharactersGroupHeader">"Personajes no-JUGADORES"</string>
+
+    <!-- RPGCharacter Activity -->
+    <string name="character_title">"Personaje"</string>
+    <string name="character_name">"%1$s (%2$s)"</string>
+    <string name="character_name_npc">"%1$s (PNJ)"</string>
+    <string name="character_hit_points">"%1$d / %2$d"</string>
+    <string name="character_playerName">"Jugador"</string>
+    <string name="menu_character_edit">"Editar"</string>
+    <string name="menu_character_delete">"ELIMINAR"</string>
+    <string name="character_deleteDialog_title">"ELIMINAR Personaje"</string>
+    <string name="character_deleteDialog_message">"¿ESTAS Seguro de querer ELIMINAR Este Personaje?"</string>
+    <string name="character_deleteDialog_ok">"Sí, elimínalo"</string>
+    <string name="character_deleteDialog_cancel">"NO"</string>
+    
+    <!-- RPGCharacter Edit Activity -->
+    <string name="characterEdit_title">"Edición de Personaje"</string>
+    <string name="characterEdit_name">"Nombre:"</string>
+    <string name="characterEdit_nameHint">"Personaje"</string>
+    <string name="characterEdit_playerName">"PJ"</string>
+    <string name="characterEdit_playerPnj">"PNJ"</string>
+    <string name="characterEdit_playerNameHint">"Jugador"</string>
+    <string name="characterEdit_maxHitPoints">"PV (total)"</string>
+    <string name="characterEdit_maxHitPointsHint">"PVT"</string>
+    <string name="characterEdit_hitPoints">"PV (real)"</string>
+    <string name="characterEdit_hitPointsHint">"PV"</string>
+    <string name="characterEdit_armorType">"Armadura"</string>
+    <string name="characterEdit_cancelButton">"Cancelar"</string>
+    <string name="characterEdit_saveButton">"Guardar"</string>
+    <string name="characterEdit_addAttackButton">"Añadir"</string>
+
+    <!-- Attack Activity -->
+    <string name="menu_attack_title">"Ataque"</string>
+    <string name="attack_name">"Nombre:"</string>
+    <string name="attack_attackType">"Tipo"</string>
+    <string name="attack_extra">"Extra"</string>
+    <string name="attack_defender">"Defensor"</string>
+    <string name="attack_defenderArmorType">"Armadura"</string>
+    <string name="attack_roll">"Tirada"</string>
+    <string name="attack_cancelButton">"Cancelar"</string>
+    <string name="attack_goButton">"Atacar"</string>
+    <string name="attack_applyResultButton">"Aplicar"</string>
+    <string name="attack_critical">"Crítico de %1$s Nivel %2$s"</string>
+    <string name="attack_goToCriticalButton">"Lanzar Crítico"</string>
+    <string name="menu_attack_edit">"Editar"</string>
+    <string name="menu_attack_delete">"ELIMINAR"</string>
+    <string name="attack_deleteDialog_title">"ELIMINAR Ataque"</string>
+    <string name="attack_deleteDialog_message">"¿ESTAS Seguro de querer ELIMINAR this Ataque?"</string>
+    <string name="attack_deleteDialog_ok">"Sí, elimínalo"</string>
+    <string name="attack_deleteDialog_cancel">"NO"</string>
+    
+    <!-- Attack Edit Activity -->
+    <string name="attackEdit_title">"Edición de Ataque"</string>
+    <string name="attackEdit_name">"Nombre:"</string>
+    <string name="attackEdit_attackType">"Tipo"</string>
+    <string name="attackEdit_bonus">"Bonus"</string>
+    <string name="attackEdit_cancelButton">"Cancelar"</string>
+    <string name="attackEdit_saveButton">"Aplicar Cambios"</string>
+    
+    <!-- Critical Activity -->
+    <string name="critical_title">"Crítico"</string>
+    <string name="critical_type">"Tipo"</string>
+    <string name="critical_level">"Nivel"</string>
+    <string name="critical_roll">"Tirar"</string>
+    <string name="critical_cancelButton">"Cancelar"</string>
+    <string name="critical_goButton">"Calcular"</string>
+
+    <!-- Moving Activity -->
+    <string name="moving_roll">"Tirar"</string>
+    <string name="moving_cancelButton">"Cancelar"</string>
+    <string name="moving_fumble">"Pifia"</string>
+    <string name="moving_difficultyLabel">"Dificultad"</string>
+    <string name="moving_rollHint">"Tirada"</string>
+    <string name="moving_bonusHint">"Bonus"</string>
+
+    <!-- Armors -->
+    <string name="armor_merp_1">"No Armor"</string>
+    <string name="armor_merp_5">"Piel suave"</string>
+    <string name="armor_merp_10">"Cuero rígido"</string>
+    <string name="armor_merp_15">"Cota de Malla"</string>
+    <string name="armor_merp_20">"Placa"</string>
+    <string name="armor_rm_1">"TP1: Ropa"</string>
+    <string name="armor_rm_2">"TP2: Túnica"</string>
+    <string name="armor_rm_3">"TP3: Piel Fina"</string>
+    <string name="armor_rm_4">"TP4: Piel Gruesa"</string>
+    <string name="armor_rm_5">"TP5: Chaleco de Cuero"</string>
+    <string name="armor_rm_6">"TP6: Chaqueta de Cuero"</string>
+    <string name="armor_rm_7">"TP7: Chaqueta de Cuero Reforzada"</string>
+    <string name="armor_rm_8">"TP8: Chaqueta de Cuero Larga Reforzada"</string>
+    <string name="armor_rm_9">"TP9: Peto de Cuero"</string>
+    <string name="armor_rm_10">"TP10: Peto de Cuero con Grebas"</string>
+    <string name="armor_rm_11">"TP11: Media Armadura de Placas de Cuero"</string>
+    <string name="armor_rm_12">"TP12: Armadura Completa de Placas de Cuero"</string>
+    <string name="armor_rm_13">"TP13: Camisa de Malla"</string>
+    <string name="armor_rm_14">"TP14: Camisa de Malla y Grebas"</string>
+    <string name="armor_rm_15">"TP15: Cota de Malla"</string>
+    <string name="armor_rm_16">"TP16: Tabardo de Malla"</string>
+    <string name="armor_rm_17">"TP17: Placa Frontal"</string>
+    <string name="armor_rm_18">"TP18: Placa Frontal con Grebas de Metal"</string>
+    <string name="armor_rm_19">"TP19: Media Armadura"</string>
+    <string name="armor_rm_20">"TP20: Armadura Completa"</string>
+
+    <string name="maneuver_diff_routine">"Rutina"</string>
+    <string name="maneuver_diff_easy">"Fácil"</string>
+    <string name="maneuver_diff_light">"Escasa Dificultad"</string>
+    <string name="maneuver_diff_medium">"Dificultad media"</string>
+    <string name="maneuver_diff_very_hard">"Difícil"</string>
+    <string name="maneuver_diff_extremely_hard">"Difícil Muy"</string>
+    <string name="maneuver_diff_sheer_hard">"Extremadamente Difícil"</string>
+    <string name="maneuver_diff_folly">"Locura Completa"</string>
+    <string name="maneuver_diff_absurd">"Absurdo"</string>
+
+
+    <string name="characterEdit_humanPlayer">"¿Jugador Humano?"</string>
+    <string name="pref_system_dialog">"Seleccione la ONU Sistema de Juego"</string>
+    <string name="pref_system_title">"Sistema actual"</string>
+    <string name="pref_system_summary">"Elije El Sistema de Juego"</string>
+    <string name="pref_system_manage_title">"Gestionar Sistemas"</string>
+    <string name="pref_system_manage_summary">"Pulse párrafo editar los Sistemas"</string><string name="weapons_title">"Armas"</string>
+    <string name="no_characters">"No hay personajes disponibles"</string>
+</resources>

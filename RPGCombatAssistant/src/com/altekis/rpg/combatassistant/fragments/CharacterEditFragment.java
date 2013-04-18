@@ -173,6 +173,9 @@ public class CharacterEditFragment extends SherlockListFragment implements View.
             if (armorSelectionValue == 0) {
                 // Get the character saved armor
                 armorSelectionValue = character.getArmorType();
+                if (system.getArmorType() == RuleSystem.ARMOR_SIMPLE) {
+                    armorSelectionValue = ArmorType.fromInteger(armorSelectionValue).getMerpArmor();
+                }
             }
             int position = 0;
             for (ArmorType type : mArmorTypes) {

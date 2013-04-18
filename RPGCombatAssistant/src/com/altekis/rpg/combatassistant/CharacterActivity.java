@@ -21,14 +21,24 @@ public class CharacterActivity extends BaseActivity implements CharacterListFrag
 
     private static final int REQUEST_EDIT_CHARACTER = 2;
 
-    private MenuItem menuPreferences;
-
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_content);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         if (savedInstanceState == null) {
             loadCharacterListFragment(false);
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            Intent intent = new Intent(this, MainActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     /**
@@ -38,7 +48,11 @@ public class CharacterActivity extends BaseActivity implements CharacterListFrag
     private void loadCharacterListFragment(boolean replace) {
         FragmentManager fm = getSupportFragmentManager();
         if (replace || fm.findFragmentById(R.id.main_content) == null) {
-            fm.beginTransaction().replace(R.id.main_content, new CharacterListFragment()).commit();
+            int filter = CharacterListFragment.FILTER_PC;
+            if (getIntent() != null) {
+                filter = getIntent().getIntExtra(CharacterListFragment.FILTER_ARG, filter);
+            }
+            fm.beginTransaction().replace(R.id.main_content, CharacterListFragment.newInstance(filter)).commit();
         }
     }
 
@@ -68,35 +82,6 @@ public class CharacterActivity extends BaseActivity implements CharacterListFrag
             loadCharacterListFragment(true);
         } else {
             super.onBackPressed();
-        }
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getSupportMenuInflater().inflate(R.menu.activity_main, menu);
-        menuPreferences = menu.findItem(R.id.menu_settings);
-        return true;
-    }
-
-    @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-        FragmentManager fm = getSupportFragmentManager();
-        Fragment frg = fm.findFragmentById(R.id.main_content);
-        if (frg instanceof CharacterListFragment) {
-            menuPreferences.setVisible(true);
-        } else {
-            menuPreferences.setVisible(false);
-        }
-        return true;
-    }
-
-    @Override
-    public boolean onMenuItemSelected(int featureId, MenuItem item) {
-        if (item.getItemId() == R.id.menu_settings) {
-            startActivity(new Intent(this, RPGPreferences.class));
-            return true;
-        } else {
-            return super.onMenuItemSelected(featureId, item);
         }
     }
 

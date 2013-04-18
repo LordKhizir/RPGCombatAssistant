@@ -109,7 +109,9 @@ public final class DBUtil {
                     .le(MovingTable.FIELD_MINIMUM, total));
             qb.orderBy(MovingTable.FIELD_MINIMUM, false);
             MovingTable movingTable = dao.queryForFirst(qb.prepare());
-            if (movingTable != null) {
+            if (movingTable == null) {
+                // TODO - check if total is lower than minimun or higher than maximun
+            } else {
                 movingResult = new MovingResult(readMoving(difficultyType, movingTable));
             }
         } catch (SQLException e) {

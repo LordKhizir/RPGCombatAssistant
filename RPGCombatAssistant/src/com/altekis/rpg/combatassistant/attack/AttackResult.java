@@ -18,7 +18,6 @@ public class AttackResult {
     private static final String CRITICAL_LEVEL = "attackResultCriticalLevel";
     private static final String HIT_POINTS = "attackResultHitPoints";
     private static final String FUMBLED = "attackResultFumbled";
-    private static final String APPLIED = "attackResultApplied";
 
     private RPGCharacterAttack characterAttack;
     private RPGCharacter characterDefender;
@@ -26,7 +25,7 @@ public class AttackResult {
 	private CriticalLevel criticalLevel;
     private int hitPoints;
 	private boolean fumbled;
-	private boolean applied;
+//	private boolean applied;
 
     public AttackResult() {
     }
@@ -44,16 +43,15 @@ public class AttackResult {
         criticalLevel = CriticalLevel.fromInteger(bundle.getInt(CRITICAL_LEVEL));
         hitPoints = bundle.getInt(HIT_POINTS);
         fumbled = bundle.getBoolean(FUMBLED);
-        applied = bundle.getBoolean(APPLIED);
     }
 
-    public boolean isApplied() {
-        return applied;
-    }
-
-    public void setApplied(boolean applied) {
-        this.applied = applied;
-    }
+//    public boolean isApplied() {
+//        return applied;
+//    }
+//
+//    public void setApplied(boolean applied) {
+//        this.applied = applied;
+//    }
 
     public RPGCharacterAttack getCharacterAttack() {
         return characterAttack;
@@ -112,6 +110,5 @@ public class AttackResult {
         bundle.putInt(CRITICAL_LEVEL, criticalLevel.toInteger());
         bundle.putInt(HIT_POINTS, hitPoints);
         bundle.putBoolean(FUMBLED, fumbled);
-        bundle.putBoolean(APPLIED, applied);
     }
 }

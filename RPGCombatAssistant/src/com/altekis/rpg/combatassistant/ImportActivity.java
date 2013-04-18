@@ -27,6 +27,7 @@ public class ImportActivity extends BaseActivity implements RuleSystemListFragme
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         FragmentManager fm = getSupportFragmentManager();
         Fragment frg = fm.findFragmentById(android.R.id.content);
@@ -44,7 +45,12 @@ public class ImportActivity extends BaseActivity implements RuleSystemListFragme
 
     @Override
     public boolean onMenuItemSelected(int featureId, MenuItem item) {
-        if (item.getItemId() == R.id.menu_import) {
+        if (item.getItemId() == android.R.id.home) {
+            Intent intent = new Intent(this, MainActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+            return true;
+        } else if (item.getItemId() == R.id.menu_import) {
             // Use the GET_CONTENT intent from the utility class
             Intent target = createGetContentIntent();
             // Create the chooser Intent

@@ -32,8 +32,8 @@ public class LoadingTask extends AsyncTask<SQLiteDatabase, Integer, Boolean> {
     private static final String ATTACKS_PATH = "tables/attacks";
     private static final String CRITICALS_PATH = "tables/criticals";
     private static final String MOVING_PATH = "tables/moving";
-    public static final String MOVING_FUMBLE_FILE = "moving_fumble";
-    public static final String MOVING_TABLE_FILE = "moving_table";
+    private static final String MOVING_FUMBLE_FILE = "moving_fumble";
+    private static final String MOVING_TABLE_FILE = "moving_table";
     private static final int MAX = 100;
 
     public interface CallBack {
@@ -312,7 +312,7 @@ public class LoadingTask extends AsyncTask<SQLiteDatabase, Integer, Boolean> {
                             // MERP armor 1, 5, 10, 15 and 20
                             int[] types = new int[] { 1, 5, 10, 15, 20 };
                             for (int i = 0; i < types.length; i++) {
-                                values.put(AttackTable.FIELD_ARMOR_TYPE + types[i], parseAttackCell(criticalIds, lineArray[i + 1]));
+                                values.put(AttackTable.FIELD_ARMOR_TYPE + types[i], parseAttackCell(criticalIds, lineArray[i + 2]));
                             }
                         }
                         db.insert(DatabaseHelper.TABLE_ATTACK_TABLE, null, values);
@@ -393,6 +393,7 @@ public class LoadingTask extends AsyncTask<SQLiteDatabase, Integer, Boolean> {
         File tempDir = checkDir(cacheDir, "tmp");
         checkDir(tempDir, "criticals");
         checkDir(tempDir, "attacks");
+        checkDir(tempDir, "moving");
         ZipEntry zipEntry;
         try {
             ZipInputStream zipInputStream = new ZipInputStream(zipFileStream);

@@ -95,6 +95,14 @@
             android:layout_below="@+id/charactedEdit_hitPointsLayout"/>
     </RelativeLayout>
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/weapons_title"
+        android:id="@+id/textView"
+        android:layout_gravity="center"
+        style="@android:style/TextAppearance.Medium"/>
+
     <ListView
         android:id="@android:id/list"
         android:layout_width="match_parent"

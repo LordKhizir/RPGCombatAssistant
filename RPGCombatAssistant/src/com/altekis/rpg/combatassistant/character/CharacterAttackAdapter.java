@@ -18,15 +18,18 @@ public class CharacterAttackAdapter extends BaseAdapter {
         ImageView icon;
         TextView name;
         TextView info;
+        TextView system;
     }
 
+    private final Context context;
     private final LayoutInflater inflater;
-    private final long idRuleSystem;
+    private final RuleSystem ruleSystem;
     private final List<RPGCharacterAttack> attacks;
 
     public CharacterAttackAdapter(Context context, RuleSystem ruleSystem, List<RPGCharacterAttack> attacks) {
+        this.context = context;
         this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        idRuleSystem = ruleSystem.getId();
+        this.ruleSystem = ruleSystem;
         this.attacks = attacks;
     }
 
@@ -59,6 +62,7 @@ public class CharacterAttackAdapter extends BaseAdapter {
             attackView.icon = (ImageView) view.findViewById(R.id.character_attack_icon);
             attackView.name = (TextView) view.findViewById(R.id.character_attack_name);
             attackView.info = (TextView) view.findViewById(R.id.character_attack_info);
+            attackView.system = (TextView) view.findViewById(R.id.character_attack_system);
             view.setTag(attackView);
         } else {
             attackView = (AttackView) view.getTag();
@@ -69,6 +73,7 @@ public class CharacterAttackAdapter extends BaseAdapter {
         attackView.name.setText(attack.getName());
         attackView.info.setText(attack.getAttack().getName());
         attackView.icon.setImageResource(attack.getAttack().getWeaponIcon());
+        attackView.system.setText(context.getString(R.string.system, attack.getAttack().getRuleSystem().getName()));
 
         return view;
     }
@@ -81,7 +86,7 @@ public class CharacterAttackAdapter extends BaseAdapter {
     @Override
     public boolean isEnabled(int position) {
         RPGCharacterAttack attack = (RPGCharacterAttack) getItem(position);
-        return attack.getAttack().getRuleSystem().getId() == idRuleSystem;
+        return attack.getAttack().getRuleSystem().getId() == ruleSystem.getId();
     }
 
 }

@@ -83,7 +83,12 @@ public class CriticalFragment extends SherlockFragment implements View.OnClickLi
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         // Get Extras
-        long criticalId = getArguments().getLong(ARG_CRITICAL_ID, 0);
+        long criticalId = 0;
+        CriticalLevel criticalLevel = null;
+        if (getArguments() != null) {
+            criticalId = getArguments().getLong(ARG_CRITICAL_ID, 0);
+            criticalLevel = (CriticalLevel) getArguments().getSerializable(ARG_CRITICAL_LEVEL);
+        }
         try {
             RuleSystem system = RPGPreferences.getSystem(getSherlockActivity(), mCallBack.getHelper());
             Dao<Critical, Long> dao = mCallBack.getHelper().getDaoCritical();
@@ -94,7 +99,6 @@ public class CriticalFragment extends SherlockFragment implements View.OnClickLi
         } catch (SQLException e) {
             Log.e("RPGCombatAssistant", "Can't read database", e);
         }
-        CriticalLevel criticalLevel = (CriticalLevel) getArguments().getSerializable(ARG_CRITICAL_LEVEL);
 
         // Create an ArrayAdapter using the string array and a default spinner layout
         CriticalSpinnerAdapter criticalTypeAdapter = new CriticalSpinnerAdapter(getSherlockActivity(),
@@ -123,12 +127,14 @@ public class CriticalFragment extends SherlockFragment implements View.OnClickLi
         vSpinnerCriticalLevel.setAdapter(criticalLevelAdapter);
         // Select spinner position - Critical Level
         position = 0;
-        for (CriticalLevel level:CriticalLevel.values()) {
-            if (level.equals(criticalLevel)) {
-                vSpinnerCriticalLevel.setSelection(position);
-                break;
+        if (criticalLevel != null) {
+            for (CriticalLevel level:CriticalLevel.values()) {
+                if (level.equals(criticalLevel)) {
+                    vSpinnerCriticalLevel.setSelection(position);
+                    break;
+                }
+                position++;
             }
-            position++;
         }
     }
 
