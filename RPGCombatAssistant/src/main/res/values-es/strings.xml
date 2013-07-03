@@ -13,15 +13,15 @@
     <string name="system">"Sistema: %s"</string>
 
     <!-- MainActivity -->
-    <string name="menu_players_title">"Jugadores"</string>
-    <string name="menu_players_pc">"Personajes Jugadores"</string>
-    <string name="menu_players_npc">"Personajes no jugadores"</string>
-    <string name="menu_players_all">"Todos los jugadores"</string>
-    <string name="menu_attack_title">"Ataque"</string>
-    <string name="menu_attack_start">"Lanzar Ataque"</string>
-    <string name="menu_attack_critical">"Lanzar Crítico"</string>
-    <string name="menu_other_title">"Otros"</string>
-    <string name="menu_other_mm">"Maniobra Movimiento"</string>
+    <string name="main_menu_players_title">"Jugadores"</string>
+    <string name="main_menu_players_pc">"Personajes Jugadores"</string>
+    <string name="main_menu_players_npc">"Personajes no jugadores"</string>
+    <string name="main_menu_players_all">"Todos los jugadores"</string>
+    <string name="main_menu_attack_title">"Ataque"</string>
+    <string name="main_menu_attack_start">"Lanzar Ataque"</string>
+    <string name="main_menu_attack_critical">"Lanzar Crítico"</string>
+    <string name="main_menu_other_title">"Otros"</string>
+    <string name="main_menu_other_mm">"Maniobra Movimiento"</string>
 
     <!-- Splash screen Activity -->
     <string name="splash_main">"RPG Combat Assistant"</string>
@@ -157,4 +157,8 @@
     <string name="pref_system_manage_title">"Gestionar Sistemas"</string>
     <string name="pref_system_manage_summary">"Pulse párrafo editar los Sistemas"</string><string name="weapons_title">"Armas"</string>
     <string name="no_characters">"No hay personajes disponibles"</string>
+    <string name="dialog_delete_system_title">¿Desea eliminar?</string>
+    <string name="dialog_delete_system_message">Pulse aceptar para eliminar el sistema de reglas. Se
+        eliminarán también los ataques de los jugadores
+    </string>
 </resources>

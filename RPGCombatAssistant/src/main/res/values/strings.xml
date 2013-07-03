@@ -13,15 +13,15 @@
     <string name="system">"System: %s"</string>
 
     <!-- MainActivity -->
-    <string name="menu_players_title">"Players"</string>
-    <string name="menu_players_pc">"Player Characters"</string>
-    <string name="menu_players_npc">"Non Player Characters"</string>
-    <string name="menu_players_all">"All Players"</string>
-    <string name="menu_attack_title">"Attack"</string>
-    <string name="menu_attack_start">"Start Attack"</string>
-    <string name="menu_attack_critical">"Start Critical"</string>
-    <string name="menu_other_title">"Other"</string>
-    <string name="menu_other_mm">"Movement Maneuver"</string>
+    <string name="main_menu_players_title">"Players"</string>
+    <string name="main_menu_players_pc">"Player Characters"</string>
+    <string name="main_menu_players_npc">"Non Player Characters"</string>
+    <string name="main_menu_players_all">"All Players"</string>
+    <string name="main_menu_attack_title">"Attack"</string>
+    <string name="main_menu_attack_start">"Start Attack"</string>
+    <string name="main_menu_attack_critical">"Start Critical"</string>
+    <string name="main_menu_other_title">"Other"</string>
+    <string name="main_menu_other_mm">"Movement Maneuver"</string>
 
     <!-- Splash screen Activity -->
     <string name="splash_main">"RPG Combat Assistant"</string>
@@ -158,4 +158,14 @@
     <string name="pref_system_manage_summary">"Press to edit the systems"</string>
     <string name="weapons_title">"Weapons"</string>
     <string name="no_characters">"No characters available"</string>
+    <string name="no_attacks">"The selected character don't have weapons"</string>
+
+    <string name="empty_folder">"Folder doesn't have subdirectories or zip files"</string>
+    <string name="go_up">"Go up"</string>
+    <string name="folder_inaccessible">"The folder is inaccesible"</string>
+    <string name="parent_folder_inaccessible">"The parent folder is inaccesible"</string>
+    <string name="file_inaccesible">"Can't read the file"</string>
+    <string name="sdcard_inaccesible">"Can't access to sdcard"</string>
+    <string name="dialog_delete_system_title">Remove system?</string>
+    <string name="dialog_delete_system_message">Press ok to delete the rulesystem. The players attack associated will be deleted too</string>
 </resources>

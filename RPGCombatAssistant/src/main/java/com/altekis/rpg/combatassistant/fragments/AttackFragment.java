@@ -27,6 +27,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.keyboardsurfer.android.widget.crouton.Crouton;
+import de.keyboardsurfer.android.widget.crouton.Style;
+
 public class AttackFragment extends SherlockFragment implements AdapterView.OnItemSelectedListener, View.OnClickListener {
 
     private static final String ARG_ID_DEFENDER = "idDefender";
@@ -112,10 +115,14 @@ public class AttackFragment extends SherlockFragment implements AdapterView.OnIt
         }
 
         List<RPGCharacter> lst = mCallBack.getCharacters();
-        if (lst != null && !lst.isEmpty()) {
+        int selected = 0;
+        int pos = 0;
+        CharacterSpinnerAdapter adapter;
+        if (lst == null || lst.isEmpty()) {
+            vSpinnerAttacker.setEnabled(false);
+        } else {
+            vSpinnerAttacker.setEnabled(true);
             // Attacker
-            int selected = 0;
-            int pos = 0;
             for (RPGCharacter c : lst) {
                 if (c.getId() == idAttacker) {
                     selected = pos;
@@ -123,7 +130,7 @@ public class AttackFragment extends SherlockFragment implements AdapterView.OnIt
                 }
                 pos++;
             }
-            CharacterSpinnerAdapter adapter = new CharacterSpinnerAdapter(getSherlockActivity(),
+            adapter = new CharacterSpinnerAdapter(getSherlockActivity(),
                     android.R.layout.simple_spinner_item,
                     lst);
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -131,45 +138,44 @@ public class AttackFragment extends SherlockFragment implements AdapterView.OnIt
             vSpinnerAttacker.setSelection(selected);
             vSpinnerAttacker.setOnItemSelectedListener(this);
             updateSeekBar();
-
-            // Defender
-            selected = 0;
-            pos = 0;
-            for (RPGCharacter c : lst) {
-                if (c.getId() == idDefender) {
-                    selected = pos;
-                    break;
-                }
-                pos++;
-            }
-            RPGCharacter mock = new RPGCharacter();
-            mock.setName("(Nadie)");
-            List<RPGCharacter> lstDef = new ArrayList<RPGCharacter>(lst);
-            lstDef.add(0, mock);
-            adapter = new CharacterSpinnerAdapter(getSherlockActivity(),
-                    android.R.layout.simple_spinner_item,
-                    lstDef, true);
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            vSpinnerDefender.setAdapter(adapter);
-            vSpinnerDefender.setSelection(selected);
-            vSpinnerDefender.setOnItemSelectedListener(this);
-
-            String[] titles = new String[mArmorTypes.length];
-            for (int i = 0 ; i < mArmorTypes.length ; i++) {
-                if (system.getArmorType() == RuleSystem.ARMOR_SIMPLE) {
-                    titles[i] = getString(mArmorTypes[i].getMerpString());
-                } else {
-                    titles[i] = getString(mArmorTypes[i].getRmString());
-                }
-            }
-            ArrayAdapter<String> armorAdapter = new ArrayAdapter<String>(getSherlockActivity(),
-                    android.R.layout.simple_spinner_item,
-                    titles);
-            armorAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            vSpinnerDefenderArmor.setAdapter(armorAdapter);
-            setDefenderArmor(lstDef.get(selected));
         }
 
+        // Defender
+        selected = 0;
+        pos = 0;
+        for (RPGCharacter c : lst) {
+            if (c.getId() == idDefender) {
+                selected = pos;
+                break;
+            }
+            pos++;
+        }
+        RPGCharacter mock = new RPGCharacter();
+        mock.setName("(Nadie)");
+        List<RPGCharacter> lstDef = new ArrayList<RPGCharacter>(lst);
+        lstDef.add(0, mock);
+        adapter = new CharacterSpinnerAdapter(getSherlockActivity(),
+                android.R.layout.simple_spinner_item,
+                lstDef, true);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        vSpinnerDefender.setAdapter(adapter);
+        vSpinnerDefender.setSelection(selected);
+        vSpinnerDefender.setOnItemSelectedListener(this);
+
+        String[] titles = new String[mArmorTypes.length];
+        for (int i = 0 ; i < mArmorTypes.length ; i++) {
+            if (system.getArmorType() == RuleSystem.ARMOR_SIMPLE) {
+                titles[i] = getString(mArmorTypes[i].getMerpString());
+            } else {
+                titles[i] = getString(mArmorTypes[i].getRmString());
+            }
+        }
+        ArrayAdapter<String> armorAdapter = new ArrayAdapter<String>(getSherlockActivity(),
+                android.R.layout.simple_spinner_item,
+                titles);
+        armorAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        vSpinnerDefenderArmor.setAdapter(armorAdapter);
+        setDefenderArmor(lstDef.get(selected));
     }
 
     @Override
@@ -202,6 +208,7 @@ public class AttackFragment extends SherlockFragment implements AdapterView.OnIt
         boolean errorFound = false;
         int extra = 0;
         int roll = 0;
+
         String extraRaw = vEditExtra.getText().toString().trim();
         if (extraRaw.length() == 0) {
             extra = 0; // 0 allowed
@@ -226,6 +233,14 @@ public class AttackFragment extends SherlockFragment implements AdapterView.OnIt
                 errorFound = true;
                 vEditRoll.setError(getResources().getText(R.string.errorMustBeANumber));
             }
+        }
+
+        if (vSpinnerAttacker.getCount() == 0) {
+            errorFound = true;
+            Crouton.makeText(getSherlockActivity(), R.string.no_characters, Style.ALERT).show();
+        } else if (vSpinnerAttackerAttack.getCount() == 0) {
+            errorFound = true;
+            Crouton.makeText(getSherlockActivity(), R.string.no_attacks, Style.ALERT).show();
         }
 
         if (!errorFound) {
@@ -282,7 +297,10 @@ public class AttackFragment extends SherlockFragment implements AdapterView.OnIt
 
     private void updateSeekBar() {
         RPGCharacterAttack attack = (RPGCharacterAttack) vSpinnerAttackerAttack.getSelectedItem();
-        if (attack != null) {
+        if (attack == null) {
+            vSeekBonus.setEnabled(false);
+        } else {
+            vSeekBonus.setEnabled(true);
             vSeekBonus.setMax(attack.getBonus());
             vSeekBonus.setProgress(attack.getBonus());
             vSeekBonus.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -308,24 +326,29 @@ public class AttackFragment extends SherlockFragment implements AdapterView.OnIt
 
     private void loadAttackerAttack(long idAttacker, long idAttack) {
         List<RPGCharacterAttack> lst = loadAttacks(idAttacker);
-        int selected = 0;
-        int pos = 0;
-        for (RPGCharacterAttack attack : lst) {
-            if (attack.getId() == idAttack) {
-                selected = pos;
-                break;
+        if (lst == null || lst.isEmpty()) {
+            vSpinnerAttackerAttack.setEnabled(false);
+        } else {
+            vSpinnerAttackerAttack.setEnabled(true);
+            int selected = 0;
+            int pos = 0;
+            for (RPGCharacterAttack attack : lst) {
+                if (attack.getId() == idAttack) {
+                    selected = pos;
+                    break;
+                }
+                pos++;
             }
-            pos++;
+            CharacterAttackSpinnerAdapter adapter = new CharacterAttackSpinnerAdapter(getSherlockActivity(),
+                    android.R.layout.simple_spinner_item,
+                    lst);
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            vSpinnerAttackerAttack.setAdapter(adapter);
+            if (lst.size() > 0) {
+                vSpinnerAttackerAttack.setSelection(selected);
+            }
+            vSpinnerAttackerAttack.setOnItemSelectedListener(this);
         }
-        CharacterAttackSpinnerAdapter adapter = new CharacterAttackSpinnerAdapter(getSherlockActivity(),
-                android.R.layout.simple_spinner_item,
-                lst);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        vSpinnerAttackerAttack.setAdapter(adapter);
-        if (lst.size() > 0) {
-            vSpinnerAttackerAttack.setSelection(selected);
-        }
-        vSpinnerAttackerAttack.setOnItemSelectedListener(this);
     }
 
     private List<RPGCharacterAttack> loadAttacks(long characterId) {

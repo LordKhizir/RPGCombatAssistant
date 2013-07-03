@@ -20,6 +20,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.keyboardsurfer.android.widget.crouton.Crouton;
+
 public class AttackActivity extends BaseActivity implements AttackFragment.CallBack, AttackDialogFragment.CallBack, CriticalFragment.CallBack {
 
     public static final String ARG_ID_ATTACKER = "idAttacker";

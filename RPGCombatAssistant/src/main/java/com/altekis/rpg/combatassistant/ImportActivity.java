@@ -1,15 +1,16 @@
 package com.altekis.rpg.combatassistant;
 
 import android.app.AlertDialog;
-import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
+
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.altekis.rpg.combatassistant.attack.Attack;
@@ -18,11 +19,16 @@ import com.altekis.rpg.combatassistant.character.RPGCharacterAttack;
 import com.altekis.rpg.combatassistant.critical.Critical;
 import com.altekis.rpg.combatassistant.critical.CriticalTable;
 import com.altekis.rpg.combatassistant.db.DatabaseHelper;
+import com.altekis.rpg.combatassistant.fragments.ImportFileFragment;
 import com.altekis.rpg.combatassistant.fragments.RuleSystemListFragment;
 
-public class ImportActivity extends BaseActivity implements RuleSystemListFragment.CallBack {
+import java.io.File;
 
-    private static final int REQUEST_FILE = 1;
+import de.keyboardsurfer.android.widget.crouton.Crouton;
+import de.keyboardsurfer.android.widget.crouton.Style;
+
+public class ImportActivity extends BaseActivity implements RuleSystemListFragment.CallBack, ImportFileFragment.CallBack {
+
     private static final int REQUEST_IMPORT = 2;
 
     public void onCreate(Bundle savedInstanceState) {
@@ -38,53 +44,24 @@ public class ImportActivity extends BaseActivity implements RuleSystemListFragme
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getSupportMenuInflater().inflate(R.menu.activity_import, menu);
-        return true;
-    }
-
-    @Override
     public boolean onMenuItemSelected(int featureId, MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
             Intent intent = new Intent(this, MainActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
             return true;
-        } else if (item.getItemId() == R.id.menu_import) {
-            // Use the GET_CONTENT intent from the utility class
-            Intent target = createGetContentIntent();
-            // Create the chooser Intent
-            Intent intent = Intent.createChooser(target, "Elija un fichero");
-            try {
-                startActivityForResult(intent, REQUEST_FILE);
-            } catch (ActivityNotFoundException e) {
-                // The reason for the existence of aFileChooser
-            }
         }
-        return true;
-    }
-
-    public static Intent createGetContentIntent() {
-        // Implicitly allow the user to select a particular kind of data
-        final Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-        // The MIME data type filter
-        intent.setType("application/zip");
-        // Only return URIs that can be opened with ContentResolver
-        intent.addCategory(Intent.CATEGORY_OPENABLE);
-        return intent;
+        return super.onMenuItemSelected(featureId, item);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_FILE && resultCode == RESULT_OK) {
-            String path = data.getDataString();
-            Intent intent = new Intent(this, SplashScreenActivity.class);
-            intent.putExtra(SplashScreenActivity.PATH_URI, path);
-            startActivityForResult(intent, REQUEST_IMPORT);
-        } else if (requestCode == REQUEST_IMPORT) {
+        if (requestCode == REQUEST_IMPORT) {
             if (resultCode == RESULT_OK) {
                 dataChanged();
+            } else {
+                Crouton.makeText(this, "The file was not imported", Style.ALERT).show();
             }
         }
     }
@@ -99,11 +76,28 @@ public class ImportActivity extends BaseActivity implements RuleSystemListFragme
     }
 
     @Override
+    public void importRuleSystem() {
+        boolean filePicker = false;
+        if (isExternalStorageReadable()) {
+            File directory = Environment.getExternalStorageDirectory();
+            if (directory != null) {
+                filePicker = true;
+                FragmentManager fm = getSupportFragmentManager();
+                ImportFileFragment frg = ImportFileFragment.newInstance(directory.getAbsolutePath());
+                fm.beginTransaction().replace(android.R.id.content, frg).addToBackStack("file_picker").commit();
+            }
+        }
+        if (!filePicker) {
+            Crouton.makeText(this, com.altekis.rpg.combatassistant.R.string.sdcard_inaccesible, Style.ALERT).show();
+        }
+    }
+
+    @Override
     public void ruleSystemClick(final long id) {
         if (id != RPGPreferences.SYSTEM_MERP) {
             AlertDialog.Builder dialog = new AlertDialog.Builder(this);
-            dialog.setTitle("¿Desea eliminar?");
-            dialog.setMessage("Pulse aceptar para eliminar el sistema de reglas. Se eliminarán también los ataques de los jugadores");
+            dialog.setTitle(R.string.dialog_delete_system_title);
+            dialog.setMessage(R.string.dialog_delete_system_message);
             dialog.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
@@ -113,6 +107,30 @@ public class ImportActivity extends BaseActivity implements RuleSystemListFragme
             dialog.setNegativeButton(android.R.string.cancel, null);
             dialog.show();
         }
+    }
+
+    @Override
+    public void selectedFile(File file) {
+        if (file == null) {
+            Crouton.makeText(this, R.string.file_inaccesible, Style.ALERT).show();
+        } else {
+            getSupportFragmentManager().popBackStack();
+            Intent intent = new Intent(this, SplashScreenActivity.class);
+            intent.putExtra(SplashScreenActivity.PATH_URI, file.toURI().toString());
+            startActivityForResult(intent, REQUEST_IMPORT);
+        }
+    }
+
+    @Override
+    public void cancel() {
+        getSupportFragmentManager().popBackStack();
+    }
+
+    /* Checks if external storage is available to at least read */
+    public boolean isExternalStorageReadable() {
+        String state = Environment.getExternalStorageState();
+        return Environment.MEDIA_MOUNTED.equals(state) ||
+                Environment.MEDIA_MOUNTED_READ_ONLY.equals(state);
     }
 
     class DeleteTask extends AsyncTask<Long, Void, Boolean> {

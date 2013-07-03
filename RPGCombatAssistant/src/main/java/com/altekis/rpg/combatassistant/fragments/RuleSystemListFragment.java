@@ -1,23 +1,33 @@
 package com.altekis.rpg.combatassistant.fragments;
 
-import android.R;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Environment;
+import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import com.actionbarsherlock.app.SherlockListFragment;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.view.MenuItem;
+import com.altekis.rpg.combatassistant.R;
 import com.altekis.rpg.combatassistant.db.RuleSystem;
 import com.j256.ormlite.dao.Dao;
 
+import java.io.File;
 import java.sql.SQLException;
 import java.util.List;
+
+import de.keyboardsurfer.android.widget.crouton.Crouton;
+import de.keyboardsurfer.android.widget.crouton.Style;
 
 public class RuleSystemListFragment extends SherlockListFragment {
 
     public static interface CallBack extends DBFragmentActivity {
+        void importRuleSystem();
         void ruleSystemClick(long id);
     }
 
@@ -42,14 +52,30 @@ public class RuleSystemListFragment extends SherlockListFragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        setHasOptionsMenu(true);
         loadData();
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.activity_import, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.menu_import) {
+            mCallBack.importRuleSystem();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     public void loadData() {
          try {
              Dao<RuleSystem, Long> dao = mCallBack.getHelper().getDaoSystem();
              List<RuleSystem> lst = dao.query(dao.queryBuilder().orderBy(RuleSystem.FIELD_NAME, true).prepare());
-             RuleSystemAdapter adapter = new RuleSystemAdapter(getSherlockActivity(), R.layout.simple_list_item_1, lst);
+             RuleSystemAdapter adapter = new RuleSystemAdapter(getSherlockActivity(), android.R.layout.simple_list_item_1, lst);
              setListAdapter(adapter);
          } catch (SQLException e) {
              Log.e("RPGCombatAssistant", "Error reading database", e);

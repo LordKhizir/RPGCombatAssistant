@@ -1,39 +1,50 @@
 package com.altekis.rpg.combatassistant;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.ListView;
-import android.widget.TextView;
-import com.actionbarsherlock.app.SherlockListActivity;
+import android.util.Log;
+
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
+import com.altekis.rpg.combatassistant.character.RPGCharacter;
 import com.altekis.rpg.combatassistant.db.DatabaseHelper;
 import com.altekis.rpg.combatassistant.fragments.CharacterListFragment;
+import com.altekis.rpg.combatassistant.fragments.MainMenuFragment;
+import com.j256.ormlite.dao.Dao;
 
-public class MainActivity extends SherlockListActivity {
+import java.sql.SQLException;
+
+import de.keyboardsurfer.android.widget.crouton.Crouton;
+import de.keyboardsurfer.android.widget.crouton.Style;
+
+public class MainActivity extends BaseActivity implements MainMenuFragment.CallBack {
 
     private static final int REQUEST_INIT_DB = 1;
 
     private boolean mDbInitialized;
+    private boolean mEmptyPlayers;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        setListAdapter(new MenuAdapter(this));
-
         // Check if database is initialised
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
         mDbInitialized = sp.getBoolean(DatabaseHelper.DB_INITIALISED, false);
         if (!mDbInitialized) {
             // Not initialised, launch splash
             startActivityForResult(new Intent(this, SplashScreenActivity.class), REQUEST_INIT_DB);
+        }
+
+        try {
+            Dao<RPGCharacter, Long> dao = getHelper().getDaoRPGCharacter();
+            mEmptyPlayers = dao.countOf() == 0;
+        } catch (SQLException e) {
+            Log.e("RPGCombatAssistant", "Error loading characters", e);
+        }
+
+        if (savedInstanceState == null) {
+            getSupportFragmentManager().beginTransaction().replace(android.R.id.content, new MainMenuFragment()).commit();
         }
     }
 
@@ -69,110 +80,38 @@ public class MainActivity extends SherlockListActivity {
     }
 
     @Override
-    protected void onListItemClick(ListView l, View v, int position, long id) {
-        super.onListItemClick(l, v, position, id);
+    public void optionMenuClicked(MainMenuFragment.MenuOption menuOption) {
         if (mDbInitialized) {
             Intent intent = null;
-            if (id == R.string.menu_players_pc || id == R.string.menu_players_npc || id == R.string.menu_players_all) {
+            if (menuOption == MainMenuFragment.MenuOption.PLAYERS_PC
+                    || menuOption == MainMenuFragment.MenuOption.PLAYERS_NPC
+                    || menuOption == MainMenuFragment.MenuOption.PLAYERS_ALL) {
                 intent = new Intent(this, CharacterActivity.class);
                 int filter;
-                if (id == R.string.menu_players_pc) {
+                if (menuOption == MainMenuFragment.MenuOption.PLAYERS_PC) {
                     filter = CharacterListFragment.FILTER_PC;
-                } else if (id == R.string.menu_players_npc) {
+                } else if (menuOption == MainMenuFragment.MenuOption.PLAYERS_NPC) {
                     filter = CharacterListFragment.FILTER_NPC;
                 } else {
                     filter = CharacterListFragment.FILTER_ALL;
                 }
                 intent.putExtra(CharacterListFragment.FILTER_ARG, filter);
-            } else if (id == R.string.menu_attack_start) {
-                intent = new Intent(this, AttackActivity.class);
-            } else if (id == R.string.menu_attack_critical) {
+            } else if (menuOption == MainMenuFragment.MenuOption.ATTACK) {
+                if (mEmptyPlayers) {
+                    Crouton.makeText(this, R.string.no_characters, Style.ALERT).show();
+                } else {
+                    intent = new Intent(this, AttackActivity.class);
+                }
+            } else if (menuOption == MainMenuFragment.MenuOption.CRITICAL) {
                 intent = new Intent(this, AttackActivity.class);
                 intent.putExtra(AttackActivity.ARG_CRITICAL, true);
-            } else if (id == R.string.menu_other_mm) {
+            } else if (menuOption == MainMenuFragment.MenuOption.MM) {
                 intent = new Intent(this, MovingActivity.class);
             }
 
             if (intent != null) {
                 startActivity(intent);
             }
-        }
-    }
-
-    static final int[] TITLES = {
-            R.string.menu_players_title,
-            R.string.menu_players_pc,
-            R.string.menu_players_npc,
-            R.string.menu_players_all,
-            R.string.menu_attack_title,
-            R.string.menu_attack_start,
-            R.string.menu_attack_critical,
-            R.string.menu_other_title,
-            R.string.menu_other_mm
-    };
-
-    static final int[] TYPE_TITLES = {
-            0,
-            1,
-            1,
-            1,
-            0,
-            1,
-            1,
-            0,
-            1
-    };
-
-    static class MenuAdapter extends BaseAdapter {
-
-        private LayoutInflater inflater;
-
-        MenuAdapter(Context context) {
-            inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        }
-
-        @Override
-        public int getCount() {
-            return TITLES.length;
-        }
-
-        @Override
-        public Object getItem(int position) {
-            return TITLES[position];
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return TITLES[position];
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            TextView textView = (TextView) convertView;
-            if (textView == null) {
-                if (getItemViewType(position) == 0) {
-                    textView = (TextView) inflater.inflate(R.layout.activity_main_item_title, parent, false);
-                } else {
-                    textView = (TextView) inflater.inflate(R.layout.activity_main_item, parent, false);
-                }
-            }
-            textView.setText(TITLES[position]);
-            return textView;
-        }
-
-        @Override
-        public boolean areAllItemsEnabled() {
-            return false;
-        }
-
-        @Override
-        public int getViewTypeCount() {
-            return 2;
-        }
-
-        @Override
-        public int getItemViewType(int position) {
-            return TYPE_TITLES[position];
         }
     }
 
